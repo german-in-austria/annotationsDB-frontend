@@ -1,6 +1,6 @@
 # annotationsdb-frontend
 
-> A Vue.js project
+> Für dioeDB.
 
 ## Build Setup
 
