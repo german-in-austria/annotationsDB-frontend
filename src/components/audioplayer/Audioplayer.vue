@@ -1,0 +1,40 @@
+<template>
+  <div class="audioplayer-at">
+    <!-- <div v-bind:class="{ annotationsaudioplayer: true, loading: !loaded, paused: paused, playing: playing }">
+      <div class="mib20 mit20"></div>
+      <div class="row">
+        <div class="col-xs-12 mib10 text-center">
+          <div class="audiobtn">
+            <button @click="fastBackward"><span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span></button>
+            <button @click="backward"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></button>
+            <button @click="((paused)?play():pause())"><span :class="'glyphicon glyphicon-'+((paused)?'play':'pause')" aria-hidden="true"></span></button>
+            <button @click="forward"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></button>
+            <button @click="fastForward"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div id="gesamtprogress" class="progress audioprogress" v-on:click="setAudioPos">
+            <div v-bind:class="{ 'progress-bar': true, 'progress-bar-striped': true, active: playing }" role="progressbar" :style="'width: '+aPosProz.toFixed(2)+'%;'"></div>
+            <span class="pb-timer pb-starttime">${ secondsToDuration(0) }</span>
+            <span class="pb-timer pb-akttime">${ secondsToDuration(aPos) }</span>
+            <span class="pb-timer pb-endtime">${ secondsToDuration(duration) }</span>
+          </div>
+        </div>
+      </div>
+      <audio><source :src="audiodirC+audiofileC+'.ogg'" type="audio/ogg"></audio>
+    </div> -->
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Audioplayer',
+  data () {
+    return {
+    }
+  }
+}
+</script>
+
+<style scoped>
+</style>
