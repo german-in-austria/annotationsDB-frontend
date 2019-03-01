@@ -19,11 +19,16 @@ const createLintingRule = () => ({
   }
 })
 
+let BundleTracker = require('webpack-bundle-tracker')
+
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
   },
+  plugins: [
+    new BundleTracker({filename: './webpack-stats.json'}),
+  ],
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
