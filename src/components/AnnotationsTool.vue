@@ -11,7 +11,7 @@
         <Audioplayer />
       </div>
     </div>
-    <div id="loading">Lade ...</div>
+    <div id="loading" v-if="loading">Lade ...</div>
   </div>
 </template>
 

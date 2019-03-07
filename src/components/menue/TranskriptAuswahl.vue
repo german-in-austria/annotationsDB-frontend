@@ -2,21 +2,21 @@
   <div :class="{'selgroup': true, 'loading': transcripts.loading}" v-if="transcripts.ready">
     <h4>Transkript:</h4>
     <div class="input-group mit10 mib10">
-      <select size="1" class="form-control" v-model="aInformant">
+      <select size="1" class="form-control" v-model="aInformant" :disabled="transcripts.loading">
         <option value="0">Informant</option>
-        <option v-for="informantMitTranskripte in transcripts.infTransList" :key="'i' + informantMitTranskripte.pk"
-          :value="informantMitTranskripte.pk"
-          :class="{'active': selectedInformantenPk.indexOf(informantMitTranskripte.pk) > -1 }">
-          {{informantMitTranskripte.modelStr}} - {{informantMitTranskripte.transcriptsPk.length}} Transkripte
+        <option v-for="infWithTrans in transcripts.infTransList" :key="'i' + infWithTrans.pk"
+          :value="infWithTrans.pk"
+          :class="{'active': selectedInformantenPk.indexOf(infWithTrans.pk) > -1 }">
+          {{infWithTrans.modelStr}} - {{infWithTrans.transcriptsPk.length}} Transkripte
         </option>
       </select>
-      <div class="input-group-addon np"><button @click="updateTranscripts()" :title="updateTime"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
+      <div class="input-group-addon np"><button @click="updateTranscripts()" :title="updateTime" class="uptrans" :disabled="transcripts.loading"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
     </div>
     <ul v-if="aInformant > 0" class="lmfa-l">
       <li v-for="aTranskriptPk in transcripts.infTransObj[aInformant].transcriptsPk" :key="'t' + aTranskriptPk">
         <a href="#"
-          v-on:click.prevent="getTranskript(transcripts.transcriptsObj[aTranskriptPk].pk)"
-          v-bind:class="{ lmfabc: true, open: (selectedTranscriptPk === transcripts.transcriptsObj[aTranskriptPk].pk) }"
+          @click.prevent="getTranskript(transcripts.transcriptsObj[aTranskriptPk].pk)"
+          :class="{ 'lmfabc': true, 'open': (selectedTranscriptPk === transcripts.transcriptsObj[aTranskriptPk].pk) }"
           :title="'PK: ' + transcripts.transcriptsObj[aTranskriptPk].pk + '\nUpdate: ' + transcripts.transcriptsObj[aTranskriptPk].updateTime + ' Uhr'"
         >{{ transcripts.transcriptsObj[aTranskriptPk].name }}<span>{{ transcripts.transcriptsObj[aTranskriptPk].tokenCount.toLocaleString() }}</span></a>
       </li>
@@ -52,20 +52,33 @@ export default {
   },
   methods: {
     updateTranscripts () {
-      this.transcripts.update()
+      if (!this.transcripts.loading) {
+        this.transcripts.update()
+      }
     },
     getTranskript (lTranscriptPk) {
-      this.$emit('loadTranscript', lTranscriptPk)
+      if (!this.transcripts.loading) {
+        this.$emit('loadTranscript', lTranscriptPk)
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-  div.loading {
-  }
   option.active {
     font-weight: bold;
     color: #000;
+  }
+  .selgroup.loading .lmfabc {
+    color: #bbb !important;
+    background-color: #eee !important;
+    cursor: default;
+  }
+  .selgroup.loading .uptrans .glyphicon {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
   }
 </style>

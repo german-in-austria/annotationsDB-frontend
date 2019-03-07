@@ -27,7 +27,7 @@ export default {
     display: none;
   }
   #loading {
-    display:none;
+    display: block;
     position: absolute;
     left: 0;
     right: 0;
@@ -42,9 +42,6 @@ export default {
     margin-left: -15px;
     margin-right: -15px;
     z-index: 1000000;
-  }
-  .loading #loading {
-    display: block;
   }
 
   .input-group-addon.np {
@@ -384,5 +381,40 @@ export default {
 
   .satzview span.before, .satzview span.after {
     color: #888;
+  }
+
+  @-moz-keyframes spin {
+    0% {
+      -moz-transform: rotate(0deg);
+    }
+    100% {
+      -moz-transform: rotate(359deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(359deg);
+    }
+  }
+  @-o-keyframes spin {
+    0% {
+      -o-transform: rotate(0deg);
+    }
+    100% {
+      -o-transform: rotate(359deg);
+    }
+  }
+  @keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(359deg);
+      transform: rotate(359deg);
+    }
   }
 </style>
