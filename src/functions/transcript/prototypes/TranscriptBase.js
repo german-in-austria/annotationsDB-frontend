@@ -27,7 +27,7 @@ const localFunctions = {
             this.aInformanten.set(response.data['aInformanten'])
           }
           this.aTokens.addMultiple(response.data['aTokens'])
-          // this.addEvents(response.data['aEvents'])
+          this.aEvents.addMultiple(response.data['aEvents'])
           // this.addTokenSets(response.data['aTokenSets'])
           // this.addAntworten(response.data['aAntworten'])
           console.log('getTranscript', this.pk, this.lSet, this.lMaxSet, ' - Daten verarbeitet', performance.now() - t1, 'ms')

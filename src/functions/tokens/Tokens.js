@@ -10,7 +10,7 @@ const localFunctions = {
   }
 }
 
-// Transcript Prototypen
+// Tokens Prototypen
 localFunctions.TokensBase.prototype.add = prototypeTokensBase.add
 localFunctions.TokensBase.prototype.addMultiple = prototypeTokensBase.addMultiple
 localFunctions.TokensBase.prototype.updateTokenFragment = prototypeTokensBase.updateTokenFragment

@@ -9,7 +9,7 @@ const localFunctions = {
   }
 }
 
-// Transcript Prototypen
+// Informanten Prototypen
 localFunctions.InformantenBase.prototype.set = prototypeInformantenBase.set
 
 export default localFunctions
