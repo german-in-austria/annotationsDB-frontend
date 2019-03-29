@@ -1,5 +1,6 @@
 import prototypeTranscriptBase from './prototypes/TranscriptBase'
 import InformantenObject from '@/functions/informanten/Informanten'
+import TokensObject from '@/functions/tokens/Tokens'
 
 const localFunctions = {
   TranscriptBase (lPk, vueObj) {
@@ -14,8 +15,8 @@ const localFunctions = {
     this.aEinzelErhebung = {}           // Model der EinzelErhebung
     this.aTokenTypes = {}               // Model der TokenTypes
     this.aSaetze = {}                   // Model der Saetze
-    this.aInformanten = new InformantenObject.InformantenBase()    // Akutelle Informanten (InformantenBase)
-    // this.aTokens = {}                  // Aktuelle Tokens
+    this.aInformanten = new InformantenObject.InformantenBase()   // Akutelle Informanten (InformantenBase)
+    this.aTokens = new TokensObject.TokensBase()                  // Aktuelle Tokens (TokensBase)
     // this.aEvents = {}                  // Aktuelle Events
     this.init()                         // Immer dirket initialisieren
   }

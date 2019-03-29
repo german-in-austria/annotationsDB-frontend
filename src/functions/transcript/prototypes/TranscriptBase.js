@@ -6,7 +6,7 @@ const localFunctions = {
   },
   // Transkipt Daten laden
   getTranscript () {
-    console.log('getTranscript', this.pk, this.lSet, this.lMaxSet)
+    // console.log('getTranscript', this.pk, this.lSet, this.lMaxSet)
     if (!this.loaded) {
       this.loading = true
       this.vueObj.$http
@@ -16,19 +16,21 @@ const localFunctions = {
           aNr: this.lSet
         })
         .then((response) => {
+          let t1 = performance.now()
           if (this.lSet === 0) {    // Einmalige Daten aus erster Abfrage laden
             // console.log(response)
             this.lMaxSet = response.data['aTmNr']
             this.aTranskript = response.data['aTranskript']
             this.aEinzelErhebung = response.data['aEinzelErhebung']
-            this.aTokenTypes = response.data['aTokenTypes']
+            this.aTokenTypes = response.data['aTokenTypes']   // ToDo: in TokensBase !!!
             this.aSaetze = response.data['aSaetze']
             this.aInformanten.set(response.data['aInformanten'])
           }
-          // this.addTokens(response.data['aTokens'])
+          this.aTokens.addMultiple(response.data['aTokens'])
           // this.addEvents(response.data['aEvents'])
           // this.addTokenSets(response.data['aTokenSets'])
           // this.addAntworten(response.data['aAntworten'])
+          console.log('getTranscript', this.pk, this.lSet, this.lMaxSet, ' - Daten verarbeitet', performance.now() - t1, 'ms')
           this.loading = false
           this.ready = true
           if (this.lSet === response.data['nNr']) {
@@ -49,30 +51,6 @@ const localFunctions = {
     }
     return !this.loaded
   }
-  // // Tokens hinzufügen
-  // addTokens: function (nTokens) {
-  //   Object.keys(nTokens).map(function (key, i) {
-  //     this.updateToken(key, nTokens[key])
-  //   }, this)
-  // },
-  // updateToken: function (key, values) {
-  //   this.aTokens[key] = values
-  //   if (this.aTokens[key]['fo']) {
-  //     this.updateTokenFragment(key, this.aTokens[key]['fo'])
-  //   }
-  //   if (this.aEvents[this.aTokens[key]['e']]) {
-  //     // this.setRerenderEvent(this.aTokens[key]['e'])
-  //   }
-  // },
-  // updateTokenFragment: function (key, fo) {
-  //   if (this.aTokenFragmente[fo]) {
-  //     if (this.aTokenFragmente[fo].indexOf(key) < 0) {
-  //       this.aTokenFragmente[fo].push(key)
-  //     }
-  //   } else {
-  //     this.aTokenFragmente[fo] = [key]
-  //   }
-  // }
 }
 
 export default localFunctions
