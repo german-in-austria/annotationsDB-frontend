@@ -85,25 +85,6 @@ export default {
     font-weight: bold;
   }
 
-  #loadsym {
-    position: absolute;
-    text-align: center;
-    display:none;
-    right: 25px;
-    top: 5px;
-    color: #00f;
-    font-size: 24px;
-  }
-  #loadsym>div {
-    background: #f9fdc6ad;
-    font-size: 16px;
-    min-width: 50px;
-    border-radius: 3px;
-    padding: 2px 5px;
-  }
-  .bgloading #loadsym {
-    display: block;
-  }
   g.eInf > rect {
     fill: #fcfcfc;
     outline: 1px solid #ccc;

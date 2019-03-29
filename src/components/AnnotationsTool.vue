@@ -54,7 +54,6 @@ export default {
   methods: {
     loadTranscript (lTranscript) {
       this.selTranscriptPk = lTranscript
-      console.log(lTranscript)
     }
   },
   watch: {
