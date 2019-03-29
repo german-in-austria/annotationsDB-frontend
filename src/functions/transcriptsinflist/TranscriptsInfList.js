@@ -1,7 +1,7 @@
-import prototypeTranscriptsBase from './prototypes/TranscriptsBase'
+import prototypeTranscriptsInfListBase from './prototypes/TranscriptsInfListBase'
 
 const localFunctions = {
-  TranscriptsBase (vueObj) {
+  TranscriptsInfListBase (vueObj) {
     this.ready = false              // Ist das Objekt bereit?
     this.loading = false            // Wird eine Liste geladen?
     this.infTransList = []          // Liste der Informanten mit Transkripten
@@ -14,8 +14,8 @@ const localFunctions = {
   }
 }
 
-// Transcripts Prototypen
-localFunctions.TranscriptsBase.prototype.init = prototypeTranscriptsBase.init
-localFunctions.TranscriptsBase.prototype.update = prototypeTranscriptsBase.update
+// TranscriptsInfList Prototypen
+localFunctions.TranscriptsInfListBase.prototype.init = prototypeTranscriptsInfListBase.init
+localFunctions.TranscriptsInfListBase.prototype.update = prototypeTranscriptsInfListBase.update
 
 export default localFunctions

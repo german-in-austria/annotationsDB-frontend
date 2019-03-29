@@ -44,6 +44,22 @@ export default {
     z-index: 1000000;
   }
 
+  .mt-1 {
+    margin-top: 5px;
+  }
+  .mt-2 {
+    margin-top: 10px;
+  }
+  .mt-3 {
+    margin-top: 15px;
+  }
+  .mt-4 {
+    margin-top: 20px;
+  }
+  .mt-5 {
+    margin-top: 25px;
+  }
+
   .input-group-addon.np {
     padding: 0px;
   }
@@ -87,11 +103,6 @@ export default {
   }
   .bgloading #loadsym {
     display: block;
-  }
-  #saveit {
-    position: absolute;
-    right: 35px;
-    bottom: 160px;
   }
   g.eInf > rect {
     fill: #fcfcfc;

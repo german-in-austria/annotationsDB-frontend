@@ -4,10 +4,10 @@
       <div class="col-md-2 h100 mh200px vscroller lmfa">
         <!-- <SuchenUndFiltern v-if="annotationsTool.aPK>0"/>
         <Informationen v-if="annotationsTool.aPK>0"/> -->
-        <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="testSelectedTranscriptPk" @loadTranscript="loadTranscript" />
+        <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @loadTranscript="loadTranscript" />
       </div>
       <div class="col-md-10 h100 mh600px" style="border-right:1px solid #eee;padding:0px;padding-bottom:150px;">
-        <Hauptfenster />
+        <Hauptfenster :transcript="selTranscript" />
         <Audioplayer />
       </div>
     </div>
@@ -22,7 +22,8 @@ import TranskriptAuswahl from './menue/TranskriptAuswahl'
 import Hauptfenster from './hauptfenster/Hauptfenster'
 import Audioplayer from './audioplayer/Audioplayer'
 
-import TranscriptsObject from '@/functions/transcripts/Transcripts'
+import TranscriptsInfListObject from '@/functions/transcriptsinflist/TranscriptsInfList'
+import TranscriptObject from '@/functions/transcript/Transcript'
 
 export default {
   /* global csrf audiodir */
@@ -40,19 +41,25 @@ export default {
       unsaved: false,
       audiodir: '',
       transcripts: {},
-      testSelectedTranscriptPk: null
+      selTranscriptPk: null,
+      selTranscript: null
     }
   },
   mounted () {
     this.audiodir = audiodir
-    this.transcripts = new TranscriptsObject.TranscriptsBase(this)
+    this.transcripts = new TranscriptsInfListObject.TranscriptsInfListBase(this)
     console.log(this.audiodir)
     console.log(this.transcripts)
   },
   methods: {
     loadTranscript (lTranscript) {
-      this.testSelectedTranscriptPk = lTranscript
+      this.selTranscriptPk = lTranscript
       console.log(lTranscript)
+    }
+  },
+  watch: {
+    'selTranscriptPk' (nPk, oPk) {
+      this.selTranscript = new TranscriptObject.TranscriptBase(nPk, this)
     }
   },
   components: {

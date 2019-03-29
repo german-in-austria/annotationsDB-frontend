@@ -7,13 +7,13 @@
         <option v-for="infWithTrans in transcripts.infTransList" :key="'i' + infWithTrans.pk"
           :value="infWithTrans.pk"
           :class="{'active': selectedInformantenPk.indexOf(infWithTrans.pk) > -1 }">
-          {{infWithTrans.modelStr}} - {{infWithTrans.transcriptsPk.length}} Transkripte
+          {{infWithTrans.modelStr}} - {{infWithTrans.transcriptsPKs.length}} Transkripte
         </option>
       </select>
-      <div class="input-group-addon np"><button @click="updateTranscripts()" :title="updateTime" class="uptrans" :disabled="transcripts.loading"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
+      <div class="input-group-addon np"><button @click="updateTranscriptsInfList()" :title="updateTime" class="uptrans" :disabled="transcripts.loading"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
     </div>
     <ul v-if="aInformant > 0" class="lmfa-l">
-      <li v-for="aTranskriptPk in transcripts.infTransObj[aInformant].transcriptsPk" :key="'t' + aTranskriptPk">
+      <li v-for="aTranskriptPk in transcripts.infTransObj[aInformant].transcriptsPKs" :key="'t' + aTranskriptPk">
         <a href="#"
           @click.prevent="getTranskript(transcripts.transcriptsObj[aTranskriptPk].pk)"
           :class="{ 'lmfabc': true, 'open': (selectedTranscriptPk === transcripts.transcriptsObj[aTranskriptPk].pk) }"
@@ -42,7 +42,7 @@ export default {
       for (let aInfKey in this.transcripts.infTransList) {
         if (this.transcripts.infTransList.hasOwnProperty(aInfKey)) {
           let aInf = this.transcripts.infTransList[aInfKey]
-          if (aInf.transcriptsPk.indexOf(this.selectedTranscriptPk) > -1) {
+          if (aInf.transcriptsPKs.indexOf(this.selectedTranscriptPk) > -1) {
             aSelInfPk.push(aInf.pk)
           }
         }
@@ -51,7 +51,7 @@ export default {
     }
   },
   methods: {
-    updateTranscripts () {
+    updateTranscriptsInfList () {
       if (!this.transcripts.loading) {
         this.transcripts.update()
       }
