@@ -7,7 +7,7 @@ const localFunctions = {
       this.informantenObj[key] = nInformanten[key]
       this.informantenObj[key]['i'] = i
       this.informantenObj[key]['show'] = true
-      this.informantenObj[key]['pk'] = key
+      this.informantenObj[key]['pk'] = parseInt(key)
       this.informantenList.push(this.informantenObj[key])
     }, this)
     this.length = Object.keys(nInformanten).length

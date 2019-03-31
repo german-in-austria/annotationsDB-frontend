@@ -10,7 +10,7 @@ const localFunctions = {
   add (nPk, nToken, dontUpdate = false) {
     this.tokensObj[nPk] = nToken
     if (!this.tokensObj[nPk].pk) {
-      this.tokensObj[nPk].pk = nPk
+      this.tokensObj[nPk].pk = parseInt(nPk)
     }
     if (this.tokensObj[nPk]['fo']) {
       this.updateTokenFragment(nPk, this.tokensObj[nPk]['fo'])
