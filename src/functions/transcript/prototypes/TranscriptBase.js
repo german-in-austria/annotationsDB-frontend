@@ -19,7 +19,16 @@ const localFunctions = {
         .then((response) => {
           if (this.vueObj.selTranscriptPk === this.pk) {
             let t1 = performance.now()
-            if (this.lSet === 0) {    // Einmalige Daten aus erster Abfrage laden
+            let tmpLSet = this.lSet
+            this.loading = false
+            if (this.lSet === response.data['nNr']) {
+              this.lSet = response.data['nNr']
+              this.loaded = true
+            } else if (this.loaded === false) {
+              this.lSet = response.data['nNr']
+              this.getTranscript()
+            }
+            if (tmpLSet === 0) {    // Einmalige Daten aus erster Abfrage laden
               // console.log(response)
               this.lMaxSet = response.data['aTmNr']
               this.aTranskript = response.data['aTranskript']
@@ -32,16 +41,10 @@ const localFunctions = {
             this.aEvents.addMultiple(response.data['aEvents'])
             this.aTokenSets.addMultiple(response.data['aTokenSets'])
             this.aAntworten.addMultiple(response.data['aAntworten'])
-            console.log('getTranscript', this.pk, this.lSet, this.lMaxSet, '- Daten verarbeitet', (performance.now() - t1).toFixed(2), 'ms')
-            this.loading = false
+            console.log('getTranscript', this.pk, tmpLSet, this.lMaxSet, '- Daten verarbeitet', (performance.now() - t1).toFixed(2), 'ms')
             this.ready = true
             if (this.lSet === response.data['nNr']) {
-              this.lSet = response.data['nNr']
-              this.loaded = true
               console.log('Alle Datensätze geladen.', this.pk, '-', (performance.now() - this.timer).toFixed(2), 'ms', this)
-            } else if (this.loaded === false) {
-              this.lSet = response.data['nNr']
-              this.getTranscript()
             }
           } else {
             console.log('Ladevorgang für', this.pk, 'abgebrochen!')
