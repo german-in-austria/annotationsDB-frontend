@@ -33,7 +33,7 @@ const localFunctions = {
               this.lMaxSet = response.data['aTmNr']
               this.aTranskript = response.data['aTranskript']
               this.aEinzelErhebung = response.data['aEinzelErhebung']
-              this.aTokenTypes = response.data['aTokenTypes']   // ToDo: in TokensBase !!!
+              this.aTokens.setTokenTypes(response.data['aTokenTypes'])
               this.aSaetze = response.data['aSaetze']
               this.aInformanten.set(response.data['aInformanten'])
             }

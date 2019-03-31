@@ -17,7 +17,6 @@ const localFunctions = {
     this.lMaxSet = 1                    // Maxiamle Ladedurchgänge
     this.aTranskript = {}               // Model des Transkripts
     this.aEinzelErhebung = {}           // Model der EinzelErhebung
-    this.aTokenTypes = {}               // Model der TokenTypes
     this.aSaetze = {}                   // Model der Saetze
     this.aInformanten = new InformantenObject.InformantenBase(this)   // Akutelle Informanten (InformantenBase)
     this.aTokens = new TokensObject.TokensBase(this)                  // Aktuelle Tokens (TokensBase)

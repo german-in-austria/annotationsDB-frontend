@@ -7,6 +7,7 @@ const localFunctions = {
     this.tokensObj = {}                 // Token Objekte
     this.tokenLists = {}                // Token Listen (all, byInf)
     this.aTokenFragmenteObj = {}        // Token zu Fragment Zuordnung
+    this.aTokenTypes = {}               // Model der TokenTypes
     this.svgTwCache = {}                //  Cache für SVG Textbreite
     this.length = 0                     // Anzahl der Tokens
   }
@@ -22,5 +23,6 @@ localFunctions.TokensBase.prototype.update = prototypeTokensBase.update
 localFunctions.TokensBase.prototype.updateTokensLists = prototypeTokensBase.updateTokensLists
 localFunctions.TokensBase.prototype.updateTokensSVGData = prototypeTokensBase.updateTokensSVGData
 localFunctions.TokensBase.prototype.updateLength = prototypeTokensBase.updateLength
+localFunctions.TokensBase.prototype.setTokenTypes = prototypeTokensBase.setTokenTypes
 
 export default localFunctions

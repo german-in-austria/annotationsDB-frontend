@@ -89,6 +89,9 @@ const localFunctions = {
   updateLength () {
     this.length = Object.keys(this.tokensObj).length
     return this.length
+  },
+  setTokenTypes (nTokenTypes) {
+    this.aTokenTypes = nTokenTypes
   }
 }
 
