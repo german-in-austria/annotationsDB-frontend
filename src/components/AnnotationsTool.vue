@@ -8,7 +8,7 @@
       </div>
       <div class="col-md-10 h100 mh600px" style="border-right:1px solid #eee;padding:0px;padding-bottom:150px;">
         <Hauptfenster :transcript="selTranscript" />
-        <Audioplayer />
+        <Audioplayer  :audiofile="selTranscript.aEinzelErhebung.dp + selTranscript.aEinzelErhebung.af" :audiodir="audiodir" v-if ="selTranscript && selTranscript.ready" />
       </div>
     </div>
     <div id="loading" v-if="loading">Lade ...</div>
@@ -58,7 +58,11 @@ export default {
   },
   watch: {
     'selTranscriptPk' (nPk, oPk) {
-      this.selTranscript = new TranscriptObject.TranscriptBase(nPk, this)
+      if (nPk > 0) {
+        this.selTranscript = new TranscriptObject.TranscriptBase(nPk, this)
+      } else {
+        this.selTranscript = null
+      }
     }
   },
   components: {
