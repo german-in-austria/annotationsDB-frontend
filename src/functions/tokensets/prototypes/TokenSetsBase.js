@@ -63,7 +63,7 @@ const localFunctions = {
             aTokSet.ok = aTokSet.tx.length > 0
           }
         } else if (aTokSet.t && AllgemeineFunktionen.listeWerteInListe(aTokSet.t, this.root.aTokens.tokenLists.all, 'pk')) {
-          console.log(aTokSet.t)
+          // console.log(aTokSet.t)
           // ToDo: Tokens sortieren!
           // aTokSet.t = this.sortEventIdListe(aTokSet.t)
           // aTokSet.ok = aTokSet.t.length > 0

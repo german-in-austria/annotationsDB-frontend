@@ -3,6 +3,7 @@ import InformantenObject from '@/functions/informanten/Informanten'
 import TokensObject from '@/functions/tokens/Tokens'
 import TokenSetsObject from '@/functions/tokensets/TokenSets'
 import EventsObject from '@/functions/events/Events'
+import AntwortenObject from '@/functions/antworten/Antworten'
 
 const localFunctions = {
   TranscriptBase (lPk, vueObj) {
@@ -21,6 +22,7 @@ const localFunctions = {
     this.aTokens = new TokensObject.TokensBase(this)                  // Aktuelle Tokens (TokensBase)
     this.aTokenSets = new TokenSetsObject.TokenSetsBase(this)         // Aktuelle TokenSets (TokenSetsBase)
     this.aEvents = new EventsObject.EventsBase(this)                  // Aktuelle Events (EventsBase)
+    this.aAntworten = new AntwortenObject.AntwortenBase(this)         // Aktuelle Antworten (AntwortenBase)
     this.init()                         // Immer dirket initialisieren
   }
 }
