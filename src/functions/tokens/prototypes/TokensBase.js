@@ -31,7 +31,7 @@ const localFunctions = {
     let t1 = performance.now()
     this.updateTokensLists()
     this.updateLength()
-    console.log('Tokens Data updated', performance.now() - t1, 'ms')
+    console.log('Tokens Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
   updateTokensLists () {
     this.tokenLists = {}

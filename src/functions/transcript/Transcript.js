@@ -11,6 +11,7 @@ const localFunctions = {
     this.loading = false                // Wird gerade geladen/gespeichert?
     this.loaded = false                 // Wird das Transcript noch geladen?
     this.vueObj = vueObj                // Aktuelles Vue Objekt
+    this.timer = 0                      // Zeit der Initialisierung der TranscriptBase
     this.pk = lPk                       // Aktuelle Transkript PK
     this.lSet = 0                       // Aktueller Ladedurchgang
     this.lMaxSet = 1                    // Maxiamle Ladedurchgänge

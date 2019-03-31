@@ -65,7 +65,7 @@ const localFunctions = {
     let t1 = performance.now()
     this.updateAntwortenLists()
     this.updateLength()
-    console.log('Antworten Data updated', performance.now() - t1, 'ms')
+    console.log('Antworten Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
   updateAntwortenLists () {
     this.antwortLists = {}

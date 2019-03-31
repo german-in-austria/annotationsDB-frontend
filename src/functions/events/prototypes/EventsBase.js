@@ -24,7 +24,7 @@ const localFunctions = {
     let t1 = performance.now()
     this.updateObjects()
     this.updateLength()
-    console.log('Events Data updated', performance.now() - t1, 'ms')
+    console.log('Events Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
   updateObjects () {
     this.eventsObj = {}
