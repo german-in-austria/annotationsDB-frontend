@@ -2,8 +2,8 @@
   <div id="annotationsTool" v-bind:class="{ loading: loading, bgloading: false, unsaved: unsaved }">
     <div class="row h100">
       <div class="col-md-2 h100 mh200px vscroller lmfa">
-        <!-- <SuchenUndFiltern v-if="annotationsTool.aPK>0"/>
-        <Informationen v-if="annotationsTool.aPK>0"/> -->
+        <!-- <SuchenUndFiltern v-if="selTranscriptPk > 0" /> -->
+        <Informationen :transcript="selTranscript" v-if="selTranscriptPk > 0" />
         <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @loadTranscript="loadTranscript" />
       </div>
       <div class="col-md-10 h100 mh600px" style="border-right:1px solid #eee;padding:0px;padding-bottom:150px;">
