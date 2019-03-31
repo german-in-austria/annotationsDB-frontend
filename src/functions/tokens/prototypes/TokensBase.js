@@ -1,3 +1,5 @@
+import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+
 const localFunctions = {
   // Tokens setzen
   addMultiple (nTokens) {
@@ -26,12 +28,43 @@ const localFunctions = {
       this.aTokenFragmenteObj[foPk] = [pkFo]
     }
   },
+  getTokenString (aToken, field, bField = false) {
+    var aTxt = this.getTokenFragment(aToken, field, bField)
+    var space = ((aToken.tt === 2) || (aToken.fo > 0 || aTxt[0] === '_') ? '' : '\u00A0')
+    if (aTxt[0] === '_') {
+      aTxt = aTxt.substr(1)
+    };
+    return space + aTxt
+  },
+  getTokenFragment (aToken, field, bField = false) {
+    let atTxt = ((bField && !aToken[field]) ? aToken[bField] : aToken[field])
+    if (this.aTokenFragmenteObj[aToken.pk] && this.aTokenFragmenteObj[aToken.pk].length === 1) {
+      this.aTokenFragmenteObj[aToken.pk].forEach(function (val) {
+        let ntTxt = ((bField && !this.tokensObj[val][field]) ? this.tokensObj[val][bField] : this.tokensObj[val][field])
+        let aPos = atTxt.lastIndexOf(ntTxt)
+        if (aPos > 0) {
+          atTxt = atTxt.substr(0, aPos)
+        }
+      }, this)
+    }
+    return atTxt
+  },
   // Diverse Updates für weiterführende Daten durchführen
   update () {
     let t1 = performance.now()
     this.updateTokensLists()
+    this.updateTokensSVGData()
     this.updateLength()
     console.log('Tokens Data updated', (performance.now() - t1).toFixed(2), 'ms')
+  },
+  updateTokensSVGData () {
+    this.tokenLists.all.forEach(function (val) {
+      if (val.svgUpdate || !val.svgWidth) {
+        let t1W = AllgemeineFunktionen.getTextWidth(this.getTokenString(val, 't'), this.root.vueObj.$refs.svgTextSize, this.svgTwCache)
+        let t2W = AllgemeineFunktionen.getTextWidth(this.getTokenString(val, 'o', 't'), this.root.vueObj.$refs.svgTextSize, this.svgTwCache)
+        val.svgWidth = ((t1W > t2W) ? t1W : t2W) + 3.5
+      }
+    }, this)
   },
   updateTokensLists () {
     this.tokenLists = {}

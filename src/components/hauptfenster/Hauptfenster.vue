@@ -11,7 +11,6 @@
         <div v-if="!transcript.loaded">{{ parseInt(99 / transcript.lMaxSet * transcript.lSet) }} %</div>
       </div>
     </div>
-    <!-- <svg style="position:absolute;right:0px;bottom:0px;width:1px;height:1px;"><text id="svg-text-textsize" x="-100" y="-100"></text></svg> -->
   </div>
 </template>
 

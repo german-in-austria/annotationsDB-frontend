@@ -12,6 +12,7 @@
       </div>
     </div>
     <div id="loading" v-if="loading">Lade ...</div>
+    <svg style="position:absolute;right:0px;bottom:0px;width:1px;height:1px;"><text ref="svgTextSize" x="-100" y="-100"></text></svg>
   </div>
 </template>
 

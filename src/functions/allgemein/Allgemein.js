@@ -25,7 +25,7 @@ const localFunctions = {
     }
   },
 
-  /* Zeit umrechnen */
+  // Zeit umrechnen
   durationToSeconds: function (hms) {
     var s = 0.0
     if (hms && hms.indexOf(':') > -1) {
@@ -48,7 +48,7 @@ const localFunctions = {
     return v + ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2) + ':' + ('0' + s.toFixed(fix)).slice(-(3 + fix))
   },
 
-  /* Properties von Objekt filtern */
+  // Properties von Objekt filtern
   filterProperties: function (obj, props) {
     var output = {}
     Object.keys(obj).map(function (key, i) {
@@ -131,7 +131,7 @@ const localFunctions = {
     }, this)
     return (cListe.length === 0)
   },
-  // ToDo: Zu Tag Funktionen!
+  // ToDo: Zu "Tag Funktionen"!
   processTags: function (pTags, pPos = 0) {
     var xTags = []
     var xPos = pPos
@@ -150,6 +150,21 @@ const localFunctions = {
       }
     }
     return {'tags': xTags, 'pos': xPos}
+  },
+  // Funktion zur Ermittlung der Breite von Texten im SVG-Element
+  getTextWidth: function (text, obj, cache) {
+    if (obj) {
+      if (cache) {
+        if (!cache[text]) {
+          obj.textContent = text
+          cache[text] = obj.getBBox().width
+        }
+        return cache[text]
+      } else {
+        obj.textContent = text
+        return obj.getBBox().width
+      }
+    }
   }
 }
 
