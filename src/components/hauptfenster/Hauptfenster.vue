@@ -4,7 +4,7 @@
     <div class="container" v-else-if="transcript.error"><div class="alert alert-danger mt-5">Fehler beim Laden des Transcripts: {{ transcript.pk }}!</div></div>
     <div class="container" v-else-if="!transcript.ready"><div class="alert alert-info mt-5">Transkript({{ transcript.pk }}) wird geladen!</div></div>
     <div id="svgscroller" class="h100 mcon vscroller" v-else>
-      <!--   {% include "AnnotationsDB/annotationsvg.html" %} -->
+      <AnnotationsAnzeige :transcript="transcript" />
       <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !unsaved }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
       <div id="loadsym" v-if="transcript.loading">
         <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import AnnotationsAnzeige from './annotationsanzeige/AnnotationsAnzeige'
+
 export default {
   name: 'Hauptfenster',
   props: ['transcript'],
@@ -33,6 +35,9 @@ export default {
     }
   },
   watch: {
+  },
+  components: {
+    AnnotationsAnzeige
   }
 }
 </script>
