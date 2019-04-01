@@ -4,6 +4,7 @@ import TokensObject from '@/functions/tokens/Tokens'
 import TokenSetsObject from '@/functions/tokensets/TokenSets'
 import EventsObject from '@/functions/events/Events'
 import AntwortenObject from '@/functions/antworten/Antworten'
+import SvgObject from '@/functions/svg/Svg'
 
 const localFunctions = {
   TranscriptBase (lPk, vueObj) {
@@ -23,6 +24,7 @@ const localFunctions = {
     this.aTokenSets = new TokenSetsObject.TokenSetsBase(this)         // Aktuelle TokenSets (TokenSetsBase)
     this.aEvents = new EventsObject.EventsBase(this)                  // Aktuelle Events (EventsBase)
     this.aAntworten = new AntwortenObject.AntwortenBase(this)         // Aktuelle Antworten (AntwortenBase)
+    this.aSVG = new SvgObject.SvgBase(this)                           // SvgBase Objekt
     this.init()                         // Immer dirket initialisieren
   }
 }

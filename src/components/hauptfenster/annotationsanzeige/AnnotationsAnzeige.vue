@@ -1,6 +1,6 @@
 <template>
   <div class="annotationsanzeige">
-    <svg id="annotationsvg" :style="'height:' + hoehe + 'px;'">
+    <svg id="annotationsvg" :style="'height:' + transcript.aSVG.height + 'px;'" ref="annotationsSVG">
       <defs>
         <marker id="arrow-blue" markerWidth="5" markerHeight="5" refX="3" refY="3" orient="auto" markerUnits="strokeWidth">
           <path d="M0,1 L0,5 L5,3 z" fill="#00a"/>
@@ -30,23 +30,36 @@
 
 <script>
 import AnnotationsAnzeigeZeile from './AnnotationsAnzeigeZeile'
+var _ = require('lodash')
 
 export default {
   name: 'AnnotationsAnzeige',
   props: ['transcript'],
   data () {
     return {
-      hoehe: 500,
       renderZeilen: []
     }
   },
   mounted () {
+    window.addEventListener('resize', this.resizeWindow)
+    this.$nextTick(() => {
+      this.transcript.aSVG.setAnnotationsSVG(this.$refs.annotationsSVG)
+    })
   },
   computed: {
   },
   methods: {
+    resizeWindow: _.debounce(function () {
+      if (this.transcript.aSVG.ready) {
+        this.transcript.aSVG.updateDimensionen()
+      }
+    }, 500)
   },
   watch: {
+  },
+  beforeDestroy () {
+    this.transcript.aSVG.setAnnotationsSVG(null)
+    window.removeEventListener('resize', this.resizeWindow)
   },
   components: {
     AnnotationsAnzeigeZeile

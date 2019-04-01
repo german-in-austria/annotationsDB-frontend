@@ -3,7 +3,7 @@
     <div class="container" v-if="!transcript"><div class="alert alert-warning mt-5">Kein Transkript ausgewählt!</div></div>
     <div class="container" v-else-if="transcript.error"><div class="alert alert-danger mt-5">Fehler beim Laden des Transcripts: {{ transcript.pk }}!</div></div>
     <div class="container" v-else-if="!transcript.ready"><div class="alert alert-info mt-5">Transkript({{ transcript.pk }}) wird geladen!</div></div>
-    <div id="svgscroller" class="h100 mcon vscroller" v-else>
+    <div id="svgscroller" class="h100 mcon vscroller" ref="viewElement" v-on:scroll="transcript.aSVG.scrolling()" v-else>
       <AnnotationsAnzeige :transcript="transcript" />
       <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !unsaved }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
       <div id="loadsym" v-if="transcript.loading">
@@ -35,6 +35,18 @@ export default {
     }
   },
   watch: {
+    'transcript.ready' () {
+      this.$nextTick(() => {
+        if (this.transcript && this.transcript.aSVG) {
+          this.transcript.aSVG.setViewElement(this.transcript.ready ? this.$refs.viewElement : null)
+        }
+      })
+    }
+  },
+  beforeDestroy () {
+    if (this.transcript && this.transcript.aSVG) {
+      this.transcript.aSVG.setViewElement(null)
+    }
   },
   components: {
     AnnotationsAnzeige

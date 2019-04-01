@@ -43,7 +43,7 @@ const localFunctions = {
             this.aAntworten.addMultiple(response.data['aAntworten'])
             console.log('getTranscript', this.pk, tmpLSet, this.lMaxSet, '- Daten verarbeitet', (performance.now() - t1).toFixed(2), 'ms')
             this.ready = true
-            if (this.lSet === response.data['nNr']) {
+            if (tmpLSet === response.data['nNr']) {
               console.log('Alle Datensätze geladen.', this.pk, '-', (performance.now() - this.timer).toFixed(2), 'ms', this)
             }
           } else {

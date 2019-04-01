@@ -1,5 +1,3 @@
-import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
-
 const localFunctions = {
   // Tokens setzen
   addMultiple (nTokens) {
@@ -60,8 +58,9 @@ const localFunctions = {
   updateTokensSVGData () {
     this.tokenLists.all.forEach(function (val) {
       if (val.svgUpdate || !val.svgWidth) {
-        let t1W = AllgemeineFunktionen.getTextWidth(this.getTokenString(val, 't'), this.root.vueObj.$refs.svgTextSize, this.svgTwCache)
-        let t2W = AllgemeineFunktionen.getTextWidth(this.getTokenString(val, 'o', 't'), this.root.vueObj.$refs.svgTextSize, this.svgTwCache)
+        let svgTsObj = this.root.vueObj.$refs.svgTextSize
+        let t1W = this.root.aSVG.getTextWidth(this.getTokenString(val, 't'), svgTsObj, this.svgTwCache)
+        let t2W = this.root.aSVG.getTextWidth(this.getTokenString(val, 'o', 't'), svgTsObj, this.svgTwCache)
         val.svgWidth = ((t1W > t2W) ? t1W : t2W) + 3.5
       }
     }, this)
