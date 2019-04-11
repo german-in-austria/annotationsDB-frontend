@@ -23,7 +23,7 @@ const localFunctions = {
   update () {
     let t1 = performance.now()
     this.updateObjects()
-    this.updateTokenConnections()
+    this.updateConnections()
     this.updateSVGData()
     console.log('Events Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
@@ -56,12 +56,18 @@ const localFunctions = {
       }
     }, this)
   },
-  updateTokenConnections () {
+  updateConnections () {
     this.eventLists.all.forEach(function (aEvent) {
       if (!aEvent.tcUpdated) {
         let allFound = true
         aEvent.tidObj = {}
+        aEvent.iPks = []
+        aEvent.iObjs = []
         Object.keys(aEvent.tid).map(function (aInfKey) {
+          if (aEvent.iPks.indexOf(aInfKey) < 0) {
+            aEvent.iPks.push(aInfKey)
+            aEvent.iObjs.push(this.root.aInformanten.informantenObj[aInfKey])
+          }
           aEvent.tid[aInfKey].forEach(function (aTokenKey) {
             if (!aEvent.tidObj[aInfKey]) {
               aEvent.tidObj[aInfKey] = []

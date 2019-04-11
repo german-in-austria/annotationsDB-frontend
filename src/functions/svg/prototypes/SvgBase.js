@@ -27,6 +27,7 @@ const localFunctions = {
     function zeilenObj () {
       return {
         'eObjs': [],
+        'iPks': [],
         'zTop': 0,
         'zHeight': 0
       }
@@ -44,19 +45,22 @@ const localFunctions = {
             this.zeilen.all[zKey].zHeight = this.infHeight * 2    // ToDo !!!!
           }
           zWidth += aEvent.svgWidth + 0.5
-          if (zWidth < this.width - this.infWidth || (zKey === 0 && this.zeilen.all[zKey].eObjs.length < 1)) {
-            this.zeilen.all[zKey].eObjs.push(aEvent)
-          } else {
-            this.height += this.zeilen.all[zKey].zHeight
+          if (!(zWidth < this.width - this.infWidth || (zKey === 0 && this.zeilen.all[zKey].eObjs.length < 1))) {
             zKey++
+            this.height += this.zeilen.all[zKey - 1].zHeight
             if (!this.zeilen.all[zKey]) {
               this.zeilen.all[zKey] = zeilenObj()
               this.zeilen.all[zKey].zHeight = this.infHeight * 2    // ToDo !!!!
             }
             zWidth = aEvent.svgWidth + 0.5
             this.zeilen.all[zKey].zTop = this.zeilen.all[zKey - 1].zTop + this.zeilen.all[zKey - 1].zHeight
-            this.zeilen.all[zKey].eObjs.push(aEvent)
           }
+          this.zeilen.all[zKey].eObjs.push(aEvent)
+          aEvent.iPks.forEach(function (iPk) {
+            if (this.zeilen.all[zKey].iPks.indexOf(iPk) < 0) {
+              this.zeilen.all[zKey].iPks.push(iPk)
+            }
+          }, this)
         }
       }, this)
       if (this.zeilen.all[zKey] && this.zeilen.all[zKey].zHeight) {

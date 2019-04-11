@@ -18,7 +18,7 @@ localFunctions.EventsBase.prototype.addMultiple = prototypeEventsBase.addMultipl
 localFunctions.EventsBase.prototype.set = prototypeEventsBase.set
 localFunctions.EventsBase.prototype.update = prototypeEventsBase.update
 localFunctions.EventsBase.prototype.updateObjects = prototypeEventsBase.updateObjects
-localFunctions.EventsBase.prototype.updateTokenConnections = prototypeEventsBase.updateTokenConnections
+localFunctions.EventsBase.prototype.updateConnections = prototypeEventsBase.updateConnections
 localFunctions.EventsBase.prototype.updateSVGData = prototypeEventsBase.updateSVGData
 localFunctions.EventsBase.prototype.updateLength = prototypeEventsBase.updateLength
 
