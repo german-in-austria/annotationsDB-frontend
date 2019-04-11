@@ -25,7 +25,8 @@ const localFunctions = {
   },
   scrolling () {
     let aTop = this.viewElement.scrollTop
-    console.log('Scrolling', aTop, '-', aTop + this.viewHeight)
+    let aBottom = aTop + this.viewHeight
+    console.log('Scrolling', aTop, '-', aBottom)
   }
 }
 

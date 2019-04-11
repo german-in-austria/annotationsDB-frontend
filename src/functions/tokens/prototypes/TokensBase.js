@@ -11,6 +11,7 @@ const localFunctions = {
     this.tokensObj[nPk] = nToken
     if (!this.tokensObj[nPk].pk) {
       this.tokensObj[nPk].pk = parseInt(nPk)
+      this.tokensObj[nPk].iObj = this.root.aInformanten.informantenObj[this.tokensObj[nPk].i]
     }
     if (this.tokensObj[nPk]['fo']) {
       this.updateTokenFragment(nPk, this.tokensObj[nPk]['fo'])
@@ -52,7 +53,6 @@ const localFunctions = {
     let t1 = performance.now()
     this.updateTokensLists()
     this.updateTokensSVGData()
-    this.updateLength()
     console.log('Tokens Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
   updateTokensSVGData () {
@@ -62,6 +62,9 @@ const localFunctions = {
         let t1W = this.root.aSVG.getTextWidth(this.getTokenString(val, 't'), svgTsObj, this.svgTwCache)
         let t2W = this.root.aSVG.getTextWidth(this.getTokenString(val, 'o', 't'), svgTsObj, this.svgTwCache)
         val.svgWidth = ((t1W > t2W) ? t1W : t2W) + 3.5
+        if (this.root.aEvents.eventsObj[val.e]) {
+          this.root.aEvents.eventsObj[val.e].svgUpdate = true
+        }
       }
     }, this)
   },
@@ -83,10 +86,11 @@ const localFunctions = {
         this.tokenLists.byInf[val.i] = [val]
       }
     }, this)
+    this.updateLength()
   },
   // Anzahl der Tokens setzen
   updateLength () {
-    this.length = Object.keys(this.tokensObj).length
+    this.length = this.tokenLists.all.length
     return this.length
   },
   setTokenTypes (nTokenTypes) {
