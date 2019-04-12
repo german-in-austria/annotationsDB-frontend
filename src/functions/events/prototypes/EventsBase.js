@@ -23,6 +23,7 @@ const localFunctions = {
   update () {
     let t1 = performance.now()
     this.updateObjects()
+    this.updateLists()
     this.updateConnections()
     this.updateSVGData()
     console.log('Events Data updated', (performance.now() - t1).toFixed(2), 'ms')
@@ -83,6 +84,24 @@ const localFunctions = {
         if (allFound) {
           aEvent.tcUpdated = true
         }
+      }
+    }, this)
+  },
+  updateLists () {
+    this.eventLists.time = []
+    let lastTimeStart = null
+    let lastTimeEnd = null
+    let aKey = 0
+    this.eventLists.all.forEach(function (aEvent) {
+      if (lastTimeStart === aEvent.s && lastTimeEnd === aEvent.e) {
+        this.eventLists.time[aKey].events.push(aEvent)
+        if (aEvent.svgWidth > this.eventLists.time[aKey].svgWidth) {
+          this.eventLists.time[aKey].svgWidth = aEvent.svgWidth
+        }
+      } else {
+        aKey = this.eventLists.time.push({events: [aEvent], svgWidth: aEvent.svgWidth}) - 1
+        lastTimeStart = aEvent.s
+        lastTimeEnd = aEvent.e
       }
     }, this)
   },
