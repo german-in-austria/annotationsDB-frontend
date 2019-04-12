@@ -28,8 +28,8 @@ const localFunctions = {
       return {
         'eObjs': [],
         'iPks': [],
-        'zTop': 0,
-        'zHeight': 0
+        'svgTop': 0,
+        'svgHeight': 0
       }
     }
     if (this.svgElement && this.viewElement) {
@@ -42,18 +42,18 @@ const localFunctions = {
         if (tEvent.svgWidth) {
           if (!this.zeilen.all[zKey]) {
             this.zeilen.all[zKey] = zeilenObj()
-            this.zeilen.all[zKey].zHeight = this.infHeight * 2    // ToDo !!!!
+            this.zeilen.all[zKey].svgHeight = this.infHeight * 2    // ToDo !!!!
           }
           zWidth += tEvent.svgWidth + 0.5
           if (!(zWidth < this.width - this.infWidth || (zKey === 0 && this.zeilen.all[zKey].eObjs.length < 1))) {
             zKey++
-            this.height += this.zeilen.all[zKey - 1].zHeight
+            this.height += this.zeilen.all[zKey - 1].svgHeight
             if (!this.zeilen.all[zKey]) {
               this.zeilen.all[zKey] = zeilenObj()
-              this.zeilen.all[zKey].zHeight = this.infHeight * 2    // ToDo !!!!
+              this.zeilen.all[zKey].svgHeight = this.infHeight * 2    // ToDo !!!!
             }
             zWidth = tEvent.svgWidth + 0.5
-            this.zeilen.all[zKey].zTop = this.zeilen.all[zKey - 1].zTop + this.zeilen.all[zKey - 1].zHeight
+            this.zeilen.all[zKey].svgTop = this.zeilen.all[zKey - 1].svgTop + this.zeilen.all[zKey - 1].svgHeight
           }
           this.zeilen.all[zKey].eObjs.push(tEvent)
           tEvent.events.forEach(function (aEvent) {
@@ -65,8 +65,8 @@ const localFunctions = {
           }, this)
         }
       }, this)
-      if (this.zeilen.all[zKey] && this.zeilen.all[zKey].zHeight) {
-        this.height += this.zeilen.all[zKey].zHeight
+      if (this.zeilen.all[zKey] && this.zeilen.all[zKey].svgHeight) {
+        this.height += this.zeilen.all[zKey].svgHeight
       }
       console.log('Höhe', this.height)
       this.scrolling()
@@ -75,7 +75,13 @@ const localFunctions = {
   scrolling () {
     let aTop = this.viewElement.scrollTop
     let aBottom = aTop + this.viewHeight
-    console.log('Scrolling', aTop, '-', aBottom)
+    this.renderZeilen = []
+    this.zeilen.all.some(function (zeile, key) {
+      if ((zeile.svgTop + zeile.svgHeight > aTop) && (zeile.svgTop < aBottom)) {
+        this.renderZeilen.push(key)
+      }
+    }, this)
+    // console.log('Scrolling', aTop, '-', aBottom, this.renderZeilen)
   }
 }
 

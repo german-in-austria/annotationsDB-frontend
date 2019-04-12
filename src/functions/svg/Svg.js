@@ -14,6 +14,7 @@ const localFunctions = {
     this.infHeight = 50                 // Höhe pro Informanten Zeile
     this.infWidth = 100                 // Breite der Informanten Spalte
     this.zeilen = {}                    // Zeilen mit Events
+    this.renderZeilen = []              // Zu rendernde Zeilen
   }
 }
 

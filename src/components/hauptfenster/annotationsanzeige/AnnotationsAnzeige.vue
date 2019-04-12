@@ -21,7 +21,7 @@
       </defs>
       <g id="svg-g-transcript">
         <g id="svg-g-events" transform="translate(5,5)">
-          <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + key" v-for="(aZeile, key) in renderZeilen" />
+          <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + key" v-for="(aZeile, key) in renderZeilen" v-if="renderZeilen"/>
         </g>
       </g>
     </svg>
@@ -37,7 +37,7 @@ export default {
   props: ['transcript'],
   data () {
     return {
-      renderZeilen: []
+      // renderZeilen: this.transcript.aSVG.renderZeilen
     }
   },
   mounted () {
@@ -47,6 +47,13 @@ export default {
     })
   },
   computed: {
+    renderZeilen () {
+      if (this.transcript.aSVG.renderZeilen) {
+        return this.transcript.aSVG.renderZeilen
+      } else {
+        return null
+      }
+    }
   },
   methods: {
     resizeWindow: _.debounce(function () {

@@ -1,6 +1,8 @@
 <template>
-  <g :class="{eZeile: true}">
-  <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}" :transform="'translate(0,'+zeilenTEvents[aZeile]['eT']+')'">
+  <g :class="{eZeile: true}" :transform="'translate(0,' + zeileData.svgTop + ')'">
+    <rect x="0" y="0" width="100" :height="90" />
+    <text transform="translate(10,20)">{{ zeile }}</text>
+  <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}">
     <rect x="0" y="0" :width="mWidth-10" :height="zeilenTEvents[aZeile]['eH']-18" />
     <AnnotationsAnzeigeZeileInformanten :transcript="transcript" :zeile="zeile" />
     <AnnotationsAnzeigeZeileTokenSets :transcript="transcript" :zeile="zeile" />
@@ -24,6 +26,9 @@ export default {
   mounted () {
   },
   computed: {
+    zeileData () {
+      return this.transcript.aSVG.zeilen.all[this.zeile]
+    }
   },
   methods: {
   },
