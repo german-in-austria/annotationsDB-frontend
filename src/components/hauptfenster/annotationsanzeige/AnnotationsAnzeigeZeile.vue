@@ -1,13 +1,12 @@
 <template>
-  <g :class="{eZeile: true}" :transform="'translate(0,' + zeileData.svgTop + ')'">
-    <rect x="0" y="0" width="100" :height="90" />
-    <text transform="translate(10,20)">{{ zeile }}</text>
-  <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}">
-    <rect x="0" y="0" :width="mWidth-10" :height="zeilenTEvents[aZeile]['eH']-18" />
-    <AnnotationsAnzeigeZeileInformanten :transcript="transcript" :zeile="zeile" />
-    <AnnotationsAnzeigeZeileTokenSets :transcript="transcript" :zeile="zeile" />
-    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeile="zeile" />
-  </g> -->
+  <g :class="{eZeile: true}" :transform="'translate(0,' + zeileData.svgTop + ')'"> <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}"> -->
+    <rect x="0" y="0" :width="width" :height="height" />
+    <text :transform="'translate(' + (width - 2) + ',-1)'">{{ zeile }}</text>
+    <!--
+    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" />
+    <AnnotationsAnzeigeZeileInformanten :transcript="transcript" :zeileData="zeileData" />
+    <AnnotationsAnzeigeZeileTokenSets :transcript="transcript" :zeileData="zeileData" />
+    -->
   </g>
 </template>
 
@@ -28,6 +27,12 @@ export default {
   computed: {
     zeileData () {
       return this.transcript.aSVG.zeilen.all[this.zeile]
+    },
+    width () {
+      return this.transcript.aSVG.width - this.transcript.aSVG.svgPadding * 2
+    },
+    height () {
+      return this.zeileData.svgHeight - this.transcript.aSVG.zeilenAbstand
     }
   },
   methods: {
@@ -49,5 +54,11 @@ export default {
   }
   g.eZeile.selected > rect {
     outline: 2px solid #999;
+  }
+  g.eZeile > text {
+    font-size: 8px;
+    fill: #bbb;
+    dominant-baseline: text-after-edge;
+    text-anchor: end;
   }
 </style>

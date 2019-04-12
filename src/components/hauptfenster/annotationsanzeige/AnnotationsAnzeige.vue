@@ -20,8 +20,8 @@
         </filter>
       </defs>
       <g id="svg-g-transcript">
-        <g id="svg-g-events" transform="translate(5,5)">
-          <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + key" v-for="(aZeile, key) in renderZeilen" v-if="renderZeilen"/>
+        <g id="svg-g-events" :transform="'translate(' + transcript.aSVG.svgPadding + ',' + transcript.aSVG.svgPadding + ')'" v-if="renderZeilen">
+          <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + key" v-for="(aZeile, key) in renderZeilen"/>
         </g>
       </g>
     </svg>

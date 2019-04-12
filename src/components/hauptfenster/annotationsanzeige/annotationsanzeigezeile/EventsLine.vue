@@ -17,7 +17,7 @@ import AnnotationsAnzeigeZeileEventsLineEvent from './EventsLineEvent'
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLine',
-  props: ['transcript', 'zeile'],
+  props: ['transcript', 'zeileData'],
   data () {
     return {
     }

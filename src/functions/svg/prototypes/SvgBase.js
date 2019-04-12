@@ -42,15 +42,15 @@ const localFunctions = {
         if (tEvent.svgWidth) {
           if (!this.zeilen.all[zKey]) {
             this.zeilen.all[zKey] = zeilenObj()
-            this.zeilen.all[zKey].svgHeight = this.infHeight * 2    // ToDo !!!!
+            this.zeilen.all[zKey].svgHeight = this.infHeight * 2 + this.zeilenAbstand    // ToDo !!!!
           }
           zWidth += tEvent.svgWidth + 0.5
-          if (!(zWidth < this.width - this.infWidth || (zKey === 0 && this.zeilen.all[zKey].eObjs.length < 1))) {
+          if (!(zWidth < this.width - this.infWidth - this.svgPadding || (zKey === 0 && this.zeilen.all[zKey].eObjs.length < 1))) {
             zKey++
             this.height += this.zeilen.all[zKey - 1].svgHeight
             if (!this.zeilen.all[zKey]) {
               this.zeilen.all[zKey] = zeilenObj()
-              this.zeilen.all[zKey].svgHeight = this.infHeight * 2    // ToDo !!!!
+              this.zeilen.all[zKey].svgHeight = this.infHeight * 2 + this.zeilenAbstand    // ToDo !!!!
             }
             zWidth = tEvent.svgWidth + 0.5
             this.zeilen.all[zKey].svgTop = this.zeilen.all[zKey - 1].svgTop + this.zeilen.all[zKey - 1].svgHeight

@@ -11,8 +11,10 @@ const localFunctions = {
     this.viewElement = null             // Element des Sichtbereichs (Scroller)
     this.viewWidth = null               // Breite des Sichtbereichs
     this.viewHeight = null              // Höhe des Sichtbereichs
+    this.svgPadding = 10                // Breite des Abstands im SVG Elements
     this.infHeight = 50                 // Höhe pro Informanten Zeile
     this.infWidth = 100                 // Breite der Informanten Spalte
+    this.zeilenAbstand = 15             // Abstand zwischen den Zeilen
     this.zeilen = {}                    // Zeilen mit Events
     this.renderZeilen = []              // Zu rendernde Zeilen
   }

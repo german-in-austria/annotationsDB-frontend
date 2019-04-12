@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'AnnotationsAnzeigeZeileInformanten',
-  props: ['transcript', 'zeile'],
+  props: ['transcript', 'zeileData'],
   data () {
     return {
     }

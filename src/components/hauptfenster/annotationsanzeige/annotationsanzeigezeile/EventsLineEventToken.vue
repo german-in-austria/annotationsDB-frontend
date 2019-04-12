@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLineEventToken',
-  props: ['transcript', 'zeile', 'event', 'token'],
+  props: ['transcript', 'zeileData', 'event', 'token'],
   data () {
     return {
     }

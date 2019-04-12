@@ -12,7 +12,7 @@ import AnnotationsAnzeigeZeileEventsLineEventToken from './EventsLineEventToken'
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLine',
-  props: ['transcript', 'zeile', 'event'],
+  props: ['transcript', 'zeileData', 'event'],
   data () {
     return {
     }
