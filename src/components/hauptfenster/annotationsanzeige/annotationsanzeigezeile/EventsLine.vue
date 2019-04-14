@@ -1,5 +1,7 @@
 <template>
-  <g class="tEvent">
+  <g class="tEvent" :transform="'translate(' + transcript.aSVG.frmPadding + ',' + (transcript.aSVG.timerHeight + transcript.aSVG.infTop + aSvgInfLine.top + transcript.aSVG.frmPadding) + ')'">
+    <AnnotationsAnzeigeZeileEventsLineInformanten :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" />
+    <!-- <AnnotationsAnzeigeZeileTokenSets :transcript="transcript" :zeileData="zeileData" /> -->
   <!-- <g class="tEvent" :transform="'translate('+(zInfWidth + 5 + tEvents[tEventId]['svgLeft'])+','+(eEventHeight-20)+')'" v-for="tEventId in zeilenTEvents[aZeile]['eId']"> -->
     <!-- <AnnotationsAnzeigeZeileEventsLineEvent :transcript="transcript" :zeile="zeile" :event="aEvent" /> -->  <!--  v-for="(aInfVal, aInfKey, aInfIndex) in objectKeyFilter(objectSubValueFilter(aInformanten,'show',true), zeilenTEvents[aZeile]['iId'])" -->
     <!-- <g class="zeit" v-on:click="showTEventInfos($event, tEventId)">
@@ -13,11 +15,13 @@
 </template>
 
 <script>
+import AnnotationsAnzeigeZeileEventsLineInformanten from './EventsLineInformanten'
 import AnnotationsAnzeigeZeileEventsLineEvent from './EventsLineEvent'
+import AnnotationsAnzeigeZeileTokenSets from './TokenSets'
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLine',
-  props: ['transcript', 'zeileData'],
+  props: ['transcript', 'zeileData', 'aInf'],
   data () {
     return {
     }
@@ -25,13 +29,18 @@ export default {
   mounted () {
   },
   computed: {
+    aSvgInfLine () {
+      return this.zeileData.svgInfLine[this.aInf.pk]
+    }
   },
   methods: {
   },
   watch: {
   },
   components: {
-    AnnotationsAnzeigeZeileEventsLineEvent
+    AnnotationsAnzeigeZeileEventsLineInformanten,
+    AnnotationsAnzeigeZeileEventsLineEvent,
+    AnnotationsAnzeigeZeileTokenSets
   }
 }
 </script>

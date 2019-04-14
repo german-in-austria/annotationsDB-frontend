@@ -26,10 +26,11 @@ const localFunctions = {
   updateZeilen () {
     function zeilenObj () {
       return {
-        'eObjs': [],
+        'teObjs': [],
         'iPks': [],
         'svgTop': 0,
-        'svgHeight': 0
+        'svgHeight': 0,
+        'svgInfLine': {}
       }
     }
     if (this.svgElement && this.viewElement) {
@@ -38,37 +39,41 @@ const localFunctions = {
       this.height = 0
       let zKey = 0
       let zWidth = 0
+      let aWidth = this.width - this.infWidth - this.svgPadding * 2 - this.frmPadding * 2
       this.root.aEvents.eventLists.time.forEach(function (tEvent) {
         if (tEvent.svgWidth) {
           if (!this.zeilen.all[zKey]) {
             this.zeilen.all[zKey] = zeilenObj()
-            this.zeilen.all[zKey].svgHeight = this.infHeight * 2 + this.zeilenAbstand    // ToDo !!!!
           }
           zWidth += tEvent.svgWidth + 0.5
-          if (!(zWidth < this.width - this.infWidth - this.svgPadding || (zKey === 0 && this.zeilen.all[zKey].eObjs.length < 1))) {
+          if (!(zWidth < aWidth || (zKey === 0 && this.zeilen.all[zKey].teObjs.length < 1))) {
             zKey++
-            this.height += this.zeilen.all[zKey - 1].svgHeight
             if (!this.zeilen.all[zKey]) {
               this.zeilen.all[zKey] = zeilenObj()
-              this.zeilen.all[zKey].svgHeight = this.infHeight * 2 + this.zeilenAbstand    // ToDo !!!!
             }
             zWidth = tEvent.svgWidth + 0.5
-            this.zeilen.all[zKey].svgTop = this.zeilen.all[zKey - 1].svgTop + this.zeilen.all[zKey - 1].svgHeight
           }
-          this.zeilen.all[zKey].eObjs.push(tEvent)
+          this.zeilen.all[zKey].teObjs.push(tEvent)
           tEvent.events.forEach(function (aEvent) {
             aEvent.iPks.forEach(function (iPk) {
-              if (this.zeilen.all[zKey].iPks.indexOf(iPk) < 0) {
-                this.zeilen.all[zKey].iPks.push(iPk)
+              let aIPk = parseInt(iPk)
+              if (this.zeilen.all[zKey].iPks.indexOf(aIPk) < 0) {
+                this.zeilen.all[zKey].iPks.push(aIPk)
               }
             }, this)
           }, this)
         }
       }, this)
-      if (this.zeilen.all[zKey] && this.zeilen.all[zKey].svgHeight) {
-        this.height += this.zeilen.all[zKey].svgHeight
-      }
-      console.log('Höhe', this.height)
+      this.zeilen.all.forEach(function (aZeile) {
+        let zHeight = 0
+        aZeile.iPks.forEach(function (aIp) {
+          aZeile.svgInfLine[aIp] = {top: zHeight, tsHeight: 0}    // ToDo: tsHeight ist Höhe der Token Sets
+          zHeight += this.infHeight + this.selHeight + this.infTop   // ToDo!!!
+        }, this)
+        aZeile.svgTop = this.height
+        aZeile.svgHeight = zHeight + this.zeilenAbstand + this.timerHeight + this.frmPadding * 2
+        this.height += aZeile.svgHeight
+      }, this)
       this.scrolling()
     }
   },

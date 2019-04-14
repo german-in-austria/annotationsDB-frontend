@@ -2,17 +2,12 @@
   <g :class="{eZeile: true}" :transform="'translate(0,' + zeileData.svgTop + ')'"> <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}"> -->
     <rect x="0" y="0" :width="width" :height="height" />
     <text :transform="'translate(' + (width - 2) + ',-1)'">{{ zeile }}</text>
-    <!--
-    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" />
-    <AnnotationsAnzeigeZeileInformanten :transcript="transcript" :zeileData="zeileData" />
-    <AnnotationsAnzeigeZeileTokenSets :transcript="transcript" :zeileData="zeileData" />
-    -->
+    <!-- ToDo: Zeit Anzeige -->
+    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" :aInf="aInf" v-for="aInf in availableInfs" :key="'tei' + aInf.pk" />
   </g>
 </template>
 
 <script>
-import AnnotationsAnzeigeZeileInformanten from './annotationsanzeigezeile/Informanten'
-import AnnotationsAnzeigeZeileTokenSets from './annotationsanzeigezeile/TokenSets'
 import AnnotationsAnzeigeZeileEventsLine from './annotationsanzeigezeile/EventsLine'
 
 export default {
@@ -25,6 +20,15 @@ export default {
   mounted () {
   },
   computed: {
+    availableInfs () {
+      let availableInfs = []
+      this.transcript.aInformanten.informantenList.forEach(aInf => {
+        if (this.zeileData.iPks.indexOf(aInf.pk) > -1) {
+          availableInfs.push(aInf)
+        }
+      }, this)
+      return availableInfs
+    },
     zeileData () {
       return this.transcript.aSVG.zeilen.all[this.zeile]
     },
@@ -40,8 +44,6 @@ export default {
   watch: {
   },
   components: {
-    AnnotationsAnzeigeZeileInformanten,
-    AnnotationsAnzeigeZeileTokenSets,
     AnnotationsAnzeigeZeileEventsLine
   }
 }
@@ -58,7 +60,7 @@ export default {
   g.eZeile > text {
     font-size: 8px;
     fill: #bbb;
-    dominant-baseline: text-after-edge;
+    dominant-baseline: text-after-edge!important;
     text-anchor: end;
   }
 </style>

@@ -80,7 +80,9 @@ export default {
     height: 93%;
     margin-top: 30px;
   }
-
+  #annotationsvg >>> text {
+    dominant-baseline: text-before-edge;
+  }
   #svg-g-events rect.ebg {
     fill: #eee;
   }
