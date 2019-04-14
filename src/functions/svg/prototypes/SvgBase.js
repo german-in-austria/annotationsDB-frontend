@@ -65,10 +65,17 @@ const localFunctions = {
         }
       }, this)
       this.zeilen.all.forEach(function (aZeile) {
+        // Horizontal
+        let teLeft = 0
+        aZeile.teObjs.forEach(function (tEvent) {
+          tEvent.svgLeft = teLeft
+          teLeft += tEvent.svgWidth
+        }, this)
+        // Vertikal
         let zHeight = 0
         aZeile.iPks.forEach(function (aIp) {
           aZeile.svgInfLine[aIp] = {top: zHeight, tsHeight: 0}    // ToDo: tsHeight ist Höhe der Token Sets
-          zHeight += this.infHeight + this.selHeight + this.infTop   // ToDo!!!
+          zHeight += this.infHeight + this.selHeight + this.infTop   // ToDo!!! (tsHeight berücksichtigen!)
         }, this)
         aZeile.svgTop = this.height
         aZeile.svgHeight = zHeight + this.zeilenAbstand + this.timerHeight + this.frmPadding * 2

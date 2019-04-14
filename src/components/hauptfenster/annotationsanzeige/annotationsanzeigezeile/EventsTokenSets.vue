@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  name: 'AnnotationsAnzeigeZeileTokenSets',
+  name: 'AnnotationsAnzeigeZeileEventsTokenSets',
   props: ['transcript', 'zeileData'],
   data () {
     return {

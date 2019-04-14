@@ -16,8 +16,8 @@
           <div id="gesamtprogress" class="progress audioprogress" v-on:click="setAudioPos">
             <div v-bind:class="{ 'progress-bar': true, 'progress-bar-striped': true, active: playing }" role="progressbar" :style="'width: ' + aPosProz.toFixed(2) + '%;'"></div>
             <span class="pb-timer pb-starttime">{{ secondsToDuration(0) }}</span>
-            <span class="pb-timer pb-akttime">{{ secondsToDuration(aPos) }}</span>
-            <span class="pb-timer pb-endtime">{{ secondsToDuration(duration) }}</span>
+            <span class="pb-timer pb-akttime">{{ secondsToDuration(globals.audioPosition) }}</span>
+            <span class="pb-timer pb-endtime">{{ secondsToDuration(globals.audioDuration) }}</span>
           </div>
         </div>
       </div>
@@ -28,6 +28,7 @@
 
 <script>
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+import Globals from '@/functions/globals'
 
 export default {
   name: 'Audioplayer',
@@ -37,8 +38,7 @@ export default {
       audio: undefined,
       audioInterval: undefined,
       loaded: false,
-      duration: 0,
-      aPos: 0,
+      globals: Globals,
       lPos: -1,
       aPosRel: 0,
       aPosProz: 0,
@@ -88,14 +88,14 @@ export default {
     setAudioPos (e) {
       var pos = e.target.getBoundingClientRect()
       var seekPos = (e.clientX - pos.left) / pos.width
-      this.audio.currentTime = this.duration * seekPos
+      this.audio.currentTime = this.globals.audioDuration * seekPos
     },
     setAudioPosBySec (sec) {
       this.audio.currentTime = sec
     },
     fastForward () {
       if (!this.loaded) return
-      this.audio.currentTime = this.duration
+      this.audio.currentTime = this.globals.audioDuration
     },
     fastBackward () {
       if (!this.loaded) return
@@ -135,11 +135,10 @@ export default {
     },
     audioPlayingUI (e) {
       if (this.loaded) {
-        this.aPos = this.audio.currentTime
-        if (this.aPos !== this.lPos) {
-          this.lPos = this.aPos
-          this.$emit('audiopos', this.aPos)
-          this.aPosRel = (this.aPos / this.duration)
+        this.globals.audioPosition = this.audio.currentTime
+        if (this.globals.audioPosition !== this.lPos) {
+          this.lPos = this.globals.audioPosition
+          this.aPosRel = (this.globals.audioPosition / this.globals.audioDuration)
           this.aPosProz = this.aPosRel * 100
         }
       }
@@ -147,8 +146,7 @@ export default {
     audioLoaded () {
       if (this.audio.readyState >= 2) {
         this.loaded = true
-        this.duration = this.audio.duration
-        this.$emit('audioduration', this.duration)
+        this.globals.audioDuration = this.audio.duration
       } else {
         this.playing = false
         this.paused = true
@@ -170,7 +168,6 @@ export default {
     window.addEventListener('keyup', this.keyUp)
   },
   beforeDestroy () {
-    this.$emit('audiopos', 0)
     clearInterval(this.audioInterval)
     // this.audio.removeEventListener('timeupdate', this.audioPlayingUI)
     this.audio.removeEventListener('loadeddata', this.audioLoaded)

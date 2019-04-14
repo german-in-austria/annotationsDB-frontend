@@ -1,3 +1,5 @@
+import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+
 const localFunctions = {
   init () {
     this.eventLists.all = []
@@ -99,7 +101,9 @@ const localFunctions = {
           this.eventLists.time[aKey].svgWidth = aEvent.svgWidth
         }
       } else {
-        aKey = this.eventLists.time.push({events: [aEvent], svgWidth: aEvent.svgWidth}) - 1
+        let audioStart = AllgemeineFunktionen.durationToSeconds(aEvent.s)
+        let audioEnd = AllgemeineFunktionen.durationToSeconds(aEvent.e)
+        aKey = this.eventLists.time.push({events: [aEvent], svgWidth: aEvent.svgWidth, s: aEvent.s, e: aEvent.e, aS: audioStart, aE: audioEnd, aL: audioEnd - audioStart}) - 1
         lastTimeStart = aEvent.s
         lastTimeEnd = aEvent.e
       }

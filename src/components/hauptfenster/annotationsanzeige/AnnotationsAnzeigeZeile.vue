@@ -2,13 +2,14 @@
   <g :class="{eZeile: true}" :transform="'translate(0,' + zeileData.svgTop + ')'"> <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}"> -->
     <rect x="0" y="0" :width="width" :height="height" />
     <text :transform="'translate(' + (width - 2) + ',-1)'">{{ zeile }}</text>
-    <!-- ToDo: Zeit Anzeige -->
+    <AnnotationsAnzeigeZeileEventsTimer :transcript="transcript" :zeileData="zeileData" />
     <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" :aInf="aInf" v-for="aInf in availableInfs" :key="'tei' + aInf.pk" />
   </g>
 </template>
 
 <script>
 import AnnotationsAnzeigeZeileEventsLine from './annotationsanzeigezeile/EventsLine'
+import AnnotationsAnzeigeZeileEventsTimer from './annotationsanzeigezeile/EventsTimer'
 
 export default {
   name: 'AnnotationsAnzeigeZeile',
@@ -44,7 +45,8 @@ export default {
   watch: {
   },
   components: {
-    AnnotationsAnzeigeZeileEventsLine
+    AnnotationsAnzeigeZeileEventsLine,
+    AnnotationsAnzeigeZeileEventsTimer
   }
 }
 </script>
