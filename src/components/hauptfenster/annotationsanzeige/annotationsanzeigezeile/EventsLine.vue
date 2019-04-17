@@ -2,9 +2,10 @@
   <g class="tEvent" :transform="'translate(' + transcript.aSVG.frmPadding + ',' + (transcript.aSVG.timerHeight + transcript.aSVG.infTop + aSvgInfLine.top + transcript.aSVG.frmPadding) + ')'">
     <AnnotationsAnzeigeZeileEventsLineInformanten :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" />
     <!-- <AnnotationsAnzeigeZeileEventsTokenSets :transcript="transcript" :zeileData="zeileData" /> -->
-  <!-- <g class="tEvent" :transform="'translate('+(zInfWidth + 5 + tEvents[tEventId]['svgLeft'])+','+(eEventHeight-20)+')'" v-for="tEventId in zeilenTEvents[aZeile]['eId']"> -->
-    <!-- <AnnotationsAnzeigeZeileEventsLineEvent :transcript="transcript" :zeile="zeile" :event="aEvent" /> -->  <!--  v-for="(aInfVal, aInfKey, aInfIndex) in objectKeyFilter(objectSubValueFilter(aInformanten,'show',true), zeilenTEvents[aZeile]['iId'])" -->
-  <!-- </g> -->
+    <g class="tEventLine" :transform="'translate(' + transcript.aSVG.infWidth + ',0)'">
+      <AnnotationsAnzeigeZeileEventsLineEvent :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" :tEvent="tEvent"
+        v-for="(tEvent, teKey) in zeileData.teObjs" :key="'tei' + aInf.pk + 'elex' + teKey"/>
+    </g>
   </g>
 </template>
 

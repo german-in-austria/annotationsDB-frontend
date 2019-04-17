@@ -1,9 +1,9 @@
 <template>
-  <g class="eInf">
-  <!-- <g :class="'eInf eInf'+aInfKey" :transform="'translate(0,'+(eInfTop + zeilenTEvents[aZeile]['tsT'][aInfKey] + zeilenTEvents[aZeile]['tsH'][aInfKey] + aInfIndex * (eInfHeight + eInfTop))+')'">
-    <rect x="0" y="0" :width="tEvents[tEventId]['svgWidth']+1" :height="eInfHeight-10" />
-    <AnnotationsAnzeigeZeileEventsLineEventToken  :transcript="transcript" :zeile="zeile" :event="event" :token="aToken" v-if="aEvents[tEvents[tEventId].eId[aInfKey]]" v-for="aTokenId in aEvents[tEvents[tEventId].eId[aInfKey]]['tid'][aInfKey]" />
-  </g> -->
+  <g class="eInf" :transform="'translate(' + tEvent.svgLeft + ',0)'">
+    <rect x="0" y="0" :width="tEvent.svgWidth + 1" :height="transcript.aSVG.infHeight" />
+    <!--
+      <AnnotationsAnzeigeZeileEventsLineEventToken  :transcript="transcript" :zeile="zeile" :event="event" :token="aToken" v-if="aEvents[tEvents[tEventId].eId[aInfKey]]" v-for="aTokenId in aEvents[tEvents[tEventId].eId[aInfKey]]['tid'][aInfKey]" />
+    -->
   </g>
 </template>
 
@@ -11,8 +11,8 @@
 import AnnotationsAnzeigeZeileEventsLineEventToken from './EventsLineEventToken'
 
 export default {
-  name: 'AnnotationsAnzeigeZeileEventsLine',
-  props: ['transcript', 'zeileData', 'event'],
+  name: 'AnnotationsAnzeigeZeileEventsLineEvent',
+  props: ['transcript', 'zeileData', 'aInf', 'aSvgInfLine', 'tEvent'],
   data () {
     return {
     }
