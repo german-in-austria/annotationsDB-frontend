@@ -1,33 +1,32 @@
 <template>
-  <g class="eTok">
-  <!-- <g v-on:click="showaTokenInfos(aTokenId, false, $event)"
+  <g v-on:click="showaTokenInfos()" :transform="'translate('+(aToken.svgLeft-1)+',1)'"
     :class="{
       'eTok': true,
-      ['eTok' + aTokenId]: true,
-      ['eTokT' + aTokens[aTokenId]['tt']]: true,
-      'viewed': aTokens[aTokenId]['viewed'],
+      ['eTokT' + aToken.tt]: true,
+      'viewed': aToken.viewed,
+    }">
+    <!-- ToDo:  :class="{
       'lastview': svgTokenLastView === aTokenId,
       'selectlist': svgSelTokenList.indexOf(aTokenId) > -1,
       'selected': selToken === aTokenId,
       'found': suchTokens.indexOf(aTokenId) >= 0,
       'hastags': (getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0)
-    }"
-    :transform="'translate('+(aTokens[aTokenId]['svgLeft']-1)+',1)'">
-    <rect x="-0.5" y="0" :width="aTokens[aTokenId]['svgWidth']" :height="eInfHeight - 12" class="bg" />
-    <rect x="-0.5" y="0" :width="aTokens[aTokenId]['svgWidth'] - 3" :height="eInfHeight - 12" class="fx" />
-    <text x="0" y="18" :text-decoration="((getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0) ? 'underline' : '')">${ getTokenString(aTokenId, 't') }</text>
-    <text x="0" y="43" :text-decoration="((getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0) ? 'underline' : '')">${ getTokenString(aTokenId, 'o', 't') }</text>
-    <line x1="2" :y1="eInfHeight-4" :x2="aTokens[aTokenId]['svgWidth']-5" :y2="eInfHeight-4" class="visit" />
-    <line x2="3" :y1="eInfHeight-10.5" :x1="aTokens[aTokenId]['svgWidth']-3" :y2="eInfHeight-10.5" class="blue" marker-end="url(#arrow-blue)" v-if="aTokens[aTokenId]['fo']" />
-    <line x1="0" :y1="eInfHeight-10.5" :x2="aTokens[aTokenId]['svgWidth']-6" :y2="eInfHeight-10.5" class="green" marker-end="url(#arrow-green)" v-if="aTokenFragmente[aTokenId]" />
-  </g> -->
+    }" -->
+    <rect x="1" y="0" :width="width" :height="height" class="bg" />
+    <rect x="1" y="0" :width="width - 3" :height="height" class="fx" />
+    <text x="1" y="2">{{ transcript.aTokens.getTokenString(aToken, 't') }}</text>
+    <text x="1" y="26">{{ transcript.aTokens.getTokenString(aToken, 'o', 't') }}</text>
+    <!-- ToDo:  :text-decoration="((getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0) ? 'underline' : '')" -->
+    <line x1="2" :y1="height + 7" :x2="width - 5" :y2="height + 7" class="visit" />
+    <line x2="3" :y1="height + 0.5" :x1="width - 3" :y2="height + 1" class="blue" marker-end="url(#arrow-blue)" v-if="aToken.fo" />
+    <line x1="0" :y1="height + 0.5" :x2="width - 5" :y2="height + 1" class="green" marker-end="url(#arrow-green)" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]" />
   </g>
 </template>
 
 <script>
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLineEventToken',
-  props: ['transcript', 'zeileData', 'event', 'token'],
+  props: ['transcript', 'zeileData', 'aToken'],
   data () {
     return {
     }
@@ -35,8 +34,17 @@ export default {
   mounted () {
   },
   computed: {
+    width () {
+      return this.aToken.svgWidth
+    },
+    height () {
+      return this.transcript.aSVG.infHeight - 1
+    }
   },
   methods: {
+    showaTokenInfos () {
+      console.log('showaTokenInfos', this.aToken)
+    }
   },
   watch: {
   }
@@ -44,7 +52,7 @@ export default {
 </script>
 
 <style scoped>
-  g.eTok, g.zTsVB, g.zTsTs {
+  g.eTok {
     cursor: pointer;
   }
   g.eTok > rect.bg {

@@ -42,7 +42,8 @@ const localFunctions = {
               aEvent.svgTidWidth[aInfKey] = 0
             }
             if (aToken.svgWidth) {
-              aEvent.svgTidWidth[aInfKey] += this.svgTokenWidthAdd + aToken.svgWidth
+              aToken.svgLeft = aEvent.svgTidWidth[aInfKey]
+              aEvent.svgTidWidth[aInfKey] += aToken.svgWidth
             } else {
               allFound = false
             }

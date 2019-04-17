@@ -7,7 +7,6 @@ const localFunctions = {
     this.eventsObj = {}                 // Event Objekte
     this.eventLists = {}                // Event Listen (all, byInf)
     this.length = 0                     // Anzahl der Events
-    this.svgTokenWidthAdd = 5           // Für Event Breite zu addierender Wert pro Token
     this.init()                         // Immer dirket initialisieren
   }
 }

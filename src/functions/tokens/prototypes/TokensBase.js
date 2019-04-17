@@ -61,7 +61,10 @@ const localFunctions = {
         let svgTsObj = this.root.vueObj.$refs.svgTextSize
         let t1W = this.root.aSVG.getTextWidth(this.getTokenString(val, 't'), svgTsObj, this.svgTwCache)
         let t2W = this.root.aSVG.getTextWidth(this.getTokenString(val, 'o', 't'), svgTsObj, this.svgTwCache)
-        val.svgWidth = ((t1W > t2W) ? t1W : t2W) + 3.5
+        val.svgWidth = ((t1W > t2W) ? t1W : t2W) + 2
+        if (val.svgWidth < 3) {
+          val.svgWidth = 3
+        }
         if (this.root.aEvents.eventsObj[val.e]) {
           this.root.aEvents.eventsObj[val.e].svgUpdate = true
         }

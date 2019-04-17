@@ -1,9 +1,7 @@
 <template>
   <g class="eInf" :transform="'translate(' + tEvent.svgLeft + ',0)'">
     <rect x="0" y="0" :width="tEvent.svgWidth + 1" :height="transcript.aSVG.infHeight" />
-    <!--
-      <AnnotationsAnzeigeZeileEventsLineEventToken  :transcript="transcript" :zeile="zeile" :event="event" :token="aToken" v-if="aEvents[tEvents[tEventId].eId[aInfKey]]" v-for="aTokenId in aEvents[tEvents[tEventId].eId[aInfKey]]['tid'][aInfKey]" />
-    -->
+    <AnnotationsAnzeigeZeileEventsLineEventToken :transcript="transcript" :zeileData="zeileData" :aToken="aToken" v-for="aToken in aTokens" :key="'at' + aToken.pk" />
   </g>
 </template>
 
@@ -20,6 +18,15 @@ export default {
   mounted () {
   },
   computed: {
+    aTokens () {
+      let aTokens = []
+      this.tEvent.events.forEach(event => {
+        if (event.tidObj[this.aInf.pk]) {
+          aTokens.push(...event.tidObj[this.aInf.pk])
+        }
+      }, this)
+      return aTokens
+    }
   },
   methods: {
   },

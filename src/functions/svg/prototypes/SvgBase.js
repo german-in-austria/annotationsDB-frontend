@@ -73,9 +73,11 @@ const localFunctions = {
         }, this)
         // Vertikal
         let zHeight = 0
-        aZeile.iPks.forEach(function (aIp) {
-          aZeile.svgInfLine[aIp] = {top: zHeight, tsHeight: 0}    // ToDo: tsHeight ist Höhe der Token Sets
-          zHeight += this.infHeight + this.selHeight + this.infTop   // ToDo!!! (tsHeight berücksichtigen!)
+        this.root.aInformanten.informantenList.forEach(aInf => {
+          if (aZeile.iPks.indexOf(aInf.pk) > -1) {
+            aZeile.svgInfLine[aInf.pk] = {top: zHeight, tsHeight: 0}    // ToDo: tsHeight ist Höhe der Token Sets
+            zHeight += this.infHeight + this.selHeight + this.infTop   // ToDo!!! (tsHeight berücksichtigen!)
+          }
         }, this)
         aZeile.svgTop = this.height
         aZeile.svgHeight = zHeight + this.zeilenAbstand + this.timerHeight + this.frmPadding * 2

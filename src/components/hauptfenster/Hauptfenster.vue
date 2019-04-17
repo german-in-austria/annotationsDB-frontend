@@ -75,4 +75,7 @@ export default {
     border-radius: 3px;
     padding: 2px 5px;
   }
+  .mcon {
+    padding-right: 8px;
+  }
 </style>
