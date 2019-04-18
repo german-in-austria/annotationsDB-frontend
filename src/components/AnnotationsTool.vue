@@ -11,6 +11,7 @@
         <Audioplayer :audiofile="selTranscript.aEinzelErhebung.dp + selTranscript.aEinzelErhebung.af" :audiodir="audiodir" ref="audioplayer" v-if ="selTranscript && selTranscript.ready" />
       </div>
     </div>
+    <Modale :transcript="selTranscript" :modalData="modalData" />
     <div id="loading" v-if="loading">Lade ...</div>
     <svg style="position:absolute;right:0px;bottom:0px;width:1px;height:1px;"><text ref="svgTextSize" x="-100" y="-100"></text></svg>
   </div>
@@ -22,6 +23,7 @@ import Informationen from './menue/Informationen'
 import TranskriptAuswahl from './menue/TranskriptAuswahl'
 import Hauptfenster from './hauptfenster/Hauptfenster'
 import Audioplayer from './audioplayer/Audioplayer'
+import Modale from './modal/Modale'
 
 import TranscriptsInfListObject from '@/functions/transcriptsinflist/TranscriptsInfList'
 import TranscriptObject from '@/functions/transcript/Transcript'
@@ -43,7 +45,8 @@ export default {
       audiodir: '',
       transcripts: {},
       selTranscriptPk: null,
-      selTranscript: null
+      selTranscript: null,
+      modalData: { type: null, data: null }
     }
   },
   mounted () {
@@ -51,6 +54,9 @@ export default {
     this.transcripts = new TranscriptsInfListObject.TranscriptsInfListBase(this)
     console.log(this.audiodir)
     console.log(this.transcripts)
+    // this.$nextTick(() => {
+    //   this.modalData = { type: 'test', data: 'test' }
+    // })
   },
   methods: {
     loadTranscript (lTranscript) {
@@ -71,7 +77,8 @@ export default {
     Informationen,
     TranskriptAuswahl,
     Hauptfenster,
-    Audioplayer
+    Audioplayer,
+    Modale
   }
 }
 </script>
