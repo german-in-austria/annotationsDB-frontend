@@ -48,7 +48,7 @@ export default {
         // ToDo: ctrlKey
       } else {
         if (this.transcript.selectedToken === this.aToken) {
-          // ToDo: Modal anzeigen
+          this.transcript.vueObj.modalData = { type: 'token', data: {aToken: this.aToken} }
         } else {
           this.transcript.selectedToken = this.aToken
           console.log('showaTokenInfos', this.aToken)

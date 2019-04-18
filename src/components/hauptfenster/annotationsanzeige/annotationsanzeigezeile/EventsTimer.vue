@@ -39,7 +39,7 @@ export default {
         this.transcript.vueObj.$refs.audioplayer.setAudioPosBySec(nZeit)
         // ToDo: ctrlKey
       } else {
-        // ToDo: Informationen zum Event anzeigen
+        this.transcript.vueObj.modalData = { type: 'event', data: {tEvent: tEvent} }
       }
     },
     startTime (tEvent) {

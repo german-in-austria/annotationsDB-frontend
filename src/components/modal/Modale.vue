@@ -1,6 +1,6 @@
 <template>
   <div v-if="modalData.type">
-    <InfoInformant :transcript="transcript" :modalData="modalData" v-if="modalData.type === 'test'" />
+    <InfoInformant :transcript="transcript" :modalData="modalData" v-if="modalData.type === 'informant'" />
     <InfoEvents :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'event'" />
     <InfoToken :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'token'" />
     <InfoTokenSet :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'tokenSet'" />

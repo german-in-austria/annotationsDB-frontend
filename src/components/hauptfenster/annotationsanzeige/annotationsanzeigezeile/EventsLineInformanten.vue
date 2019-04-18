@@ -1,5 +1,5 @@
 <template>
-  <g class="zInf" :transform="'translate(0,' + aSvgInfLine.tsHeight + ')'">   <!-- class="((aInfKey==svgInfSelected)?' selected':'')" v-on:click="showaInfInfos(aInfKey)" > -->
+  <g class="zInf" :transform="'translate(0,' + aSvgInfLine.tsHeight + ')'" @click="showaInfInfos()">   <!-- class="((aInfKey==svgInfSelected)?' selected':'')" -->
     <rect x="0" y="0" :width="transcript.aSVG.infWidth" :height="transcript.aSVG.infHeight" />
     <line x1="0" y1="0" :x2="transcript.aSVG.infWidth" y2="0" />
     <line x1="0" :y1="transcript.aSVG.infHeight" :x2="transcript.aSVG.infWidth" :y2="transcript.aSVG.infHeight" />
@@ -22,6 +22,9 @@ export default {
   computed: {
   },
   methods: {
+    showaInfInfos () {
+      this.transcript.vueObj.modalData = { type: 'informant', data: {aInf: this.aInf} }
+    }
   },
   watch: {
   }
