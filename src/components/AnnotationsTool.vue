@@ -54,9 +54,6 @@ export default {
     this.transcripts = new TranscriptsInfListObject.TranscriptsInfListBase(this)
     console.log(this.audiodir)
     console.log(this.transcripts)
-    // this.$nextTick(() => {
-    //   this.modalData = { type: 'test', data: 'test' }
-    // })
   },
   methods: {
     loadTranscript (lTranscript) {

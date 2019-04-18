@@ -3,7 +3,7 @@
     <a href="#" v-on:click.prevent="show=!show"><b>Akutelles Token</b> (ID: {{ selToken.pk }})<span :class="'glyphicon glyphicon-' + (show ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
     <div v-if="show">
       <div><b>Text:</b> {{ selToken.t }} <a href="#" @click.prevent="showaTokenInfos()" class="pull-right"><span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span></a></div>
-      <div><b>Ortho:</b>  {{ selToken.o }}</div>
+      <div><b>Ortho:</b> {{ selToken.o }}</div>
       <div><b title="Text in Ortho:">T. in Or.:</b>  {{ selToken.to }}</div>
       <div><b>Typ:</b> <span :title="'ID: ' + selToken.tt">{{ aTokens.aTokenTypes[selToken.tt].n }}</span></div>
       <div><b>likely_error:</b> {{ selToken.le ? 'Ja' : 'Nein' }}</div>
@@ -16,6 +16,7 @@
           {{ (aIndex ? ', ' : '') + (aTokens.tokensObj[aToFragKey] ? aTokens.tokensObj[aToFragKey].t : 'Token nicht geladen!') }}
         </span>
       </div>
+      <div><b>Informant:</b> {{ selToken.iObj.k }} ({{ selToken.iObj.ka }} - ID: {{ selToken.iObj.pk }})</div>
     </div>
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
-  <g :class="{eZeile: true}" :transform="'translate(0,' + zeileData.svgTop + ')'"> <!-- <g :class="{eZeile: true, selected: aZeile==svgZeileSelected}"> -->
+  <g :class="{eZeile: true, selected: svgZeileSelected}" :transform="'translate(0,' + zeileData.svgTop + ')'">
     <rect x="0" y="0" :width="width" :height="height" />
     <text :transform="'translate(' + (width - 2) + ',-1)'">{{ zeile }}</text>
-    <AnnotationsAnzeigeZeileEventsTimer :transcript="transcript" :zeileData="zeileData" />
-    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" :aInf="aInf" v-for="aInf in availableInfs" :key="'tei' + aInf.pk" />
+    <AnnotationsAnzeigeZeileEventsTimer :transcript="transcript" :zeileData="zeileData" :selectedZeile="svgZeileSelected"/>
+    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" :aInf="aInf" :selectedZeile="svgZeileSelected" v-for="aInf in availableInfs" :key="'tei' + aInf.pk" />
   </g>
 </template>
 
@@ -38,6 +38,21 @@ export default {
     },
     height () {
       return this.zeileData.svgHeight - this.transcript.aSVG.zeilenAbstand
+    },
+    svgZeileSelected () {
+      let found = false
+      if (this.transcript.selectedToken) {
+        this.zeileData.teObjs.some(tEvent => {
+          tEvent.events.some(aEvent => {
+            if (aEvent.pk === this.transcript.selectedToken.e) {
+              found = true
+            }
+            return found
+          }, this)
+          return found
+        }, this)
+      }
+      return found
     }
   },
   methods: {

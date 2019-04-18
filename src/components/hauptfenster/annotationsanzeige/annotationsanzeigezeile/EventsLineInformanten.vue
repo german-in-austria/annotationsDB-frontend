@@ -1,5 +1,5 @@
 <template>
-  <g class="zInf" :transform="'translate(0,' + aSvgInfLine.tsHeight + ')'" @click="showaInfInfos()">   <!-- class="((aInfKey==svgInfSelected)?' selected':'')" -->
+  <g :class="{zInf: true, selected: selected}" :transform="'translate(0,' + aSvgInfLine.tsHeight + ')'" @click="showaInfInfos()">
     <rect x="0" y="0" :width="transcript.aSVG.infWidth" :height="transcript.aSVG.infHeight" />
     <line x1="0" y1="0" :x2="transcript.aSVG.infWidth" y2="0" />
     <line x1="0" :y1="transcript.aSVG.infHeight" :x2="transcript.aSVG.infWidth" :y2="transcript.aSVG.infHeight" />
@@ -12,7 +12,7 @@
 <script>
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLineInformanten',
-  props: ['transcript', 'zeileData', 'aInf', 'aSvgInfLine'],
+  props: ['transcript', 'zeileData', 'aInf', 'aSvgInfLine', 'selectedZeile'],
   data () {
     return {
     }
@@ -20,6 +20,9 @@ export default {
   mounted () {
   },
   computed: {
+    selected () {
+      return this.selectedZeile && this.aInf.pk === this.transcript.selectedToken.i
+    }
   },
   methods: {
     showaInfInfos () {
@@ -38,7 +41,7 @@ export default {
   g.zInf > rect {
     fill: #fff;
   }
-  g.eZeile.selected g.zInf.selected > rect {
+  g.zInf.selected > rect {
     fill: #fcfcff;
   }
   g.zInf:hover > rect {

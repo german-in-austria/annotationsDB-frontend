@@ -1,6 +1,6 @@
 <template>
   <g class="tEvent" :transform="'translate(' + transcript.aSVG.frmPadding + ',' + (transcript.aSVG.timerHeight + transcript.aSVG.infTop + aSvgInfLine.top + transcript.aSVG.frmPadding) + ')'">
-    <AnnotationsAnzeigeZeileEventsLineInformanten :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" />
+    <AnnotationsAnzeigeZeileEventsLineInformanten :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" :selectedZeile="selectedZeile" />
     <!-- <AnnotationsAnzeigeZeileEventsTokenSets :transcript="transcript" :zeileData="zeileData" /> -->
     <g class="tEventLine" :transform="'translate(' + transcript.aSVG.infWidth + ',0)'">
       <AnnotationsAnzeigeZeileEventsLineEvent :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" :tEvent="tEvent"
@@ -16,7 +16,7 @@ import AnnotationsAnzeigeZeileEventsTokenSets from './EventsTokenSets'
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLine',
-  props: ['transcript', 'zeileData', 'aInf'],
+  props: ['transcript', 'zeileData', 'aInf', 'selectedZeile'],
   data () {
     return {
     }
