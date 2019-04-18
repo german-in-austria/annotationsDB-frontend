@@ -13,9 +13,7 @@ const localFunctions = {
     this.loaded = false                 // Wird das Transcript noch geladen?
     this.vueObj = vueObj                // Aktuelles Vue Objekt
     this.timer = 0                      // Zeit der Initialisierung der TranscriptBase
-    this.pk = lPk                       // Aktuelle Transkript PK
-    this.lSet = 0                       // Aktueller Ladedurchgang
-    this.lMaxSet = 1                    // Maxiamle Ladedurchgänge
+    // Transkript Daten
     this.aTranskript = {}               // Model des Transkripts
     this.aEinzelErhebung = {}           // Model der EinzelErhebung
     this.aSaetze = {}                   // Model der Saetze
@@ -25,6 +23,12 @@ const localFunctions = {
     this.aEvents = new EventsObject.EventsBase(this)                  // Aktuelle Events (EventsBase)
     this.aAntworten = new AntwortenObject.AntwortenBase(this)         // Aktuelle Antworten (AntwortenBase)
     this.aSVG = new SvgObject.SvgBase(this)                           // SvgBase Objekt
+    // System Daten
+    this.pk = lPk                       // Aktuelle Transkript PK
+    this.lSet = 0                       // Aktueller Ladedurchgang
+    this.lMaxSet = 1                    // Maxiamle Ladedurchgänge
+    this.selectedToken = null           // Aktuell ausgewählter Token
+    // Init
     this.init()                         // Immer dirket initialisieren
   }
 }

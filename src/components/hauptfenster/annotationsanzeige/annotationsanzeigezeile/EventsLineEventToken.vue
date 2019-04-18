@@ -1,19 +1,19 @@
 <template>
-  <g v-on:click="showaTokenInfos()" :transform="'translate('+(aToken.svgLeft-1)+',1)'"
+  <g @click="showaTokenInfos($event)" :transform="'translate('+(aToken.svgLeft-1)+',1)'"
     :class="{
       'eTok': true,
       ['eTokT' + aToken.tt]: true,
       'viewed': aToken.viewed,
+      'selected': this.transcript.selectedToken === aToken,
     }">
     <!-- ToDo:  :class="{
       'lastview': svgTokenLastView === aTokenId,
       'selectlist': svgSelTokenList.indexOf(aTokenId) > -1,
-      'selected': selToken === aTokenId,
       'found': suchTokens.indexOf(aTokenId) >= 0,
       'hastags': (getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0)
     }" -->
     <rect x="1" y="0" :width="width" :height="height" class="bg" />
-    <rect x="1" y="0" :width="width - 3" :height="height" class="fx" />
+    <!-- <rect x="1" y="0" :width="width - 3" :height="height" class="fx" /> ToDo: Anzeigen wenn "hastags" -->
     <text x="1" y="2">{{ transcript.aTokens.getTokenString(aToken, 't') }}</text>
     <text x="1" y="26">{{ transcript.aTokens.getTokenString(aToken, 'o', 't') }}</text>
     <!-- ToDo:  :text-decoration="((getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0) ? 'underline' : '')" -->
@@ -42,8 +42,18 @@ export default {
     }
   },
   methods: {
-    showaTokenInfos () {
-      console.log('showaTokenInfos', this.aToken)
+    showaTokenInfos (e) {
+      if (e.ctrlKey) {
+        // ToDo: TokenSet select
+        // ToDo: ctrlKey
+      } else {
+        if (this.transcript.selectedToken === this.aToken) {
+          // ToDo: Modal anzeigen
+        } else {
+          this.transcript.selectedToken = this.aToken
+          console.log('showaTokenInfos', this.aToken)
+        }
+      }
     }
   },
   watch: {
@@ -71,9 +81,6 @@ export default {
     fill: #ccf !important;
   }
   g.eTok > rect.fx {
-    fill: none;
-  }
-  g.eTok.hastags > rect.fx {
     stroke-width: 2px;
     stroke: #ccf;
   }

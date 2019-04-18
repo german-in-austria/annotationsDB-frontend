@@ -21,7 +21,7 @@
       </defs>
       <g id="svg-g-transcript">
         <g id="svg-g-events" :transform="'translate(' + transcript.aSVG.svgPadding + ',' + transcript.aSVG.svgPadding + ')'" v-if="renderZeilen">
-          <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + key" v-for="(aZeile, key) in renderZeilen"/>
+          <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + aZeile" v-for="aZeile in renderZeilen"/>
         </g>
       </g>
     </svg>
