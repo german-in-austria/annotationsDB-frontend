@@ -8,7 +8,8 @@ const localFunctions = {
     this.tokenLists = {}                // Token Listen (all, byInf)
     this.aTokenFragmenteObj = {}        // Token zu Fragment Zuordnung
     this.aTokenTypes = {}               // Model der TokenTypes
-    this.svgTwCache = {}                //  Cache für SVG Textbreite
+    this.svgTwCache = {}                // Cache für SVG Textbreite
+    this.svgLastView = -1               // Zuletzt geöffnetes Token
     this.length = 0                     // Anzahl der Tokens
   }
 }

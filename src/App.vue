@@ -199,19 +199,6 @@ export default {
     text-decoration: none;
   }
 
-  .satzview {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
-
-  .satzview span.active {
-    font-weight: bold;
-  }
-
-  .satzview span.before, .satzview span.after {
-    color: #888;
-  }
-
   @-moz-keyframes spin {
     0% {
       -moz-transform: rotate(0deg);

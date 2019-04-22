@@ -2,69 +2,169 @@
   <div v-if="modalData.type">
     <Modal :modalData="modalData">
       <template v-slot:title>Token</template>
-        <!-- <div class="form-horizontal">
-          <div class="form-group"><label for="aTokenID" class="col-sm-3 control-label">ID</label><div class="col-sm-9"><p class="form-control-static" id="aTokenID">${ aTokenInfo['pk'] }</p></div></div>
-          <div class="form-group"><label for="aTokenText" class="col-sm-3 control-label">text</label><div class="col-sm-9"><input type="text" class="form-control" id="aTokenText" v-model="aTokenInfo['t']"></div></div>
-          <div class="form-group"><label for="aTokenType" class="col-sm-3 control-label">token_type</label><div class="col-sm-9">
-            <select class="form-control" id="aTokenType" v-model="aTokenInfo['tt']">
-              <option v-for="(aTokenTypeVal, aTokenTypeKey) in aTokenTypes" :value="aTokenTypeKey">${ aTokenTypeVal['n'] }</option>
-            </select>
-          </div></div>
-          <div class="form-group"><label for="aTokenOrtho" class="col-sm-3 control-label">ortho</label><div class="col-sm-9"><input type="text" class="form-control" id="aTokenOrtho" v-model="aTokenInfo['o']"></div></div>
-          <div class="form-group"><label for="aTokenIDInf" class="col-sm-3 control-label">ID_Inf</label><div class="col-sm-9"><p class="form-control-static" id="aTokenIDInf">${ aInformanten[aTokenInfo['i']]['k'] } (${ aInformanten[aTokenInfo['i']]['ka'] } - ID: ${ aTokenInfo['i'] })</p></div></div>
-          <div class="form-group" v-if="aTokenInfo['fo']"><label for="aTokenfragmentof" class="col-sm-3 control-label">fragment_of</label><div class="col-sm-9"><p class="form-control-static" id="aTokenfragmentof">${ aTokens[aTokenInfo['fo']]['t'] } - ID: ${ aTokenInfo['fo'] }</p></div></div>
-          <div class="form-group"><label for="aTokenReihung" class="col-sm-3 control-label">token_reihung</label><div class="col-sm-9"><p class="form-control-static" id="aTokenReihung">${ aTokenInfo['tr'] }</p></div></div>
-          <div class="form-group"><label for="aTokenEventID" class="col-sm-3 control-label">event_id</label><div class="col-sm-9"><p class="form-control-static" id="aTokenEventID">${ aTokenInfo['e-txt'] } - ID: ${ aTokenInfo['e'] }</p></div></div>
-          <div class="form-group"><label for="aTokenLikelyError" class="col-sm-3 control-label">likely_error</label><div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenLikelyError" value="1" v-model="aTokenInfo['le']"> Ja</label></div></div>
-          <div class="form-group" v-if="aTokenInfo['s']"><label for="aTokenSentenceID" class="col-sm-3 control-label">sentence_id</label><div class="col-sm-9"><p class="form-control-static" id="aTokenSentenceID">${ aSaetze[aTokenInfo['s']]['t'] } - ID: ${ aTokenInfo['s'] }</p></div></div>
-          <div class="form-group" v-if="aTokenInfo['sr']"><label for="aTokenSequenceInSentence" class="col-sm-3 control-label">sequence_in_sentence</label><div class="col-sm-9"><p class="form-control-static" id="aTokenSequenceInSentence">${ aTokenInfo['sr'] }</p></div></div>
-          <div class="form-group"><label for="aTokenTextInOrtho" class="col-sm-3 control-label">text_in_ortho</label><div class="col-sm-9"><input type="text" class="form-control" id="aTokenTextInOrtho" v-model="aTokenInfo['to']"></div></div>
-          <div class="form-group" v-if="aTokenFragmente[aTokenInfo['pk']]"><label class="col-sm-3 control-label">Fragmente</label><div class="col-sm-9"><ul class="form-control-static hflist">
-              <li v-for="aToFragKey in aTokenFragmente[aTokenInfo['pk']]">${ aTokens[aToFragKey]['t'] } (${ aToFragKey })</li>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="aTokenID" class="col-sm-3 control-label">ID</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenID">{{ aToken.pk }}</p></div>
+          </div>
+          <div class="form-group">
+            <label for="aTokenText" class="col-sm-3 control-label">text</label>
+            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenText" v-model="aToken.t"></div>
+          </div>
+          <div class="form-group">
+            <label for="aTokenType" class="col-sm-3 control-label">token_type</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="aTokenType" v-model="aToken.tt">
+                <option v-for="(aTokenTypeVal, aTokenTypeKey) in transcript.aTokens.aTokenTypes" :value="parseInt(aTokenTypeKey)" :key="'aToTy' + aTokenTypeKey">{{ aTokenTypeVal.n }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="aTokenOrtho" class="col-sm-3 control-label">ortho</label>
+            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenOrtho" v-model="aToken.o"></div>
+          </div>
+          <div class="form-group" v-if="aToken.iObj">
+            <label for="aTokenIDInf" class="col-sm-3 control-label">ID_Inf</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenIDInf">{{ aToken.iObj.k }} ({{ aToken.iObj.ka }} - ID: {{ aToken.i }})</p></div>
+          </div>
+          <div class="form-group" v-if="aToken.fo">
+            <label for="aTokenfragmentof" class="col-sm-3 control-label">fragment_of</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenfragmentof">{{ transcript.aTokens.tokensObj[aToken.fo].t }} - ID:  {{ aToken.fo }}</p></div>
+          </div>
+          <div class="form-group">
+            <label for="aTokenReihung" class="col-sm-3 control-label">token_reihung</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenReihung">{{ aToken.tr }}</p></div>
+          </div>
+          <div class="form-group" v-if="aToken.eObj">
+            <label for="aTokenEventID" class="col-sm-3 control-label">event_id</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenEventID">{{ aToken.eObj.s }} - {{ aToken.eObj.e }} - ID: {{ aToken.e }}</p></div>
+          </div>
+          <div class="form-group">
+            <label for="aTokenLikelyError" class="col-sm-3 control-label">likely_error</label>
+            <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenLikelyError" value="1" v-model="aToken.le"> Ja</label></div>
+          </div>
+          <div class="form-group" v-if="aToken.s">
+            <label for="aTokenSentenceID" class="col-sm-3 control-label">sentence_id</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenSentenceID">{{ transcript.aSaetze[aToken.s].t }} - ID: {{ aToken.s }}</p></div>
+          </div>
+          <div class="form-group" v-if="aToken.sr">
+            <label for="aTokenSequenceInSentence" class="col-sm-3 control-label">sequence_in_sentence</label>
+            <div class="col-sm-9"><p class="form-control-static" id="aTokenSequenceInSentence">{{ aToken.sr }}</p></div>
+          </div>
+          <div class="form-group">
+            <label for="aTokenTextInOrtho" class="col-sm-3 control-label">text_in_ortho</label>
+            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenTextInOrtho" v-model="aToken.to"></div>
+          </div>
+          <div class="form-group" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]"><label class="col-sm-3 control-label">Fragmente</label><div class="col-sm-9"><ul class="form-control-static hflist">
+              <li v-for="aToFragKey in transcript.aTokens.aTokenFragmenteObj[aToken.pk]" :key="'aTFO' + aToFragKey">{{ transcript.aTokens.tokensObj[aToFragKey].t }} ({{ aToFragKey }})</li>
           </ul></div></div>
-          <div class="form-group"><label class="col-sm-3 control-label">Antwort</label><div class="col-sm-9">
-            <p class="form-control-static" v-if="aTokenInfo.aId">${ aTokenInfo.aId+((aTokenInfo.aId<0)?' - Neu':'')+((aTokenInfo.delAntwort)?' - Wird gelöscht !!!':'') }
-              <template v-if="!(aTokenInfo['tags'] && aTokenInfo['tags'].length > 0) && (aTokenInfo.aId > 0)">
-                <button type="button" @click="$set(aTokenInfo, 'delAntwort', true); $set(aTokenInfo, 'changed', true);" class="btn btn-danger" v-if="!aTokenInfo.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-                <button type="button" @click="$set(aTokenInfo, 'delAntwort', false); $set(aTokenInfo, 'changed', true);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-              </template>
-            </p>
-            <button type="button" @click="$set(aTokenInfo, 'aId', '? - Neu');" class="btn btn-primary" v-else>Antwort erstellen</button>
-          </div></div>
+          <!-- <div class="form-group"><label class="col-sm-3 control-label">Antwort</label>
+            <div class="col-sm-9">
+              <p class="form-control-static" v-if="aTokenInfo.aId">${ aTokenInfo.aId+((aTokenInfo.aId<0)?' - Neu':'')+((aTokenInfo.delAntwort)?' - Wird gelöscht !!!':'') }
+                <template v-if="!(aTokenInfo['tags'] && aTokenInfo['tags'].length > 0) && (aTokenInfo.aId > 0)">
+                  <button type="button" @click="$set(aTokenInfo, 'delAntwort', true); $set(aTokenInfo, 'changed', true);" class="btn btn-danger" v-if="!aTokenInfo.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                  <button type="button" @click="$set(aTokenInfo, 'delAntwort', false); $set(aTokenInfo, 'changed', true);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                </template>
+              </p>
+              <button type="button" @click="$set(aTokenInfo, 'aId', '? - Neu');" class="btn btn-primary" v-else>Antwort erstellen</button>
+            </div>
+          </div> -->
         </div>
-        <template v-if="aTokenInfo['satzView']">
+        <template v-if="satzView">
           <hr/>
           <div class="satzview">
-            <span :class="sv.class" v-for="sv in aTokenInfo['satzView']">${ sv.text }</span>
+            <span :class="sv.class + ' tt' + sv.token.tt" v-for="(sv, svKey) in satzView" :key="'sv' + svKey">{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
           </div>
         </template>
-        <template v-if="aTokenInfo.aId && !aTokenInfo.delAntwort">
+        <!-- <template v-if="aTokenInfo.aId && !aTokenInfo.delAntwort">
           <hr>
           <tagsystem cols="3" :tags="aTokenInfo['tags']" @tags="setATokenInfo($event, 'tags')" />
         </template> -->
       <template v-slot:addButtons>
-        <!-- <button type="button" class="btn btn-primary" :disabled="!aTokenInfo.changed" @click="updateTokenData">Ändern</button> -->
+        <button type="button" class="btn btn-primary" :disabled="!changed" @click="updateTokenData">Ändern</button>
       </template>
-      <template v-slot:closeButtonsText>Verwerfen/Schließen</template> <!-- {{ ((aTokenInfo.changed) ? 'Verwerfen' : 'Schließen') }} -->
+      <template v-slot:closeButtonsText>{{ ((changed) ? 'Verwerfen' : 'Schließen') }}</template>
     </Modal>
   </div>
 </template>
 
 <script>
 import Modal from './Modal'
+var _ = require('lodash')
 
 export default {
   name: 'InfoToken',
   props: ['transcript', 'modalData'],
   data () {
     return {
+      aToken: {},
+      oToken: {}
     }
   },
   watch: {
   },
+  mounted () {
+    this.transcript.aTokens.tokensObj[this.modalData.data.aToken.pk].viewed = true
+    this.transcript.aTokens.svgLastView = this.modalData.data.aToken.pk
+    this.aToken = _.clone(this.modalData.data.aToken)
+    this.$set(this.aToken, 't', this.aToken.t || '')
+    this.$set(this.aToken, 'le', this.aToken.le || false)
+    this.$set(this.aToken, 'o', this.aToken.o || '')
+    this.$set(this.aToken, 'to', this.aToken.to || '')
+    this.oToken = _.clone(this.aToken)
+    // console.log(this.aToken, this.oToken, this.modalData.data.aToken)
+  },
   methods: {
+    updateTokenData () {
+      console.log('updateTokenData', this.transcript, this.aToken)
+    }
   },
   computed: {
+    changed () {
+      return !_.isEqual(this.aToken, this.oToken)
+    },
+    satzView () {
+      let aSatz = []
+      let wordsBA = 15
+      let aTLbInf = this.transcript.aTokens.tokenLists.byInf[this.aToken.i]
+      // console.log(this.aToken.i, aTLbInf)
+      if (aTLbInf) {
+        let tLbIkey = 0
+        let mLen = aTLbInf.length - 1
+        aTLbInf.some((aToken, aKey) => {
+          if (aToken.pk === this.aToken.pk) {
+            tLbIkey = aKey
+            return true
+          }
+        }, this)
+        let vWord = tLbIkey - wordsBA
+        let bWord = tLbIkey + wordsBA
+        if (vWord < 0) {
+          vWord = 0
+          bWord = wordsBA * 2
+        }
+        if (bWord > mLen) {
+          bWord = mLen
+          vWord = mLen - wordsBA * 2
+        }
+        if (vWord < 0) {
+          vWord = 0
+        }
+        console.log('tLbIkey', tLbIkey, aTLbInf[tLbIkey])
+        console.log(vWord, bWord, mLen)
+        let aClass = 'before'
+        for (var i = vWord; i <= bWord; i++) {
+          if (i === tLbIkey) {
+            aClass = 'active'
+          } else if (aClass === 'active') {
+            aClass = 'after'
+          }
+          aSatz.push({class: aClass, token: aTLbInf[i]})
+          console.log(i, aTLbInf[i], aClass)
+        }
+      }
+      return aSatz.length > 0 ? aSatz : false
+    }
   },
   components: {
     Modal
@@ -73,4 +173,22 @@ export default {
 </script>
 
 <style scoped>
+  .satzview {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  .satzview > span {
+    display: inline-block;
+  }
+
+  .satzview > span.active {
+    font-weight: bold;
+  }
+  .satzview > span.before, .satzview > span.after {
+    color: #888;
+  }
+
+  .satzview > span.tt3 {
+    font-style: italic;
+  }
 </style>

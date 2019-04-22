@@ -5,9 +5,9 @@
       ['eTokT' + aToken.tt]: true,
       'viewed': aToken.viewed,
       'selected': this.transcript.selectedToken === aToken,
+      'lastview': this.transcript.aTokens.svgLastView === aToken.pk,
     }">
     <!-- ToDo:  :class="{
-      'lastview': svgTokenLastView === aTokenId,
       'selectlist': svgSelTokenList.indexOf(aTokenId) > -1,
       'found': suchTokens.indexOf(aTokenId) >= 0,
       'hastags': (getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0)
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+var _ = require('lodash')
+
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLineEventToken',
   props: ['transcript', 'zeileData', 'aToken'],
@@ -48,7 +50,7 @@ export default {
         // ToDo: ctrlKey
       } else {
         if (this.transcript.selectedToken === this.aToken) {
-          this.transcript.vueObj.modalData = { type: 'token', data: {aToken: this.aToken} }
+          this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.clone(this.aToken)} }
         } else {
           this.transcript.selectedToken = this.aToken
           console.log('showaTokenInfos', this.aToken)
