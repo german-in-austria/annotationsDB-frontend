@@ -1,6 +1,6 @@
 <template>
   <div v-if="modalData.type">
-    <Modal :modalData="modalData">
+    <Modal :modalData="modalData" :blocked="changed">
       <template v-slot:title>Token</template>
         <div class="form-horizontal">
           <div class="form-group">
@@ -9,7 +9,7 @@
           </div>
           <div class="form-group">
             <label for="aTokenText" class="col-sm-3 control-label">text</label>
-            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenText" v-model="aToken.t"></div>
+            <div class="col-sm-9"><input type="text" class="form-control modal-focus" id="aTokenText" v-model="aToken.t"></div>
           </div>
           <div class="form-group">
             <label for="aTokenType" class="col-sm-3 control-label">token_type</label>
@@ -150,8 +150,6 @@ export default {
         if (vWord < 0) {
           vWord = 0
         }
-        console.log('tLbIkey', tLbIkey, aTLbInf[tLbIkey])
-        console.log(vWord, bWord, mLen)
         let aClass = 'before'
         for (var i = vWord; i <= bWord; i++) {
           if (i === tLbIkey) {
@@ -160,7 +158,6 @@ export default {
             aClass = 'after'
           }
           aSatz.push({class: aClass, token: aTLbInf[i]})
-          console.log(i, aTLbInf[i], aClass)
         }
       }
       return aSatz.length > 0 ? aSatz : false

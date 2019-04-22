@@ -3,11 +3,11 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span aria-hidden="true">×</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Schließen" v-if="!blocked"><span aria-hidden="true">×</span></button>
           <h4 class="modal-title"><slot name="title">title</slot></h4>
         </div>
         <div class="modal-body"><slot>body</slot></div>
-        <div class="modal-footer"><slot name="addButtons" /><button type="button" class="btn btn-default" data-dismiss="modal"><slot name="closeButtonsText">Schließen</slot></button></div>
+        <div class="modal-footer"><slot name="addButtons" /><button type="button" class="btn btn-default" data-dismiss="modal" ref="closeButton" @keydown.esc="escKey"><slot name="closeButtonsText">Schließen</slot></button></div>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
 
 export default {
   name: 'Modal',
-  props: ['modalData'],
+  props: ['modalData', 'blocked'],
   data () {
     return {
     }
@@ -26,15 +26,24 @@ export default {
   mounted () {
     console.log(this.modalData)
     var aModalThis = this
+    $(this.$refs.modal).on('shown.bs.modal', function (e) {
+      $(aModalThis.$refs.modal).find('.modal-focus').focus()
+    })
     $(this.$refs.modal).on('hidden.bs.modal', function (e) {
       aModalThis.modalData.type = null
       aModalThis.modalData.data = null
+    })
+    $(this.$refs.modal).on('hide.bs.modal', function (e) {
+      return !aModalThis.blocked || document.activeElement === aModalThis.$refs.closeButton
     })
     $(this.$refs.modal).modal('show')
   },
   watch: {
   },
   methods: {
+    escKey () {
+      this.$refs.modal.focus()
+    }
   },
   computed: {
   },
