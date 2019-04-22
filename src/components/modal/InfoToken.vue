@@ -9,7 +9,7 @@
           </div>
           <div class="form-group">
             <label for="aTokenText" class="col-sm-3 control-label">text</label>
-            <div class="col-sm-9"><input type="text" class="form-control modal-focus" id="aTokenText" v-model="aToken.t"></div>
+            <div class="col-sm-9"><input type="text" class="form-control modal-focus" id="aTokenText" :spellcheck="globals.spellcheck" v-model="aToken.t"></div>
           </div>
           <div class="form-group">
             <label for="aTokenType" class="col-sm-3 control-label">token_type</label>
@@ -21,7 +21,7 @@
           </div>
           <div class="form-group">
             <label for="aTokenOrtho" class="col-sm-3 control-label">ortho</label>
-            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenOrtho" v-model="aToken.o"></div>
+            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenOrtho" :spellcheck="globals.spellcheck" v-model="aToken.o"></div>
           </div>
           <div class="form-group" v-if="aToken.iObj">
             <label for="aTokenIDInf" class="col-sm-3 control-label">ID_Inf</label>
@@ -53,7 +53,7 @@
           </div>
           <div class="form-group">
             <label for="aTokenTextInOrtho" class="col-sm-3 control-label">text_in_ortho</label>
-            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenTextInOrtho" v-model="aToken.to"></div>
+            <div class="col-sm-9"><input type="text" class="form-control" id="aTokenTextInOrtho" :spellcheck="globals.spellcheck" v-model="aToken.to"></div>
           </div>
           <div class="form-group" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]"><label class="col-sm-3 control-label">Fragmente</label><div class="col-sm-9"><ul class="form-control-static hflist">
               <li v-for="aToFragKey in transcript.aTokens.aTokenFragmenteObj[aToken.pk]" :key="'aTFO' + aToFragKey">{{ transcript.aTokens.tokensObj[aToFragKey].t }} ({{ aToFragKey }})</li>
@@ -90,6 +90,7 @@
 
 <script>
 import Modal from './Modal'
+import Globals from '@/functions/globals'
 var _ = require('lodash')
 
 export default {
@@ -97,6 +98,7 @@ export default {
   props: ['transcript', 'modalData'],
   data () {
     return {
+      globals: Globals,
       aToken: {},
       oToken: {}
     }
@@ -152,12 +154,19 @@ export default {
         }
         let aClass = 'before'
         for (var i = vWord; i <= bWord; i++) {
+          let fxClass = ''
           if (i === tLbIkey) {
             aClass = 'active'
+            if (this.transcript.aTokens.aTokenFragmenteObj[aTLbInf[i].pk]) {
+              fxClass += ' has-fragments'
+            }
           } else if (aClass === 'active') {
             aClass = 'after'
           }
-          aSatz.push({class: aClass, token: aTLbInf[i]})
+          if (aTLbInf[i].fo === this.aToken.pk || aTLbInf[i].fo === this.aToken.fo || aTLbInf[i].pk === this.aToken.fo) {
+            fxClass += ' fragment'
+          }
+          aSatz.push({class: aClass + fxClass, token: aTLbInf[i]})
         }
       }
       return aSatz.length > 0 ? aSatz : false
@@ -177,8 +186,11 @@ export default {
   .satzview > span {
     display: inline-block;
   }
+  .satzview > span:hover {
+    text-decoration: underline;
+  }
 
-  .satzview > span.active {
+  .satzview > span.active, .satzview > span.fragment {
     font-weight: bold;
   }
   .satzview > span.before, .satzview > span.after {

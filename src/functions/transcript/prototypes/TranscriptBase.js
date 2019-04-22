@@ -45,6 +45,11 @@ const localFunctions = {
             console.log('getTranscript', this.pk, tmpLSet, this.lMaxSet, '- Daten verarbeitet', (performance.now() - t1).toFixed(2), 'ms')
             this.ready = true
             if (tmpLSet === response.data['nNr']) {
+              this.aTokens.update()
+              this.aEvents.update()
+              this.aTokenSets.update()
+              this.aAntworten.update()
+              this.aSVG.updateZeilen()
               console.log('Alle Datensätze geladen.', this.pk, '-', (performance.now() - this.timer).toFixed(2), 'ms', this)
             }
           } else {
