@@ -25,7 +25,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.modalData)
+    // console.log('Modal', this.modalData)
     var aModalThis = this
     $(this.$refs.modal).on('shown.bs.modal', function (e) {
       $(aModalThis.$refs.modal).find('.modal-focus').focus()

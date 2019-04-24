@@ -102,8 +102,9 @@ const localFunctions = {
   setTokenTypes (nTokenTypes) {
     this.aTokenTypes = nTokenTypes
   },
-  updateTokenData (nToken) {
+  updateTokenData (nToken, nAntwort) {
     nToken = _.clone(nToken)
+    nAntwort = _.clone(nAntwort)
     let aTPK = nToken.pk
     this.tokensObj[aTPK].svgUpdate = true
     this.tokensObj[aTPK].t = nToken.t
@@ -111,13 +112,15 @@ const localFunctions = {
     this.tokensObj[aTPK].o = nToken.o
     this.tokensObj[aTPK].le = nToken.le
     this.tokensObj[aTPK].to = nToken.to
-    // if (nToken.aId) {
-    //   this.aTokens[aTPK].aId = this.setAAntwort(parseInt(nToken.aId), {'it': aTPK, 'vi': nToken.i, 'tags': ((nToken.tags) ? JSON.parse(JSON.stringify(nToken.tags)) : undefined)})
-    //   this.aAntworten[this.aTokens[aTPK].aId].changed = true
-    // }
-    // if (nToken.delAntwort && nToken.aId > 0) {
-    //   this.delAntwort(nToken.aId)
-    // }
+    if (!nToken.delAntwort && nToken.aId) {
+      this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), {'it': aTPK, 'vi': nToken.i, 'tags': (nAntwort.tags ? nAntwort.tags : null)})
+      this.root.aAntworten.antwortenObj[this.tokensObj[aTPK].aId].changed = true
+    }
+    if (nToken.delAntwort && nToken.aId) {
+      console.log('del', nToken.aId)
+      this.root.aAntworten.del(nToken.aId)
+      delete nToken.delAntwort
+    }
     this.tokensObj[aTPK].changed = true
     this.root.changed = true
     console.log('updateTokenData', nToken, '->', this.tokensObj[aTPK])

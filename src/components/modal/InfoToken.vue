@@ -58,17 +58,17 @@
           <div class="form-group" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]"><label class="col-sm-3 control-label">Fragmente</label><div class="col-sm-9"><ul class="form-control-static hflist">
               <li v-for="aToFragKey in transcript.aTokens.aTokenFragmenteObj[aToken.pk]" :key="'aTFO' + aToFragKey">{{ transcript.aTokens.tokensObj[aToFragKey].t }} ({{ aToFragKey }})</li>
           </ul></div></div>
-          <!-- <div class="form-group"><label class="col-sm-3 control-label">Antwort</label>
+          <div class="form-group"><label class="col-sm-3 control-label">Antwort</label>
             <div class="col-sm-9">
-              <p class="form-control-static" v-if="aTokenInfo.aId">${ aTokenInfo.aId+((aTokenInfo.aId<0)?' - Neu':'')+((aTokenInfo.delAntwort)?' - Wird gelöscht !!!':'') }
-                <template v-if="!(aTokenInfo['tags'] && aTokenInfo['tags'].length > 0) && (aTokenInfo.aId > 0)">
-                  <button type="button" @click="$set(aTokenInfo, 'delAntwort', true); $set(aTokenInfo, 'changed', true);" class="btn btn-danger" v-if="!aTokenInfo.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-                  <button type="button" @click="$set(aTokenInfo, 'delAntwort', false); $set(aTokenInfo, 'changed', true);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+              <p class="form-control-static" v-if="aToken.aId">{{ aToken.aId + (aToken.aId < 0 ? ' - Neu' : '') + (aToken.delAntwort ? ' - Wird gelöscht !!!' : '') }}
+                <template v-if="!(aAntwort.tags && aAntwort.tags.length > 0) && (aToken.aId !== 0)">
+                  <button type="button" @click="$set(aToken, 'delAntwort', true);" class="btn btn-danger" v-if="!aToken.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                  <button type="button" @click="$set(aToken, 'delAntwort', false);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                 </template>
               </p>
-              <button type="button" @click="$set(aTokenInfo, 'aId', '? - Neu');" class="btn btn-primary" v-else>Antwort erstellen</button>
+              <button type="button" @click="newAntwort()" class="btn btn-primary" v-else>Antwort erstellen</button>
             </div>
-          </div> -->
+          </div>
         </div>
         <template v-if="satzView">
           <hr/>
@@ -76,10 +76,11 @@
             <span :class="sv.class + ' tt' + sv.token.tt" v-for="(sv, svKey) in satzView" :key="'sv' + svKey">{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
           </div>
         </template>
-        <!-- <template v-if="aTokenInfo.aId && !aTokenInfo.delAntwort">
+        <template v-if="aToken.aId && !aToken.delAntwort">
           <hr>
-          <tagsystem cols="3" :tags="aTokenInfo['tags']" @tags="setATokenInfo($event, 'tags')" />
-        </template> -->
+          ToDo: Tagsystem
+          <!-- <tagsystem cols="3" :tags="aToken['tags']" @tags="setaToken($event, 'tags')" /> -->
+        </template>
       <template v-slot:addButtons>
         <button type="button" class="btn btn-primary" :disabled="!changed" @click="updateTokenData">Ändern</button>
       </template>
@@ -100,7 +101,8 @@ export default {
     return {
       globals: Globals,
       aToken: {},
-      oToken: {}
+      oToken: {},
+      aAntwort: {}
     }
   },
   watch: {
@@ -114,12 +116,19 @@ export default {
     this.$set(this.aToken, 'o', this.aToken.o || '')
     this.$set(this.aToken, 'to', this.aToken.to || '')
     this.oToken = _.clone(this.aToken)
-    // console.log(this.aToken, this.oToken, this.modalData.data.aToken)
+    if (this.aToken.aId) {
+      this.aAntwort = _.clone(this.transcript.aAntworten.antwortenObj[this.aToken.aId])
+    }
+    console.log('InfoToken', this)
   },
   methods: {
+    newAntwort () {
+      this.$set(this.aToken, 'aId', '? - Neu')
+      this.$set(this.aAntwort, 'tags', [])
+    },
     updateTokenData () {
       this.$refs.modal.close()
-      this.transcript.aTokens.updateTokenData(this.aToken)
+      this.transcript.aTokens.updateTokenData(this.aToken, this.aAntwort)
     }
   },
   computed: {

@@ -8,7 +8,7 @@ const localFunctions = {
     }, this)
     this.update()
   },
-  // Antwort setzten
+  // Antwort setzen
   add (nPk, nAntwort, dontUpdate = false) {
     if (nAntwort.pt) {
       nAntwort.tags = []
@@ -25,21 +25,23 @@ const localFunctions = {
   },
   // Antwort löschen
   del (nPk, dontUpdate = false) {
-    if (nPk > 0) {
+    if (!isNaN(nPk)) {
       this.set(nPk, null, true)
     }
     if (!dontUpdate) { this.update() }
   },
-  // Antwort setzten
+  // Antwort setzen
   set (nPk, nAntwort = null, dontUpdate = false) {
-    if (nAntwort === undefined) { // Antwort Löschen
-      if (this.antwortenObj[nPk]['its'] && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk]['its']]) {
-        delete this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk]['its']].aId
+    if (nAntwort === null) { // Antwort Löschen
+      if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
+        delete this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its].aId
       }
-      if (this.antwortenObj[nPk]['it'] && this.root.aTokens.tokensObj[this.antwortenObj[nPk]['it']]) {
-        delete this.root.aTokens.tokensObj[this.antwortenObj[nPk]['it']].aId
+      if (this.antwortenObj[nPk].it && this.root.aTokens.tokensObj[this.antwortenObj[nPk].it]) {
+        delete this.root.aTokens.tokensObj[this.antwortenObj[nPk].it].aId
       }
-      this.delAntworten[nPk] = this.antwortenObj[nPk]
+      if (nPk > 0) {
+        this.delAntworten[nPk] = this.antwortenObj[nPk]
+      }
       delete this.antwortenObj[nPk]
     } else { // Antwort setzen
       if (nPk === 0 || isNaN(nPk)) { // Neue Antwort
@@ -47,14 +49,14 @@ const localFunctions = {
         while (this.antwortenObj[nPk]) {
           nPk -= 1
         }
-        nAntwort.saveme = true
+        nAntwort.changed = true
       }
       this.antwortenObj[nPk] = nAntwort
-      if (this.antwortenObj[nPk]['its'] && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk]['its']]) {
-        this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk]['its']].aId = nAntwort.pk
+      if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
+        this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its].aId = nAntwort.pk
       }
-      if (this.antwortenObj[nPk]['it'] && this.root.aTokens.tokensObj[this.antwortenObj[nPk]['it']]) {
-        this.root.aTokens.tokensObj[this.antwortenObj[nPk]['it']].aId = nAntwort.pk
+      if (this.antwortenObj[nPk].it && this.root.aTokens.tokensObj[this.antwortenObj[nPk].it]) {
+        this.root.aTokens.tokensObj[this.antwortenObj[nPk].it].aId = nAntwort.pk
       }
     }
     if (!dontUpdate) { this.update() }

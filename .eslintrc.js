@@ -25,6 +25,9 @@ module.exports = {
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-multi-spaces': ["error", { ignoreEOLComments: true }]
+    'no-multi-spaces': ["error", { ignoreEOLComments: true }],
+    'vue/no-parsing-error': [2, {
+      "invalid-first-character-of-tag-name": false
+    }]
   }
 }
