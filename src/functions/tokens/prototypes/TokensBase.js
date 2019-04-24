@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 const localFunctions = {
   // Tokens setzen
   addMultiple (nTokens) {
@@ -68,6 +70,7 @@ const localFunctions = {
         if (this.root.aEvents.eventsObj[val.e]) {
           this.root.aEvents.eventsObj[val.e].svgUpdate = true
         }
+        delete val.svgUpdate
       }
     }, this)
   },
@@ -98,6 +101,27 @@ const localFunctions = {
   },
   setTokenTypes (nTokenTypes) {
     this.aTokenTypes = nTokenTypes
+  },
+  updateTokenData (nToken) {
+    nToken = _.clone(nToken)
+    let aTPK = nToken.pk
+    this.tokensObj[aTPK].svgUpdate = true
+    this.tokensObj[aTPK].t = nToken.t
+    this.tokensObj[aTPK].tt = nToken.tt
+    this.tokensObj[aTPK].o = nToken.o
+    this.tokensObj[aTPK].le = nToken.le
+    this.tokensObj[aTPK].to = nToken.to
+    // if (nToken.aId) {
+    //   this.aTokens[aTPK].aId = this.setAAntwort(parseInt(nToken.aId), {'it': aTPK, 'vi': nToken.i, 'tags': ((nToken.tags) ? JSON.parse(JSON.stringify(nToken.tags)) : undefined)})
+    //   this.aAntworten[this.aTokens[aTPK].aId].changed = true
+    // }
+    // if (nToken.delAntwort && nToken.aId > 0) {
+    //   this.delAntwort(nToken.aId)
+    // }
+    this.tokensObj[aTPK].changed = true
+    this.root.changed = true
+    console.log('updateTokenData', nToken, '->', this.tokensObj[aTPK])
+    this.root.update()
   }
 }
 

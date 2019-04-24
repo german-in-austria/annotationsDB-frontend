@@ -25,5 +25,6 @@ localFunctions.TokensBase.prototype.updateTokensLists = prototypeTokensBase.upda
 localFunctions.TokensBase.prototype.updateTokensSVGData = prototypeTokensBase.updateTokensSVGData
 localFunctions.TokensBase.prototype.updateLength = prototypeTokensBase.updateLength
 localFunctions.TokensBase.prototype.setTokenTypes = prototypeTokensBase.setTokenTypes
+localFunctions.TokensBase.prototype.updateTokenData = prototypeTokensBase.updateTokenData
 
 export default localFunctions

@@ -20,7 +20,7 @@
         </filter>
       </defs>
       <g id="svg-g-transcript">
-        <g id="svg-g-events" :transform="'translate(' + transcript.aSVG.svgPadding + ',' + transcript.aSVG.svgPadding + ')'" v-if="renderZeilen">
+        <g id="svg-g-events" :transform="'translate(' + transcript.aSVG.svgPadding + ',' + transcript.aSVG.svgPadding + ')'" v-if="!transcript.aSVG.update && renderZeilen">
           <AnnotationsAnzeigeZeile :transcript="transcript" :zeile="aZeile" :key="'rz' + aZeile" v-for="aZeile in renderZeilen"/>
         </g>
       </g>
@@ -45,6 +45,7 @@ export default {
     this.$nextTick(() => {
       this.transcript.aSVG.setAnnotationsSVG(this.$refs.annotationsSVG)
     })
+    this.transcript.aSVG.update = false
   },
   computed: {
     renderZeilen () {
@@ -63,6 +64,13 @@ export default {
     }, 500)
   },
   watch: {
+    'transcript.aSVG.update' (nVal) {
+      if (nVal) {
+        this.$nextTick(() => {
+          this.transcript.aSVG.update = false
+        })
+      }
+    }
   },
   beforeDestroy () {
     this.transcript.aSVG.setAnnotationsSVG(null)

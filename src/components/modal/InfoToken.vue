@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     updateTokenData () {
-      console.log('updateTokenData', this.transcript, this.aToken)
+      this.transcript.aTokens.updateTokenData(this.aToken)
     }
   },
   computed: {
@@ -127,7 +127,7 @@ export default {
     },
     satzView () {
       let aSatz = []
-      let wordsBA = 15
+      let wordsBA = 20
       let aTLbInf = this.transcript.aTokens.tokenLists.byInf[this.aToken.i]
       // console.log(this.aToken.i, aTLbInf)
       if (aTLbInf) {
@@ -163,7 +163,7 @@ export default {
           } else if (aClass === 'active') {
             aClass = 'after'
           }
-          if (aTLbInf[i].fo === this.aToken.pk || aTLbInf[i].fo === this.aToken.fo || aTLbInf[i].pk === this.aToken.fo) {
+          if (aTLbInf[i].fo === this.aToken.pk || (aTLbInf[i].fo && aTLbInf[i].fo === this.aToken.fo) || aTLbInf[i].pk === this.aToken.fo) {
             fxClass += ' fragment'
           }
           aSatz.push({class: aClass + fxClass, token: aTLbInf[i]})

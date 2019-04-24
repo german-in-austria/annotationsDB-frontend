@@ -25,9 +25,9 @@ const localFunctions = {
   update () {
     let t1 = performance.now()
     this.updateObjects()
-    this.updateLists()
     this.updateConnections()
     this.updateSVGData()
+    this.updateLists()
     console.log('Events Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
   updateSVGData () {
@@ -52,8 +52,9 @@ const localFunctions = {
             aEvent.svgWidth = aEvent.svgTidWidth[aInfKey]
           }
         }, this)
-        if (!allFound) {
+        if (allFound) {
           delete aEvent.svgUpdate
+        } else {
           delete aEvent.svgWidth
           delete aEvent.svgTidWidth
         }

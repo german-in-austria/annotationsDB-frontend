@@ -27,6 +27,7 @@ const localFunctions = {
     this.pk = lPk                       // Aktuelle Transkript PK
     this.lSet = 0                       // Aktueller Ladedurchgang
     this.lMaxSet = 1                    // Maxiamle Ladedurchgänge
+    this.changed = false                // Gab es Änderungen?
     this.selectedToken = null           // Aktuell ausgewählter Token
     // Init
     this.init()                         // Immer dirket initialisieren
@@ -36,9 +37,6 @@ const localFunctions = {
 // Transcript Prototypen
 localFunctions.TranscriptBase.prototype.init = prototypeTranscriptBase.init
 localFunctions.TranscriptBase.prototype.getTranscript = prototypeTranscriptBase.getTranscript
-localFunctions.TranscriptBase.prototype.setInformanten = prototypeTranscriptBase.setInformanten
-localFunctions.TranscriptBase.prototype.addTokens = prototypeTranscriptBase.addTokens
-localFunctions.TranscriptBase.prototype.updateToken = prototypeTranscriptBase.updateToken
-localFunctions.TranscriptBase.prototype.updateTokenFragment = prototypeTranscriptBase.updateTokenFragment
+localFunctions.TranscriptBase.prototype.update = prototypeTranscriptBase.update
 
 export default localFunctions

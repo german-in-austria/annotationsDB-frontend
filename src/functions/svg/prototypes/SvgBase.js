@@ -85,6 +85,7 @@ const localFunctions = {
       }, this)
       this.scrolling()
     }
+    this.update = true
   },
   scrolling () {
     let aTop = this.viewElement.scrollTop
