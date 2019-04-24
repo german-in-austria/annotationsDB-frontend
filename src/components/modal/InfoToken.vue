@@ -76,10 +76,9 @@
             <span :class="sv.class + ' tt' + sv.token.tt" v-for="(sv, svKey) in satzView" :key="'sv' + svKey">{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
           </div>
         </template>
-        <template v-if="aToken.aId && !aToken.delAntwort">
+        <template v-if="aToken.aId && !aToken.delAntwort && aAntwort.tags">
           <hr>
-          ToDo: Tagsystem
-          <!-- <tagsystem cols="3" :tags="aToken['tags']" @tags="setaToken($event, 'tags')" /> -->
+          <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http"/>
         </template>
       <template v-slot:addButtons>
         <button type="button" class="btn btn-primary" :disabled="!changed" @click="updateTokenData">Ändern</button>
@@ -91,6 +90,7 @@
 
 <script>
 import Modal from './Modal'
+import Tagsystem from '../tagsystem/Tagsystem'
 import Globals from '@/functions/globals'
 var _ = require('lodash')
 
@@ -183,7 +183,8 @@ export default {
     }
   },
   components: {
-    Modal
+    Modal,
+    Tagsystem
   }
 }
 </script>
