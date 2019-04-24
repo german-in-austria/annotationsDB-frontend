@@ -179,4 +179,13 @@ export default {
 </script>
 
 <style scoped>
+  .audioplayer-at {
+    position: absolute;
+    border-top: 1px solid #e7e7e7;
+    width: 100%;
+    height: 150px;
+    bottom: 0;
+    left: 0;
+    padding: 10px 15px;
+  }
 </style>

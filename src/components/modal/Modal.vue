@@ -21,6 +21,7 @@ export default {
   props: ['modalData', 'blocked'],
   data () {
     return {
+      forceClose: false
     }
   },
   mounted () {
@@ -34,13 +35,18 @@ export default {
       aModalThis.modalData.data = null
     })
     $(this.$refs.modal).on('hide.bs.modal', function (e) {
-      return !aModalThis.blocked || document.activeElement === aModalThis.$refs.closeButton
+      return !aModalThis.blocked || document.activeElement === aModalThis.$refs.closeButton || aModalThis.forceClose
     })
     $(this.$refs.modal).modal('show')
   },
   watch: {
   },
   methods: {
+    close () {
+      console.log('close')
+      this.forceClose = true
+      this.$refs.closeButton.click()
+    },
     escKey () {
       this.$refs.modal.focus()
     }

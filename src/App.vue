@@ -26,23 +26,6 @@ export default {
   #annotationsTool > .vueapp {
     display: none;
   }
-  #loading {
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.25);
-    color: #fff;
-    font-size: 50px;
-    text-align: center;
-    line-height: 70vh;
-    text-shadow: 2px 3px 4px #000;
-    margin-left: -15px;
-    margin-right: -15px;
-    z-index: 1000000;
-  }
 
   .mt-1 {
     margin-top: 5px;
@@ -67,16 +50,6 @@ export default {
     border: none;
     background: transparent;
     padding: 5px 10px;
-  }
-
-  .audioplayer-at {
-    position: absolute;
-    border-top: 1px solid #e7e7e7;
-    width: 100%;
-    height: 150px;
-    bottom: 0;
-    left: 0;
-    padding: 10px 15px;
   }
 
   #focuscatch {

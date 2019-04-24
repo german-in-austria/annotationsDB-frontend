@@ -1,6 +1,6 @@
 <template>
   <div v-if="modalData.type">
-    <Modal :modalData="modalData" :blocked="changed">
+    <Modal ref="modal" :modalData="modalData" :blocked="changed">
       <template v-slot:title>Token</template>
         <div class="form-horizontal">
           <div class="form-group">
@@ -118,6 +118,7 @@ export default {
   },
   methods: {
     updateTokenData () {
+      this.$refs.modal.close()
       this.transcript.aTokens.updateTokenData(this.aToken)
     }
   },
