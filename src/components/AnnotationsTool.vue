@@ -25,8 +25,10 @@ import Hauptfenster from './hauptfenster/Hauptfenster'
 import Audioplayer from './audioplayer/Audioplayer'
 import Modale from './modal/Modale'
 
+import Globals from '@/functions/globals'
 import TranscriptsInfListObject from '@/functions/transcriptsinflist/TranscriptsInfList'
 import TranscriptObject from '@/functions/transcript/Transcript'
+import TagsystemObject from './tagsystem/functions/Tagsystem'
 
 export default {
   /* global csrf audiodir */
@@ -46,12 +48,14 @@ export default {
       transcripts: {},
       selTranscriptPk: null,
       selTranscript: null,
-      modalData: { type: null, data: null }
+      modalData: { type: null, data: null },
+      globals: Globals
     }
   },
   mounted () {
     this.audiodir = audiodir
     this.transcripts = new TranscriptsInfListObject.TranscriptsInfListBase(this)
+    this.globals.tagsData.data = new TagsystemObject.TagsystemBase(this.$http)
     console.log(this.audiodir)
     console.log(this.transcripts)
   },
