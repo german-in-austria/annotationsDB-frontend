@@ -9,8 +9,20 @@ const localFunctions = {
           getBase: 1
         })
         .then((response) => {
-          console.log('Tagsystem - getBase', response.data)
-          this.baseCache = response.data
+          console.log('Tagsystem - getBase', response.data, this)
+          this.baseCache = {
+            phaenomeneList: [],
+            phaenomeneObj: response.data.phaenomene,
+            tagebenenList: response.data.tagebenen,
+            tagebenenObj: {}
+          }
+          Object.keys(this.baseCache.phaenomeneObj).map(function (iKey) {
+            this.baseCache.phaenomeneObj[iKey].pk = iKey
+            this.baseCache.phaenomeneList.push(this.baseCache.phaenomeneObj[iKey])
+          }, this)
+          this.baseCache.tagebenenList.forEach(tagebene => {
+            this.baseCache.tagebenenObj[tagebene.pk] = tagebene
+          })
           this.loadingBase = false
           this.getTags()
         })
@@ -31,7 +43,7 @@ const localFunctions = {
           getTags: 1
         })
         .then((response) => {
-          console.log('Tagsystem - getTags', response.data)
+          console.log('Tagsystem - getTags', response.data, this)
           this.tagsCache = response.data['tags']
           this.loadingTags = false
           this.getPresets()
@@ -52,7 +64,7 @@ const localFunctions = {
           getPresets: 1
         })
         .then((response) => {
-          console.log('Tagsystem - getPresets', response.data)
+          console.log('Tagsystem - getPresets', response.data, this)
           this.presetsCache = response.data['presets']
           this.loadingPresets = false
         })
@@ -63,6 +75,22 @@ const localFunctions = {
     } else {
       this.loadingPresets = false
     }
+  },
+  tagsText (aTags) {
+    var aText = ''
+    var aDg = 0
+    if (aTags) {
+      aTags.forEach(function (val) {
+        if (val.tag) {
+          var sTags = this.tagsText(val.tags)
+          aText += ((aDg === 0) ? ((aText.slice(-1) === ')') ? ' ' : '') : ', ') + this.tagsCache.tags[val.tag].t + ((sTags) ? '(' + sTags + ')' : '')
+          aDg += 1
+        } else {
+          aText += this.tagsText(val.tags)
+        }
+      }, this)
+    }
+    return aText
   }
 }
 

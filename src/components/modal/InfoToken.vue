@@ -78,7 +78,7 @@
         </template>
         <template v-if="aToken.aId && !aToken.delAntwort && aAntwort.tags">
           <hr>
-          <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http"/>
+          <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http" mode="text"/>
         </template>
       <template v-slot:addButtons>
         <button type="button" class="btn btn-primary" :disabled="!changed" @click="updateTokenData">Ändern</button>

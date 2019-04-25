@@ -21,5 +21,6 @@ localFunctions.TagsystemBase.prototype.init = prototypeTagsystemBase.init
 localFunctions.TagsystemBase.prototype.getBase = prototypeTagsystemBase.getBase
 localFunctions.TagsystemBase.prototype.getTags = prototypeTagsystemBase.getTags
 localFunctions.TagsystemBase.prototype.getPresets = prototypeTagsystemBase.getPresets
+localFunctions.TagsystemBase.prototype.tagsText = prototypeTagsystemBase.tagsText
 
 export default localFunctions
