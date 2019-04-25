@@ -30,8 +30,8 @@ const localFunctions = {
     }
   },
   getTokenString (aToken, field, bField = false) {
-    var aTxt = this.getTokenFragment(aToken, field, bField)
-    var space = ((aToken.tt === 2) || (aToken.fo > 0 || aTxt[0] === '_') ? '' : '\u00A0')
+    let aTxt = this.getTokenFragment(aToken, field, bField)
+    let space = ((aToken.tt === 2) || (aToken.fo > 0 || aTxt[0] === '_') ? '' : '\u00A0')
     if (aTxt[0] === '_') {
       aTxt = aTxt.substr(1)
     };
@@ -113,7 +113,18 @@ const localFunctions = {
     this.tokensObj[aTPK].le = nToken.le
     this.tokensObj[aTPK].to = nToken.to
     if (!nToken.delAntwort && nToken.aId) {
-      this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), {'it': aTPK, 'vi': nToken.i, 'tags': (nAntwort.tags ? nAntwort.tags : null)})
+      let nTags = null
+      if (nAntwort.tags) {
+        nAntwort.tags.forEach(aTags => {
+          if (!parseInt(aTags.e) < 1) {
+            if (!nTags) {
+              nTags = []
+            }
+            nTags.push(aTags)
+          }
+        }, this)
+      }
+      this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), {'it': aTPK, 'vi': nToken.i, 'tags': nTags})
       this.root.aAntworten.antwortenObj[this.tokensObj[aTPK].aId].changed = true
     }
     if (nToken.delAntwort && nToken.aId) {

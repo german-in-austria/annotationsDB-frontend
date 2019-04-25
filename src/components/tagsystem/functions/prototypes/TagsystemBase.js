@@ -65,7 +65,27 @@ const localFunctions = {
         })
         .then((response) => {
           console.log('Tagsystem - getPresets', response.data, this)
-          this.presetsCache = response.data['presets']
+          this.presetsCache = {
+            presetsList: response.data['presets']
+          }
+          this.presetsCache.presetsList.forEach(function (preset) {
+            preset.tags = this.processTags(preset.tf).tags
+            preset.tokenText = this.tagsText(preset.tags)
+            preset.ze = []
+            preset.tf.forEach(function (tVal) {
+              if (this.tagsCache.tags[tVal.t].tezt) {
+                this.tagsCache.tags[tVal.t].tezt.forEach(function (eVal) {
+                  if (preset.ze.indexOf(eVal) < 0) {
+                    preset.ze.push(eVal)
+                    if (!this.baseCache.tagebenenObj[eVal].presets) {
+                      this.baseCache.tagebenenObj[eVal].presets = []
+                    }
+                    this.baseCache.tagebenenObj[eVal].presets.push(preset)
+                  }
+                }, this)
+              }
+            }, this)
+          }, this)
           this.loadingPresets = false
         })
         .catch((err) => {
@@ -77,12 +97,12 @@ const localFunctions = {
     }
   },
   tagsText (aTags) {
-    var aText = ''
-    var aDg = 0
+    let aText = ''
+    let aDg = 0
     if (aTags) {
       aTags.forEach(function (val) {
         if (val.tag) {
-          var sTags = this.tagsText(val.tags)
+          let sTags = this.tagsText(val.tags)
           aText += ((aDg === 0) ? ((aText.slice(-1) === ')') ? ' ' : '') : ', ') + this.tagsCache.tags[val.tag].t + ((sTags) ? '(' + sTags + ')' : '')
           aDg += 1
         } else {
@@ -91,6 +111,23 @@ const localFunctions = {
       }, this)
     }
     return aText
+  },
+  processTags (pTags, pPos = 0, gen = 0) {
+    let xTags = []
+    let xPos = pPos
+    let xClose = 0
+    while (xPos < pTags.length && xClose < 1) {
+      if (pTags[xPos].c > 0) {
+        xClose = pTags[xPos].c
+        pTags[xPos].c -= 1
+        xPos = xPos - 1
+      } else {
+        let prData = this.processTags(pTags, xPos + 1)
+        xTags.push({'id': 0, 'tag': pTags[xPos].t, 'tags': prData.tags})
+        xPos = prData.pos + 1
+      }
+    }
+    return {'tags': xTags, 'pos': xPos}
   }
 }
 

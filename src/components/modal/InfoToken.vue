@@ -76,9 +76,9 @@
             <span :class="sv.class + ' tt' + sv.token.tt" v-for="(sv, svKey) in satzView" :key="'sv' + svKey">{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
           </div>
         </template>
-        <template v-if="aToken.aId && !aToken.delAntwort && aAntwort.tags">
+        <template v-if="aToken.aId && !aToken.delAntwort">
           <hr>
-          <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http" mode="text"/>
+          <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http" mode="edit"/>
         </template>
       <template v-slot:addButtons>
         <button type="button" class="btn btn-primary" :disabled="!changed" @click="updateTokenData">Ändern</button>
@@ -102,7 +102,8 @@ export default {
       globals: Globals,
       aToken: {},
       oToken: {},
-      aAntwort: {}
+      aAntwort: {},
+      oAntwort: {}
     }
   },
   watch: {
@@ -118,7 +119,11 @@ export default {
     this.oToken = _.clone(this.aToken)
     if (this.aToken.aId) {
       this.aAntwort = _.clone(this.transcript.aAntworten.antwortenObj[this.aToken.aId])
+      if (!this.aAntwort.tags) {
+        this.$set(this.aAntwort, 'tags', [])
+      }
     }
+    this.oAntwort = _.cloneDeep(this.aAntwort)
     console.log('InfoToken', this)
   },
   methods: {
@@ -133,7 +138,7 @@ export default {
   },
   computed: {
     changed () {
-      return !_.isEqual(this.aToken, this.oToken)
+      return !(_.isEqual(this.aToken, this.oToken) && _.isEqual(this.aAntwort, this.oAntwort))
     },
     satzView () {
       let aSatz = []

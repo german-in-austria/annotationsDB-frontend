@@ -7,8 +7,11 @@
           <span class="tagebene-tags">{{ tagsData.data.tagsText(tagebene.tags) }}</span>
         </div>
       </template>
+      <template v-else-if="mode === 'edit' || mode === 'view'">
+        <TagEditor :tagsData="tagsData" :tags="tags" :mode="mode" />
+      </template>
       <template v-else>
-        Tagsystem
+        Tagsystem {{ mode }}
       </template>
     </template>
     <template v-else>
@@ -19,6 +22,7 @@
 
 <script>
 import TagsystemObject from './functions/Tagsystem'
+import TagEditor from './TagEditor'
 
 export default {
   name: 'Tagsystem',
@@ -40,6 +44,7 @@ export default {
   computed: {
   },
   components: {
+    TagEditor
   }
 }
 </script>

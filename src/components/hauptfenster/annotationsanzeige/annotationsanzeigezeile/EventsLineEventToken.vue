@@ -4,19 +4,18 @@
       'eTok': true,
       ['eTokT' + aToken.tt]: true,
       'viewed': aToken.viewed,
-      'selected': this.transcript.selectedToken === aToken,
-      'lastview': this.transcript.aTokens.svgLastView === aToken.pk,
+      'selected': transcript.selectedToken === aToken,
+      'lastview': transcript.aTokens.svgLastView === aToken.pk,
+      'hastags': hasTags,
     }">
     <!-- ToDo:  :class="{
       'selectlist': svgSelTokenList.indexOf(aTokenId) > -1,
       'found': suchTokens.indexOf(aTokenId) >= 0,
-      'hastags': (getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0)
     }" -->
     <rect x="1" y="0" :width="width" :height="height" class="bg" />
-    <!-- <rect x="1" y="0" :width="width - 3" :height="height" class="fx" /> ToDo: Anzeigen wenn "hastags" -->
-    <text x="1" y="2">{{ transcript.aTokens.getTokenString(aToken, 't') }}</text>
-    <text x="1" y="26">{{ transcript.aTokens.getTokenString(aToken, 'o', 't') }}</text>
-    <!-- ToDo:  :text-decoration="((getValOfSubProp(aTokens[aTokenId], 'aId') && getValOfSubProp(aAntworten[aTokens[aTokenId].aId], 'tags.length') > 0) ? 'underline' : '')" -->
+    <rect x="1" y="0" :width="width - 3" :height="height" class="fx" v-if="hasTags"/>
+    <text x="1" y="2" :text-decoration="(hasTags ? 'underline' : '')">{{ transcript.aTokens.getTokenString(aToken, 't') }}</text>
+    <text x="1" y="26" :text-decoration="(hasTags ? 'underline' : '')">{{ transcript.aTokens.getTokenString(aToken, 'o', 't') }}</text>
     <line x1="2" :y1="height + 7" :x2="width - 5" :y2="height + 7" class="visit" />
     <line x2="3" :y1="height + 0.5" :x1="width - 3" :y2="height + 1" class="blue" marker-end="url(#arrow-blue)" v-if="aToken.fo" />
     <line x1="0" :y1="height + 0.5" :x2="width - 5" :y2="height + 1" class="green" marker-end="url(#arrow-green)" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]" />
@@ -41,6 +40,9 @@ export default {
     },
     height () {
       return this.transcript.aSVG.infHeight - 1
+    },
+    hasTags () {
+      return this.aToken.aId && this.transcript.aAntworten.antwortenObj[this.aToken.aId] && this.transcript.aAntworten.antwortenObj[this.aToken.aId].tags && this.transcript.aAntworten.antwortenObj[this.aToken.aId].tags.length > 0
     }
   },
   methods: {
@@ -83,6 +85,7 @@ export default {
     fill: #ccf !important;
   }
   g.eTok > rect.fx {
+    fill: #fff;
     stroke-width: 2px;
     stroke: #ccf;
   }
