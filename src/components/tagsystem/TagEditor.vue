@@ -13,10 +13,9 @@
       </label>
       <div class="col-sm-9">
         <div class="form-control-static reihung-tags" v-if="ebenenTags.e > 0">
-          <!-- <div class="r-tag-familie r-tag-familie-pchilds">
-            <tagsystemtags :ebene="ebenenTags.e" generation=0 :tags="ebenenTags.tags" :parents="[]" :tagindex="etKey" @changetag="changeTag" />
-            <tagsystemselecttags :ebene="ebenenTags.e" generation=0 :tags="ebenenTags.tags" tagindex="-1" :parents="[]" :tagindex="etKey" @changetag="changeTag" />
-          </div> -->
+          <div class="r-tag-familie r-tag-familie-pchilds">
+            <TagEditorTags :ebenenPK="ebenenTags.e" generation="0" :tags="ebenenTags.tags" :parents="[]" :edit="edit" :tagsData="tagsData" />
+          </div>
           <div class="iblock prel" v-if="getValOfSubProp(tagsData.data.baseCache.tagebenenObj, ebenenTags.e + '.presets.length') > 0">
             <button class="ant-ctag" :disabled="tagsData.data.loadingPresets" @click="togglePreset(etKey)"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
             <div class="tags seltags open" v-if="!tagsData.data.loadingPresets && showPresets[etKey]">
@@ -33,12 +32,12 @@
     <div class="form-group add-tag-line-line" v-if="edit">
       <div class="col-sm-3"><button class="add-tag-line" @click="addEbene"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Tag-Ebene</button></div>
     </div>
-
   </div>
 </template>
 
 <script>
 /* global $ */
+import TagEditorTags from './TagEditorTags'
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 var _ = require('lodash')
 
@@ -100,24 +99,10 @@ export default {
     }
   },
   components: {
+    TagEditorTags
   }
 }
 </script>
 
 <style scoped>
-  .tagmode-text .tagebene-name {
-    margin-right: 5px;
-  }
-  .tagmode-text .tagebene-name:after {
-    content: ':';
-  }
-  .tags.open {
-    display: block;
-  }
-  .tags {
-    display: none;
-  }
-  .pretagsbtn {
-    display: block;
-  }
 </style>
