@@ -52,7 +52,7 @@ export default {
         // ToDo: ctrlKey
       } else {
         if (this.transcript.selectedToken === this.aToken) {
-          this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.clone(this.aToken)} }
+          this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.aToken)} }
         } else {
           this.transcript.selectedToken = this.aToken
           console.log('showaTokenInfos', this.aToken)

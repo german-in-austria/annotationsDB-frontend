@@ -111,14 +111,14 @@ export default {
   mounted () {
     this.transcript.aTokens.tokensObj[this.modalData.data.aToken.pk].viewed = true
     this.transcript.aTokens.svgLastView = this.modalData.data.aToken.pk
-    this.aToken = _.clone(this.modalData.data.aToken)
+    this.aToken = _.cloneDeep(this.modalData.data.aToken)
     this.$set(this.aToken, 't', this.aToken.t || '')
     this.$set(this.aToken, 'le', this.aToken.le || false)
     this.$set(this.aToken, 'o', this.aToken.o || '')
     this.$set(this.aToken, 'to', this.aToken.to || '')
-    this.oToken = _.clone(this.aToken)
+    this.oToken = _.cloneDeep(this.aToken)
     if (this.aToken.aId) {
-      this.aAntwort = _.clone(this.transcript.aAntworten.antwortenObj[this.aToken.aId])
+      this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.aToken.aId])
       if (!this.aAntwort.tags) {
         this.$set(this.aAntwort, 'tags', [])
       }

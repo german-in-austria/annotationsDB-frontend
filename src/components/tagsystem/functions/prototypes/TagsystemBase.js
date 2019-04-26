@@ -46,6 +46,7 @@ const localFunctions = {
           console.log('Tagsystem - getTags', response.data, this)
           this.tagsCache = response.data['tags']
           this.loadingTags = false
+          this.ready = true
           this.getPresets()
         })
         .catch((err) => {

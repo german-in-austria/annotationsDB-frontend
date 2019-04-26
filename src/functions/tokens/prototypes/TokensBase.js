@@ -103,8 +103,8 @@ const localFunctions = {
     this.aTokenTypes = nTokenTypes
   },
   updateTokenData (nToken, nAntwort) {
-    nToken = _.clone(nToken)
-    nAntwort = _.clone(nAntwort)
+    nToken = _.cloneDeep(nToken)
+    nAntwort = _.cloneDeep(nAntwort)
     let aTPK = nToken.pk
     this.tokensObj[aTPK].svgUpdate = true
     this.tokensObj[aTPK].t = nToken.t
