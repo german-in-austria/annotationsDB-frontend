@@ -17,7 +17,7 @@ const localFunctions = {
             tagebenenObj: {}
           }
           Object.keys(this.baseCache.phaenomeneObj).map(function (iKey) {
-            this.baseCache.phaenomeneObj[iKey].pk = iKey
+            this.baseCache.phaenomeneObj[iKey].pk = parseInt(iKey)
             this.baseCache.phaenomeneList.push(this.baseCache.phaenomeneObj[iKey])
           }, this)
           this.baseCache.tagebenenList.forEach(tagebene => {
@@ -45,6 +45,9 @@ const localFunctions = {
         .then((response) => {
           console.log('Tagsystem - getTags', response.data, this)
           this.tagsCache = response.data['tags']
+          Object.keys(this.tagsCache.tags).map(function (iKey) {
+            this.tagsCache.tags[iKey].pk = parseInt(iKey)
+          }, this)
           this.loadingTags = false
           this.ready = true
           this.getPresets()
