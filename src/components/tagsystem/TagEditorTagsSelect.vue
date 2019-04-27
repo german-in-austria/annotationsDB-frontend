@@ -10,8 +10,8 @@
 </template>
 
 <script>
+import Popper from 'popper.js'
 var _ = require('lodash')
-// TODO: popper.js
 
 export default {
   name: 'TagEditorTagsSelect',
@@ -19,22 +19,29 @@ export default {
   data () {
     return {
       tagindex: 5,
-      tagindexmax: 10
+      tagindexmax: 10,
+      popper: null
     }
   },
   mounted () {
-    console.log('TagEditorTagsSelect', this.tagsData, this.aTag, this.target, this.$refs.aSelElement)
+    this.popper = new Popper(this.target, this.$refs.aSelElement, {
+      placement: 'left-start',
+      modifiers: {
+        offset: { offset: '0px,-100%' }
+      }
+    })
+    console.log('TagEditorTagsSelect', this.tagsData, this.aTag)
     if (this.$refs.ptagsbtnd) {
       this.$refs.ptagsbtnd.focus()
     }
-    // if (this.$refs.ptagsbtn) {
-    //   this.$refs.ptagsbtn.some(function (aElement) {
-    //     if ((aElement.className.indexOf('selected') >= 0 && this.tag) || (aElement.className.indexOf('parent') < 0 && !this.tag)) {
-    //       this.$nextTick(() => aElement.focus());
-    //       return true;
-    //     }
-    //   }, this);
-    // }
+    if (this.$refs.ptagsbtn) {
+      this.$refs.ptagsbtn.some(function (aElement) {
+        if ((aElement.className.indexOf('selected') >= 0 && this.aTag) || (aElement.className.indexOf('parent') < 0 && !this.aTag)) {
+          this.$nextTick(() => aElement.focus())
+          return true
+        }
+      }, this)
+    }
   },
   watch: {
   },
@@ -63,6 +70,9 @@ export default {
     }
   },
   computed: {
+  },
+  beforeDestroy () {
+    this.popper.destroy()
   },
   components: {
   }
