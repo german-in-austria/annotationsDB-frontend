@@ -5,31 +5,40 @@
       v-for="(aTag, aTagIndex) in tags" :key="'e' + ebenenPK + 'p' + parents.join('-') + 'rtft' + aTagIndex"
     >
       <div class="iblock prel">
-        <button v-bind:class="{'ant-ftag': !aTag, 'ant-tag': aTag, 'error': (aTag && (tagsData.data.tagsCache.tags[aTag.tag].tezt && tagsData.data.tagsCache.tags[aTag.tag].tezt.indexOf(ebenenPK) < 0))}" @click="seltags(aTag)">
-          <!-- <span class="glyphicon glyphicon-plus" aria-hidden="true" v-if="!aTag"></span> -->
+        <button
+          :class="{'ant-ftag': !aTag, 'ant-tag': aTag, 'error': (aTag && (tagsData.data.tagsCache.tags[aTag.tag].tezt && tagsData.data.tagsCache.tags[aTag.tag].tezt.indexOf(ebenenPK) < 0))}"
+          :title="'PK: ' + aTag.tag + '\nGeneration: ' + generation"
+          @click="selTag($event, aTag)"
+        >
           {{ tagsData.data.tagsCache.tags[aTag.tag].t }}
         </button>
-        <!-- <div class="tags seltags open" v-if="isOpen">
-          <div class="tagscontrol" v-if="tag">
-            <button class="ptagsbtn ptagsleft" title="Aktuellen Tag nach links verschieben" tabindex="-1" :disabled="tagindex<1" @click="movetagleft" v-on:blur="seltagsBlur"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
-            <button class="ptagsbtn ptagsdel" data-pk="0" title="Aktuellen Tag löschen" tabindex="-1" @click="deltag()" v-on:blur="seltagsBlur"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-            <button class="ptagsbtn ptagsright" title="Aktuellen Tag nach rechts verschieben" tabindex="-1" :disabled="!(tagindex<tagindexmax)" @click="movetagright" v-on:blur="seltagsBlur"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
-          </div>
-          <tagsystemselecttag :generation="parseInt(generation)" agen=0 :ebene="ebene" :parents="aParents" :tags="aTags" :tag="tag" :tagindex="tagindex" @closePtagsbtn="closePtagsbtn()" @changetag="changeTag" />
-        </div> -->
-        <TagEditorTags :ebenenPK="ebenenPK" generation="parseInt(generation) + 1" :tags="aTag.tags" :parents="[...parents, aTag]" :edit="edit" :tagsData="tagsData" />
-        <!-- <span>ToDo: Tag hinzufügen ...</span> -->
+        <TagEditorTags :ebenenPK="ebenenPK" :generation="generation + 1" :tags="aTag.tags" :parents="[...parents, aTag]" :edit="edit" :tagsData="tagsData" />
+        <button
+          class="ant-ftag"
+          :title="'Kind von `' + tagsData.data.tagsCache.tags[aTag.tag].t + '` hinzufügen.\nGeneration: ' + (generation + 1)"
+          @click="addTag($event, aTag)"
+          v-if="tagsData.data.tagsCache.tags[aTag.tag].c"
+        >
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
+    <button class="ant-ftag" title="Tag hinzufügen." @click="addTag($event)" v-if="generation === 0"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <TagEditorTagsSelect :tagsData="tagsData" :aTag="TagEditorTagsSelectTag" :target="TagEditorTagsSelectTarget" @close="TagEditorTagsSelectClose" v-if="TagEditorTagsSelectShow"/>
   </div>
 </template>
 
 <script>
+import TagEditorTagsSelect from './TagEditorTagsSelect'
+
 export default {
   name: 'TagEditorTags',
   props: ['tagsData', 'edit', 'ebenenPK', 'generation', 'tags', 'parents'],
   data () {
     return {
+      TagEditorTagsSelectShow: false,
+      TagEditorTagsSelectTarget: null,
+      TagEditorTagsSelectTag: null
     }
   },
   mounted () {
@@ -37,16 +46,30 @@ export default {
   watch: {
   },
   methods: {
-    seltags (aTag) {
-      console.log('seltags', aTag)
+    addTag (e, aTag) {
+      this.TagEditorTagsSelectShow = true
+      this.TagEditorTagsSelectTarget = e.target
+      this.TagEditorTagsSelectTag = aTag
+    },
+    selTag (e, aTag) {
+      this.TagEditorTagsSelectShow = true
+      this.TagEditorTagsSelectTarget = e.target
+      this.TagEditorTagsSelectTag = aTag
+    },
+    TagEditorTagsSelectClose () {
+      this.TagEditorTagsSelectShow = false
     }
   },
   computed: {
   },
   components: {
+    TagEditorTagsSelect
   }
 }
 </script>
 
 <style scoped>
+  button > span {
+    pointer-events: none;
+  }
 </style>

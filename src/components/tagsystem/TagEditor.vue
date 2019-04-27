@@ -14,7 +14,7 @@
       <div class="col-sm-9">
         <div class="form-control-static reihung-tags" v-if="ebenenTags.e > 0">
           <div class="r-tag-familie r-tag-familie-pchilds">
-            <TagEditorTags :ebenenPK="ebenenTags.e" generation="0" :tags="ebenenTags.tags" :parents="[]" :edit="edit" :tagsData="tagsData" />
+            <TagEditorTags :ebenenPK="ebenenTags.e" :generation="0" :tags="ebenenTags.tags" :parents="[]" :edit="edit" :tagsData="tagsData" />
           </div>
           <div class="iblock prel" v-if="getValOfSubProp(tagsData.data.baseCache.tagebenenObj, ebenenTags.e + '.presets.length') > 0">
             <button class="ant-ctag" :disabled="tagsData.data.loadingPresets" @click="togglePreset(etKey)"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
