@@ -1,4 +1,5 @@
-var _ = require('lodash')
+/* global _ */
+// var _ = require('lodash')
 
 const localFunctions = {
   // Tokens setzen

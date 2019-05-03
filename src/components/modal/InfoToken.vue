@@ -89,10 +89,11 @@
 </template>
 
 <script>
+/* global _ */
 import Modal from './Modal'
 import Tagsystem from '../tagsystem/Tagsystem'
 import Globals from '@/functions/globals'
-var _ = require('lodash')
+// var _ = require('lodash')
 
 export default {
   name: 'InfoToken',

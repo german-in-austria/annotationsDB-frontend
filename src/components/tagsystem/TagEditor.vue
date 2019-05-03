@@ -36,10 +36,10 @@
 </template>
 
 <script>
-/* global $ */
+/* global $ _ */
 import TagEditorTags from './TagEditorTags'
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
-var _ = require('lodash')
+// var _ = require('lodash')
 
 export default {
   name: 'TagEditor',

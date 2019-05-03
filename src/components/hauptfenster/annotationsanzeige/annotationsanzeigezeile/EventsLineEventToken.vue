@@ -23,7 +23,8 @@
 </template>
 
 <script>
-var _ = require('lodash')
+/* global _ */
+// var _ = require('lodash')
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLineEventToken',

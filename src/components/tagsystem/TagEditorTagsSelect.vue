@@ -32,8 +32,9 @@
 </template>
 
 <script>
-import Popper from 'popper.js'
-var _ = require('lodash')
+/* global Popper _ */
+// import Popper from 'popper.js'
+// var _ = require('lodash')
 
 export default {
   name: 'TagEditorTagsSelect',

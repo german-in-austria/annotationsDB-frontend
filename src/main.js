@@ -1,8 +1,10 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
+
+/* global Vue VueResource */
+// import Vue from 'vue'
+// import VueResource from 'vue-resource'
 import App from './App'
-import VueResource from 'vue-resource'
 
 Vue.config.productionTip = false
 

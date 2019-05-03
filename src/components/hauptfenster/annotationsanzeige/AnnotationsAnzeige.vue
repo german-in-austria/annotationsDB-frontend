@@ -29,8 +29,9 @@
 </template>
 
 <script>
+/* global _ */
 import AnnotationsAnzeigeZeile from './AnnotationsAnzeigeZeile'
-var _ = require('lodash')
+// var _ = require('lodash')
 
 export default {
   name: 'AnnotationsAnzeige',
