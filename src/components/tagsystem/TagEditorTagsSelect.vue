@@ -37,7 +37,7 @@ var _ = require('lodash')
 
 export default {
   name: 'TagEditorTagsSelect',
-  props: ['tagsData', 'ebenenPK', 'aTag', 'target', 'parents', 'generation', 'add'],
+  props: ['tagsData', 'ebenenPK', 'aTag', 'target', 'parents', 'generation', 'add', 'oTags'],
   data () {
     return {
       shiftWidth: 10,
@@ -52,7 +52,7 @@ export default {
         offset: { offset: '0,-100%' }
       }
     })
-    console.log('TagEditorTagsSelect', this.tagsData, this.aTag, this.ebenenPK, this.parents, this.generation, this.add)
+    console.log('TagEditorTagsSelect', this.tagsData, this.aTag, this.ebenenPK, this.parents, this.generation, this.add, this.oTags)
     console.log('x', this.parent, this.tagindex, this.tagindexmax)
     if (this.$refs.ptagsbtnd) {
       this.$refs.ptagsbtnd.focus()
@@ -106,10 +106,10 @@ export default {
       return this.parents ? this.parents.slice(-1)[0] : null
     },
     tagindex () {
-      return this.parent ? this.parent.tags.indexOf(this.aTag) : 0
+      return this.parent ? this.parent.tags.indexOf(this.aTag) : this.oTags ? this.oTags.indexOf(this.aTag) : 0
     },
     tagindexmax () {
-      return this.parent ? this.parent.tags.length - 1 : 0
+      return this.parent ? this.parent.tags.length - 1 : this.oTags ? this.oTags.length - 1 : 0
     },
     tagsBtn () {
       let aTagsBtn = []

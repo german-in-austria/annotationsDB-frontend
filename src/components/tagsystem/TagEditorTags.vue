@@ -32,6 +32,7 @@
       :generation="TagEditorTagsSelectGeneration"
       :add="TagEditorTagsSelectAdd"
       :ebenenPK="ebenenPK"
+      :oTags="tags"
       @close="tagEditorTagsSelectClose"
       @tagaction="tagAction"
       v-if="TagEditorTagsSelectShow"/>
