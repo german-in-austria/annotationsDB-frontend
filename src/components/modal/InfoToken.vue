@@ -89,9 +89,10 @@
 </template>
 
 <script>
-/* global _ */
+/* global _ tagsystem */
+
 import Modal from './Modal'
-import Tagsystem from '../tagsystem/Tagsystem'
+// import Tagsystem from '../tagsystem/Tagsystem'
 import Globals from '@/functions/globals'
 // var _ = require('lodash')
 
@@ -190,7 +191,7 @@ export default {
   },
   components: {
     Modal,
-    Tagsystem
+    Tagsystem: tagsystem.TagsystemVue
   }
 }
 </script>

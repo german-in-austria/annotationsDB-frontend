@@ -18,6 +18,7 @@
 </template>
 
 <script>
+/* global csrf audiodir tagsystem */
 import SuchenUndFiltern from './menue/SuchenUndFiltern'
 import Informationen from './menue/Informationen'
 import TranskriptAuswahl from './menue/TranskriptAuswahl'
@@ -28,10 +29,9 @@ import Modale from './modal/Modale'
 import Globals from '@/functions/globals'
 import TranscriptsInfListObject from '@/functions/transcriptsinflist/TranscriptsInfList'
 import TranscriptObject from '@/functions/transcript/Transcript'
-import TagsystemObject from './tagsystem/functions/Tagsystem'
+// import TagsystemObject from './tagsystem/functions/Tagsystem'
 
 export default {
-  /* global csrf audiodir */
   name: 'AnnotationsTool',
   http: {
     root: '/annotationsdb/startvue',
@@ -55,7 +55,7 @@ export default {
   mounted () {
     this.audiodir = audiodir
     this.transcripts = new TranscriptsInfListObject.TranscriptsInfListBase(this)
-    this.globals.tagsData.data = new TagsystemObject.TagsystemBase(this.$http)
+    this.globals.tagsData.data = new tagsystem.TagsystemObject.TagsystemBase(this.$http)
     console.log(this.audiodir)
     console.log(this.transcripts)
   },
