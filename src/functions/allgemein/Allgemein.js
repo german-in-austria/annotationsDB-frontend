@@ -25,6 +25,22 @@ const localFunctions = {
     }
   },
 
+  // Datei-/Verzeichniss-Funktionen
+  cleanFilePart: function (file) {
+    file = file.replace(/\\/g, '/')
+    if (file.charAt(0) === '/') {
+      file = file.substr(1)
+    }
+    return file
+  },
+  cleanDirPart: function (dir) {
+    dir = dir.replace(/\\/g, '/')
+    if (!dir.slice(-1) === '/') {
+      dir = dir + '/'
+    }
+    return dir
+  },
+
   // Zeit umrechnen
   durationToSeconds: function (hms) {
     var s = 0.0
@@ -96,7 +112,8 @@ const localFunctions = {
     }
     return rObj
   },
-  hasSubProp (obj, propertys, retVal = false) {   // Ermitten ob Property in einem verschachtelten Objekt existiert
+  hasSubProp (obj, propertys, retVal = false) {
+    // Ermitten ob Property in einem verschachtelten Objekt existiert
     var out = null
     if ((typeof propertys === 'string') && (propertys !== null) && propertys.length > 0) {
       var aObj = obj
@@ -117,7 +134,8 @@ const localFunctions = {
     }
     return ((retVal) ? ((out) ? aObj : null) : out)
   },
-  getValOfSubProp (obj, propertys) {    // Gibt Wert eines Property eines verschachtelten Objekts zurück
+  getValOfSubProp (obj, propertys) {
+    // Gibt Wert eines Property eines verschachtelten Objekts zurück
     return localFunctions.hasSubProp(obj, propertys, true)
   },
   listeWerteInListe: function (aListe, bListe, key = null) {

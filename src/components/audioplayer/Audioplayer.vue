@@ -15,9 +15,9 @@
         <div class="col-xs-12">
           <div id="gesamtprogress" class="progress audioprogress" v-on:click="setAudioPos">
             <div v-bind:class="{ 'progress-bar': true, 'progress-bar-striped': true, active: playing }" role="progressbar" :style="'width: ' + aPosProz.toFixed(2) + '%;'"></div>
-            <span class="pb-timer pb-starttime">{{ secondsToDuration(0) }}</span>
-            <span class="pb-timer pb-akttime">{{ secondsToDuration(globals.audioPosition) }}</span>
-            <span class="pb-timer pb-endtime">{{ secondsToDuration(globals.audioDuration) }}</span>
+            <span class="pb-timer pb-starttime">{{ starttime }}</span>
+            <span class="pb-timer pb-akttime">{{ akttime }}</span>
+            <span class="pb-timer pb-endtime">{{ enditme }}</span>
           </div>
         </div>
       </div>
@@ -48,20 +48,19 @@ export default {
   },
   computed: {
     audiofileC () {
-      var taf = this.audiofile
-      taf = taf.replace(/\\/g, '/')
-      if (taf.charAt(0) === '/') {
-        taf = taf.substr(1)
-      }
-      return taf
+      return AllgemeineFunktionen.cleanFilePart(this.audiofile)
     },
     audiodirC () {
-      var tad = this.audiodir
-      tad = tad.replace(/\\/g, '/')
-      if (!tad.slice(-1) === '/') {
-        tad = tad + '/'
-      }
-      return tad
+      return AllgemeineFunktionen.cleanDirPart(this.audiodir)
+    },
+    starttime () {
+      return AllgemeineFunktionen.secondsToDuration(0)
+    },
+    akttime () {
+      return AllgemeineFunktionen.secondsToDuration(this.globals.audioPosition)
+    },
+    enditme () {
+      return AllgemeineFunktionen.secondsToDuration(this.globals.audioDuration)
     }
   },
   methods: {
@@ -153,10 +152,7 @@ export default {
         this.loaded = false
         throw new Error('Audiodatei konnte nicht geladen werden!')
       }
-    },
-    /* Zeit umrechnen */
-    durationToSeconds: AllgemeineFunktionen.durationToSeconds,
-    secondsToDuration: AllgemeineFunktionen.secondsToDuration
+    }
   },
   mounted () {
     this.audio = this.$el.querySelectorAll('audio')[0]

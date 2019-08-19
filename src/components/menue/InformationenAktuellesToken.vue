@@ -22,6 +22,8 @@
 </template>
 
 <script>
+/* global _ */
+
 export default {
   name: 'InformationenAktuellesToken',
   props: ['transcript'],
@@ -33,6 +35,7 @@ export default {
   methods: {
     showaTokenInfos () {
       console.log('showaTokenInfos', this.selToken)
+      this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.selToken)} }
     }
   },
   computed: {

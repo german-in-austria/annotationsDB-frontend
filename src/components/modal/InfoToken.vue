@@ -60,7 +60,7 @@
           </ul></div></div>
           <div class="form-group"><label class="col-sm-3 control-label">Antwort</label>
             <div class="col-sm-9">
-              <p class="form-control-static" v-if="aToken.aId">{{ aToken.aId + (aToken.aId < 0 ? ' - Neu' : '') + (aToken.delAntwort ? ' - Wird gelöscht !!!' : '') }}
+              <p class="form-control-static" v-if="aToken.aId">{{ aToken.aId + (0 > aToken.aId ? ' - Neu' : '') + (aToken.delAntwort ? ' - Wird gelöscht !!!' : '') }}
                 <template v-if="!(aAntwort.tags && aAntwort.tags.length > 0) && (aToken.aId !== 0)">
                   <button type="button" @click="$set(aToken, 'delAntwort', true);" class="btn btn-danger" v-if="!aToken.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                   <button type="button" @click="$set(aToken, 'delAntwort', false);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
@@ -73,7 +73,11 @@
         <template v-if="satzView">
           <hr/>
           <div class="satzview">
-            <span :class="sv.class + ' tt' + sv.token.tt" v-for="(sv, svKey) in satzView" :key="'sv' + svKey">{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
+            <span
+              :class="sv.class + ' tt' + sv.token.tt"
+              v-for="(sv, svKey) in satzView"
+              :key="'sv' + svKey"
+            >{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
           </div>
         </template>
         <template v-if="aToken.aId && !aToken.delAntwort">
@@ -130,10 +134,12 @@ export default {
   },
   methods: {
     newAntwort () {
+      // Neue Antwort erstellen.
       this.$set(this.aToken, 'aId', '? - Neu')
       this.$set(this.aAntwort, 'tags', [])
     },
     updateTokenData () {
+      // Änderungen am Token anwenden.
       this.$refs.modal.close()
       this.transcript.aTokens.updateTokenData(this.aToken, this.aAntwort)
     }
@@ -143,11 +149,13 @@ export default {
       return !(_.isEqual(this.aToken, this.oToken) && _.isEqual(this.aAntwort, this.oAntwort))
     },
     satzView () {
+      // Liste der Tokens um den aktuellen Token. Für Satzvorschau.
       let aSatz = []
-      let wordsBA = 20
+      let tokensBA = 20     // Anzahl der Tokens die vor und nach dem aktuellen Token angezeigt werden sollen.
       let aTLbInf = this.transcript.aTokens.tokenLists.byInf[this.aToken.i]
       // console.log(this.aToken.i, aTLbInf)
       if (aTLbInf) {
+        // Position des Aktuellen Token ermitteln.
         let tLbIkey = 0
         let mLen = aTLbInf.length - 1
         aTLbInf.some((aToken, aKey) => {
@@ -156,21 +164,23 @@ export default {
             return true
           }
         }, this)
-        let vWord = tLbIkey - wordsBA
-        let bWord = tLbIkey + wordsBA
-        if (vWord < 0) {
-          vWord = 0
-          bWord = wordsBA * 2
+        // Von/Bis Position des Tokenberiechs ermitteln.
+        let vToken = tLbIkey - tokensBA
+        let bToken = tLbIkey + tokensBA
+        if (vToken < 0) {
+          vToken = 0
+          bToken = tokensBA * 2
         }
-        if (bWord > mLen) {
-          bWord = mLen
-          vWord = mLen - wordsBA * 2
+        if (bToken > mLen) {
+          bToken = mLen
+          vToken = mLen - tokensBA * 2
         }
-        if (vWord < 0) {
-          vWord = 0
+        if (vToken < 0) {
+          vToken = 0
         }
+        // Tokens als Liste umsetzen und Klasse des Tokens bestimmen.
         let aClass = 'before'
-        for (var i = vWord; i <= bWord; i++) {
+        for (var i = vToken; i <= bToken; i++) {
           let fxClass = ''
           if (i === tLbIkey) {
             aClass = 'active'
@@ -203,6 +213,7 @@ export default {
   }
   .satzview > span {
     display: inline-block;
+    cursor: pointer;
   }
   .satzview > span:hover {
     text-decoration: underline;
