@@ -2,8 +2,14 @@
   <g :class="{eZeile: true, selected: svgZeileSelected}" :transform="'translate(0,' + zeileData.svgTop + ')'">
     <rect x="0" y="0" :width="width" :height="height" />
     <text :transform="'translate(' + (width - 2) + ',-1)'">{{ zeile }}</text>
-    <AnnotationsAnzeigeZeileEventsTimer :transcript="transcript" :zeileData="zeileData" :selectedZeile="svgZeileSelected"/>
-    <AnnotationsAnzeigeZeileEventsLine :transcript="transcript" :zeileData="zeileData" :aInf="aInf" :selectedZeile="svgZeileSelected" v-for="aInf in availableInfs" :key="'tei' + aInf.pk" />
+    <AnnotationsAnzeigeZeileEventsTimer
+      :transcript="transcript" :zeileData="zeileData" :selectedZeile="svgZeileSelected"
+    />
+    <AnnotationsAnzeigeZeileEventsLine
+      :transcript="transcript" :zeileData="zeileData" :aInf="aInf" :selectedZeile="svgZeileSelected"
+      v-for="aInf in availableInfs"
+      :key="'tei' + aInf.pk"
+    />
   </g>
 </template>
 

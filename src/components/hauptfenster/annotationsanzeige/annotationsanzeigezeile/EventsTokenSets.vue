@@ -1,15 +1,24 @@
 <template>
   <g class="tokensets">
-  <!--     <g class="zTokenSets" :transform="'translate('+(zInfWidth + 5)+','+(eEventHeight-25 + eInfTop + zeilenTEvents[aZeile]['tsT'][aInfKey] + aInfIndex * (eInfHeight + eInfTop))+')'" v-for="(aInfVal, aInfKey, aInfIndex) in objectKeyFilter(objectSubValueFilter(aInformanten,'show',true), zeilenTEvents[aZeile]['iId'])">
-      <g class="zTokenSetLine" :transform="'translate(0,'+(aTsI*aTokenSetHeight)+')'" v-for="aTokenSetIds, aTsI in zeilenTEvents[aZeile]['tsIdZ'][aInfKey]">
-        <g @click="showaTokenSetInfos(aTokenSetId, false, $event)" :class="'zTokenSet'+((aTokenSetId===selTokenSet)?' selected':'')+((selToken > 0 && aTokens[selToken].tokenSets && aTokens[selToken].tokenSets.indexOf(aTokenSetId) > -1)?' active':'')" v-for="aTokenSetId in aTokenSetIds" v-if="zeilenTEvents[aZeile]['tsZi'][aInfKey][aTokenSetId]">
-          <template  v-for="zeilenTEvent in [zeilenTEvents[aZeile]['tsZi'][aInfKey][aTokenSetId]]">
+    <!-- :transform="'translate('+(zInfWidth + 5)+','+(eEventHeight-25 + eInfTop + zeilenTEvents[aZeile]['tsT'][aInf.i] + aInfIndex * (eInfHeight + eInfTop))+')'" -->
+    <g class="zTokenSets"
+      :transform="
+        'translate(' +
+          (this.transcript.aSVG.infWidth + 5 - 99) +
+        ',' +
+          0 +
+        ')'"
+    >
+      <text>xxx: {{ aInf.i }}</text>
+      <!-- <g class="zTokenSetLine" :transform="'translate(0,'+(aTsI*aTokenSetHeight)+')'" v-for="aTokenSetIds, aTsI in zeilenTEvents[aZeile]['tsIdZ'][aInf.i]">
+        <g @click="showaTokenSetInfos(aTokenSetId, false, $event)" :class="'zTokenSet'+((aTokenSetId===selTokenSet)?' selected':'')+((selToken > 0 && aTokens[selToken].tokenSets && aTokens[selToken].tokenSets.indexOf(aTokenSetId) > -1)?' active':'')" v-for="aTokenSetId in aTokenSetIds" v-if="zeilenTEvents[aZeile]['tsZi'][aInf.i][aTokenSetId]">
+          <template  v-for="zeilenTEvent in [zeilenTEvents[aZeile]['tsZi'][aInf.i][aTokenSetId]]">
             <g class="zTsVB" v-if="aTokenSets[aTokenSetId].tx">
               <g :class="'zTsVBln dg'+dg" v-for="dg in [0,1]">
-                <path :d="'M'+(((zeilenTEvent['sX']) ? zeilenTEvent['sX'] + 1 : 0))+' '+((zeilenTEvent['sX']) ? ((zeilenTEvents[aZeile]['tsIdZ'][aInfKey].length-aTsI)*aTokenSetHeight) : (aTokenSetHeight/2))
+                <path :d="'M'+(((zeilenTEvent['sX']) ? zeilenTEvent['sX'] + 1 : 0))+' '+((zeilenTEvent['sX']) ? ((zeilenTEvents[aZeile]['tsIdZ'][aInf.i].length-aTsI)*aTokenSetHeight) : (aTokenSetHeight/2))
                         +((zeilenTEvent['sX']) ? ' V'+(aTokenSetHeight / 2 + 6)+ 'a6,6 0 0 1 6,-6 ' : '')
                         +' H'+((zeilenTEvent['eX']) ? zeilenTEvent['eX'] - 7 : (mWidth - zInfWidth - 15))
-                        +((zeilenTEvent['eX'])?'a6,6 0 0 1 6,6 V'+((zeilenTEvents[aZeile]['tsIdZ'][aInfKey].length-aTsI)*aTokenSetHeight):'')"/>
+                        +((zeilenTEvent['eX'])?'a6,6 0 0 1 6,6 V'+((zeilenTEvents[aZeile]['tsIdZ'][aInf.i].length-aTsI)*aTokenSetHeight):'')"/>
               </g>
               <text :x="(((zeilenTEvent['eX']) ? zeilenTEvent['eX'] : (mWidth - zInfWidth - 15)) + ((zeilenTEvent['sX']) ? zeilenTEvent['sX'] : 0))/2"
                     :y="15"
@@ -33,7 +42,7 @@
                 <line :x1="parseInt(tX)"
                       :y1="aTokenSetHeight/2"
                       :x2="parseInt(tX)"
-                      :y2="(zeilenTEvents[aZeile]['tsIdZ'][aInfKey].length - aTsI) * aTokenSetHeight - 2"
+                      :y2="(zeilenTEvents[aZeile]['tsIdZ'][aInf.i].length - aTsI) * aTokenSetHeight - 2"
                       v-for="tX in zeilenTEvent['tX']" :marker-end="'url(#arrow-zTsTs'+dg+')'"/>
               </g>
               <text :x="(((zeilenTEvent['eX']) ? zeilenTEvent['eX'] : (mWidth - zInfWidth - 15)) + ((zeilenTEvent['sX']) ? zeilenTEvent['sX'] : 0))/2"
@@ -51,24 +60,29 @@
             </g>
           </g>
         </template>
-      </g>
-    </g> -->
+      </g> -->
+    </g>
   </g>
 </template>
 
 <script>
+import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+
 export default {
   name: 'AnnotationsAnzeigeZeileEventsTokenSets',
-  props: ['transcript', 'zeileData'],
+  props: ['transcript', 'aInf', 'zeileData'],
   data () {
     return {
     }
   },
   mounted () {
+    // console.log(this.transcript.aSVG)
   },
   computed: {
   },
   methods: {
+    objectKeyFilter: AllgemeineFunktionen.objectKeyFilter,
+    objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter
   },
   watch: {
   }

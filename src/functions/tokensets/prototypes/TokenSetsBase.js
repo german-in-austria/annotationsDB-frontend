@@ -52,7 +52,7 @@ const localFunctions = {
     // TokenSets aktuallisieren/berechnen
     this.tokenSetsLists.all.forEach(function (aTokSet) {
       if (!aTokSet.ok) {
-        if (aTokSet.ivt) {
+        if (aTokSet.ivt) {  // Von/Bis Tokens ermitteln ...
           let aInf = this.root.aTokens.tokensObj[aTokSet.ivt].i
           let aTokListByInf = this.root.aTokens.tokenLists.byInf[aInf];
           [aTokSet.ivt, aTokSet.ibt] = [aTokSet.ivt, aTokSet.ibt].sort()
@@ -63,25 +63,39 @@ const localFunctions = {
             aTokSet.ok = aTokSet.tx.length > 0
           }
         } else if (aTokSet.t && AllgemeineFunktionen.listeWerteInListe(aTokSet.t, this.root.aTokens.tokenLists.all, 'pk')) {
-          // console.log(aTokSet.t)
+          aTokSet.tObj = []
+          let missToken = false
+          aTokSet.t.some(function (tId) {
+            if (this.root.aTokens.tokensObj[tId]) {
+              aTokSet.tObj.push(this.root.aTokens.tokensObj[tId])
+            } else {
+              missToken = true
+              return true
+            }
+          }, this)
           // ToDo: Tokens sortieren!
-          // aTokSet.t = this.sortEventIdListe(aTokSet.t)
-          // aTokSet.ok = aTokSet.t.length > 0
+          if (!missToken) {
+            // ToDo:
+            // aTokSet.t = this.sortEventIdListe(aTokSet.t)
+            aTokSet.ok = aTokSet.tObj.length > 0
+          }
         }
-        // ToDo:
         // Verwendeten Tokens aktuelles TokenSet zuweisen
-        // var xt = aTokSet.t || aTokSet.tx
-        // if (xt && aTokSet.ok) {
-        //   xt.forEach(function (tId) {
-        //     if (!this.aTokens[tId].tokenSets) {
-        //       this.aTokens[tId].tokenSets = []
-        //     }
-        //     if (this.aTokens[tId].tokenSets.indexOf(aTokSetIdInt) < 0) {
-        //       this.aTokens[tId].tokenSets.push(aTokSetIdInt)
-        //     }
-        //     this.aTokens[tId].tokenSets = this.sortTokenSets(this.aTokens[tId].tokenSets)
-        //   }, this)
-        // }
+        var xt = aTokSet.tObj || aTokSet.tx
+        if (xt && aTokSet.ok) {
+          xt.forEach(function (tId) {
+            if (this.root.aTokens.tokensObj[tId.pk]) {
+              if (!this.root.aTokens.tokensObj[tId.pk].tokenSetsList) {
+                this.root.aTokens.tokensObj[tId.pk].tokenSetsList = []
+              }
+              if (this.root.aTokens.tokensObj[tId.pk].tokenSetsList.indexOf(aTokSet) < 0) {
+                this.root.aTokens.tokensObj[tId.pk].tokenSetsList.push(aTokSet)
+              }
+              // ToDo:
+              // this.root.aTokens.tokensObj[tId.pk].tokenSetsList = this.sortTokenSets(this.root.aTokens.tokensObj[tId.pk].tokenSetsList)
+            }
+          }, this)
+        }
       }
     }, this)
   },
