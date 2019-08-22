@@ -1,4 +1,6 @@
+/* global _ */
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+// var _ = require('lodash')
 
 const localFunctions = {
   // TokenSets setzen
@@ -37,22 +39,22 @@ const localFunctions = {
     }, this)
   },
   updateTokenSetsData () {
-    // ToDo:
     // Verbindung bei Tokens zu TokenSets überprüfen ob die Tokens noch verwendet werden
-    // Object.keys(this.aTokens).map(function (tId, iI) {
-    //   if (this.aTokens[tId].tokenSets) {
-    //     _.remove(this.aTokens[tId].tokenSets, (n) => {
-    //       return (!this.aTokenSets[n] || !this.aTokenSets[n].ok);
-    //     });
-    //     if (this.aTokens[tId].tokenSets.length < 1) {
-    //       delete this.aTokens[tId].tokenSets;
-    //     }
-    //   }
-    // }, this);
+    Object.keys(this.root.aTokens.tokensObj).map(function (tId, iI) {
+      if (this.root.aTokens.tokensObj[tId].tokenSets) {
+        _.remove(this.root.aTokens.tokensObj[tId].tokenSets, (n) => {
+          return (!n || !n.ok)
+        })
+        if (this.root.aTokens.tokensObj[tId].tokenSets.length < 1) {
+          delete this.root.aTokens.tokensObj[tId].tokenSets
+        }
+      }
+    }, this)
     // TokenSets aktuallisieren/berechnen
     this.tokenSetsLists.all.forEach(function (aTokSet) {
       if (!aTokSet.ok) {
-        if (aTokSet.ivt) {  // Von/Bis Tokens ermitteln ...
+        // Tokens aus Bereich laden ...
+        if (aTokSet.ivt) {
           let aInf = this.root.aTokens.tokensObj[aTokSet.ivt].i
           let aTokListByInf = this.root.aTokens.tokenLists.byInf[aInf];
           [aTokSet.ivt, aTokSet.ibt] = [aTokSet.ivt, aTokSet.ibt].sort()
@@ -62,6 +64,7 @@ const localFunctions = {
             aTokSet.tx = aTokListByInf.slice(ivtIdx, ibtIdx + 1)
             aTokSet.ok = aTokSet.tx.length > 0
           }
+        // Tokens aus Liste laden ...
         } else if (aTokSet.t && AllgemeineFunktionen.listeWerteInListe(aTokSet.t, this.root.aTokens.tokenLists.all, 'pk')) {
           aTokSet.tObj = []
           let missToken = false
@@ -73,9 +76,8 @@ const localFunctions = {
               return true
             }
           }, this)
-          // ToDo: Tokens sortieren!
           if (!missToken) {
-            // ToDo:
+            // ToDo: Tokens sortieren ...
             // aTokSet.t = this.sortEventIdListe(aTokSet.t)
             aTokSet.ok = aTokSet.tObj.length > 0
           }
@@ -91,7 +93,7 @@ const localFunctions = {
               if (this.root.aTokens.tokensObj[tId.pk].tokenSetsList.indexOf(aTokSet) < 0) {
                 this.root.aTokens.tokensObj[tId.pk].tokenSetsList.push(aTokSet)
               }
-              // ToDo:
+              // ToDo: Tokens sortieren ...
               // this.root.aTokens.tokensObj[tId.pk].tokenSetsList = this.sortTokenSets(this.root.aTokens.tokensObj[tId.pk].tokenSetsList)
             }
           }, this)
