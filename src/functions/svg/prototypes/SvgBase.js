@@ -143,14 +143,32 @@ const localFunctions = {
                 aTokenSetsDeepList[aDeep].push(aTokenSet)
                 // Zusätzliche Daten für SVG Darstellung der Token Sets hinzufügen:
                 tokenSetsSvgData[aTokenSet.pk] = {}
-                tokenSetsSvgData[aTokenSet.pk]['startToken'] = ((atSetStart < aZteStart) ? undefined : aSetT[0])
-                tokenSetsSvgData[aTokenSet.pk]['endToken'] = ((atSetEnde > aZteEnde) ? undefined : aSetT[aSetT.length - 1])
+                tokenSetsSvgData[aTokenSet.pk]['startToken'] = (
+                  (atSetStart < aZteStart)
+                    ? undefined
+                    : aSetT[0])
+                tokenSetsSvgData[aTokenSet.pk]['endToken'] = (
+                  (atSetEnde > aZteEnde)
+                    ? undefined
+                    : aSetT[aSetT.length - 1])
                 if (aTokenSet.tx) {
-                  tokenSetsSvgData[aTokenSet.pk]['startX'] = ((atSetStart < aZteStart) ? undefined : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft))
-                  tokenSetsSvgData[aTokenSet.pk]['endX'] = ((atSetEnde > aZteEnde) ? undefined : (this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth))
+                  tokenSetsSvgData[aTokenSet.pk]['startX'] = (
+                    (atSetStart < aZteStart)
+                      ? undefined
+                      : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft))
+                  tokenSetsSvgData[aTokenSet.pk]['endX'] = (
+                    (atSetEnde > aZteEnde)
+                      ? undefined
+                      : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth)
                 } else {
-                  tokenSetsSvgData[aTokenSet.pk]['startX'] = ((atSetStart < aZteStart) ? undefined : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft + (aSetT[0].svgWidth / 2)))
-                  tokenSetsSvgData[aTokenSet.pk]['endX'] = ((atSetEnde > aZteEnde) ? undefined : (this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + (aSetT[aSetT.length - 1].svgWidth / 2)))
+                  tokenSetsSvgData[aTokenSet.pk]['startX'] = (
+                    (atSetStart < aZteStart)
+                      ? undefined
+                      : this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft + (aSetT[0].svgWidth / 2))
+                  tokenSetsSvgData[aTokenSet.pk]['endX'] = (
+                    (atSetEnde > aZteEnde)
+                      ? undefined
+                      : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + (aSetT[aSetT.length - 1].svgWidth / 2))
                   tokenSetsSvgData[aTokenSet.pk]['tokensX'] = []
                   aSetT.forEach(function (aToken) {
                     let aTEvent = this.getTEventOfAEvent(aToken.eObj, aZeile.teObjs)
