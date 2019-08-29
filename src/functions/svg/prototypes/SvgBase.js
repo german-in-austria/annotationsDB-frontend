@@ -13,27 +13,27 @@ const localFunctions = {
     console.log('SvgBase', this)
   },
   updateDimensionen () {
-    let oWidth = this.width
     this.width = this.svgElement.clientWidth
     this.height = 0
     this.viewWidth = this.viewElement.clientWidth
     this.viewHeight = this.viewElement.clientHeight
-    if (oWidth !== this.width) {
-      console.log('ToDo: Zeilen updaten', this.width)
-    }
     this.updateZeilen()
   },
   updateZeilen () {
-    function zeilenObj () {
+    // Alle Zeilen neu berechnen
+    function zeilenObj () { // Leeres Zeilen Objekt
       return {
         'teObjs': [],
         'iPks': [],
         'svgTop': 0,
         'svgHeight': 0,
-        'svgInfLine': {}
+        'svgInfLine': {},
+        'tokenListByInf': {},
+        'tokenSetsListByInf': {}
       }
     }
     if (this.svgElement && this.viewElement) {
+      // Zeilen mit Events erstellen
       this.zeilen = {}
       this.zeilen.all = []
       this.height = 0
@@ -64,26 +64,38 @@ const localFunctions = {
           }, this)
         }
       }, this)
+      // SVG Koordinaten Berechnungen
       this.zeilen.all.forEach(function (aZeile) {
         // Horizontal
         let teLeft = 0
         aZeile.teObjs.forEach(function (tEvent) {
           tEvent.svgLeft = teLeft
           teLeft += tEvent.svgWidth
+          // Tokens der Zeile ermitteln.
+          tEvent.events.forEach(function (aEvent) {
+            if (aEvent.tidObj) {
+              Object.keys(aEvent.tidObj).forEach(function (aInfPk) {
+                if (!aZeile.tokenListByInf[aInfPk]) {
+                  aZeile.tokenListByInf[aInfPk] = []
+                }
+                aZeile.tokenListByInf[aInfPk] = [...aZeile.tokenListByInf[aInfPk], ...aEvent.tidObj[aInfPk]]
+              }, this)
+            }
+          }, this)
         }, this)
         // Vertikal
         let zHeight = 0
         this.root.aInformanten.informantenList.forEach(aInf => {
+          // Verwendete TokenSets ermitteln
+          let tsHeight = 0
           if (aZeile.iPks.indexOf(aInf.pk) > -1) {
             let aTokenSetsListPk = []
             let aTokenSetsList = []
             aZeile.teObjs.forEach(function (tEvent) {
-              // console.log(tEvent)
               tEvent.events.forEach(function (aEvent) {
                 if (aEvent.tidObj && aEvent.tidObj[aInf.pk]) {
                   aEvent.tidObj[aInf.pk].forEach(function (aToken) {
                     if (aToken.tokenSetsList) {
-                      // console.log(aToken.tokenSetsList)
                       aToken.tokenSetsList.forEach(function (aTokenSet) {
                         if (aTokenSetsListPk.indexOf(aTokenSet.pk) < 0) {
                           aTokenSetsListPk.push(aTokenSet.pk)
@@ -96,10 +108,12 @@ const localFunctions = {
               }, this)
             }, this)
             if (aTokenSetsList.length > 0) {
-              console.log(aTokenSetsList)
+              console.log(aInf.pk, aTokenSetsList, aZeile.tokenListByInf[aInf.pk])
               // ToDo: TokenSets sortieren
             }
-            let tsHeight = this.tokenSetsHeight * aTokenSetsList.length
+            aZeile.tokenSetsListByInf[aInf.pk] = aTokenSetsList
+            tsHeight = this.tokenSetsHeight * aTokenSetsList.length
+            // Koordinaten setzen
             aZeile.svgInfLine[aInf.pk] = {top: zHeight, tsHeight: tsHeight}
             zHeight += this.infHeight + this.selHeight + this.infTop + tsHeight
           }
@@ -113,6 +127,7 @@ const localFunctions = {
     this.update = true
   },
   scrolling () {
+    // Zeilen im Sichtbreich ermitteln
     let aTop = this.viewElement.scrollTop
     let aBottom = aTop + this.viewHeight
     this.renderZeilen = []
