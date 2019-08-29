@@ -107,14 +107,14 @@ const localFunctions = {
   },
   sortTokenSets: function (tokSets) {
     return tokSets.slice().sort((a, b) => {
-      var xa = this.root.aTokens.tokenLists.all.indexOf((a.tObj || a.tx)[0].pk)
-      var xb = this.root.aTokens.tokenLists.all.indexOf((b.tObj || b.tx)[0].pk)
+      var xa = this.root.aTokens.tokenLists.all.indexOf((a.tObj || a.tx)[0])
+      var xb = this.root.aTokens.tokenLists.all.indexOf((b.tObj || b.tx)[0])
       if (xa > xb) { return 1 }
       if (xa < xb) { return -1 }
       var aTSa = a.tObj || a.tx
       var aTSb = b.tObj || b.tx
-      xa = this.root.aTokens.tokenLists.all.indexOf(aTSa[aTSa.length - 1].pk)
-      xb = this.root.aTokens.tokenLists.all.indexOf(aTSb[aTSb.length - 1].pk)
+      xa = this.root.aTokens.tokenLists.all.indexOf(aTSa[aTSa.length - 1])
+      xb = this.root.aTokens.tokenLists.all.indexOf(aTSb[aTSb.length - 1])
       if (xa < xb) { return 1 }
       if (xa > xb) { return -1 }
       if (a.t && b.tx) { return 1 }

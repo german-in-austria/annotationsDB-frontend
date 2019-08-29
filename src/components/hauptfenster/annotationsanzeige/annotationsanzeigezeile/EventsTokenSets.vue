@@ -7,7 +7,6 @@
         0 +
       ')'"
   >
-  <!-- :transform="'translate('+(zInfWidth + 5)+','+(eEventHeight-25 + eInfTop + zeilenTEvents[aZeile]['tsT'][aInf.i] + aInfIndex * (eInfHeight + eInfTop))+')'" -->
     <text>xxx: {{ zeileData.tokenSetsListByInf[aInf.pk].length }}</text>
     <!-- <g class="zTokenSetLine" :transform="'translate(0,'+(aTsI*aTokenSetHeight)+')'" v-for="aTokenSetIds, aTsI in zeilenTEvents[aZeile]['tsIdZ'][aInf.i]">
       <g @click="showaTokenSetInfos(aTokenSetId, false, $event)" :class="'zTokenSet'+((aTokenSetId===selTokenSet)?' selected':'')+((selToken > 0 && aTokens[selToken].tokenSets && aTokens[selToken].tokenSets.indexOf(aTokenSetId) > -1)?' active':'')" v-for="aTokenSetId in aTokenSetIds" v-if="zeilenTEvents[aZeile]['tsZi'][aInf.i][aTokenSetId]">
