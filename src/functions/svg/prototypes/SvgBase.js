@@ -75,8 +75,33 @@ const localFunctions = {
         let zHeight = 0
         this.root.aInformanten.informantenList.forEach(aInf => {
           if (aZeile.iPks.indexOf(aInf.pk) > -1) {
-            aZeile.svgInfLine[aInf.pk] = {top: zHeight, tsHeight: 0}    // ToDo: tsHeight ist Höhe der Token Sets
-            zHeight += this.infHeight + this.selHeight + this.infTop   // ToDo!!! (tsHeight berücksichtigen!)
+            let aTokenSetsListPk = []
+            let aTokenSetsList = []
+            aZeile.teObjs.forEach(function (tEvent) {
+              // console.log(tEvent)
+              tEvent.events.forEach(function (aEvent) {
+                if (aEvent.tidObj && aEvent.tidObj[aInf.pk]) {
+                  aEvent.tidObj[aInf.pk].forEach(function (aToken) {
+                    if (aToken.tokenSetsList) {
+                      // console.log(aToken.tokenSetsList)
+                      aToken.tokenSetsList.forEach(function (aTokenSet) {
+                        if (aTokenSetsListPk.indexOf(aTokenSet.pk) < 0) {
+                          aTokenSetsListPk.push(aTokenSet.pk)
+                          aTokenSetsList.push(aTokenSet)
+                        }
+                      }, this)
+                    }
+                  }, this)
+                }
+              }, this)
+            }, this)
+            if (aTokenSetsList.length > 0) {
+              console.log(aTokenSetsList)
+              // ToDo: TokenSets sortieren
+            }
+            let tsHeight = this.tokenSetsHeight * aTokenSetsList.length
+            aZeile.svgInfLine[aInf.pk] = {top: zHeight, tsHeight: tsHeight}
+            zHeight += this.infHeight + this.selHeight + this.infTop + tsHeight
           }
         }, this)
         aZeile.svgTop = this.height

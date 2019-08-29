@@ -1,5 +1,12 @@
 <template>
-  <g class="eInf" :transform="'translate(' + tEvent.svgLeft + ',0)'">
+  <g class="eInf"
+    :transform="
+      'translate(' +
+        tEvent.svgLeft +
+      ',' +
+        aSvgInfLine.tsHeight +
+      ')'"
+  >
     <rect x="0" y="0" :width="tEvent.svgWidth + 1" :height="transcript.aSVG.infHeight" />
     <AnnotationsAnzeigeZeileEventsLineEventToken :transcript="transcript" :zeileData="zeileData" :aToken="aToken" v-for="aToken in aTokens" :key="'at' + aToken.pk" />
   </g>

@@ -19,6 +19,7 @@ const localFunctions = {
     this.infWidth = 100                 // Breite der Informanten Spalte
     this.selHeight = 10                 // Höhe des Auswahlbereichs
     this.zeilenAbstand = 15             // Abstand zwischen den Zeilen
+    this.tokenSetsHeight = 20           // Höhe eines Tokensets
     this.zeilen = {}                    // Zeilen mit Events
     this.renderZeilen = []              // Zu rendernde Zeilen
     this.update = false                 // Neu rendern

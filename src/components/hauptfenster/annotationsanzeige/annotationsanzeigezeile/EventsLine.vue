@@ -11,7 +11,7 @@
       :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" :selectedZeile="selectedZeile"
     />
     <AnnotationsAnzeigeZeileEventsTokenSets
-      :transcript="transcript" :aInf="aInf" :zeileData="zeileData"
+      :transcript="transcript" :aInf="aInf" :aSvgInfLine="aSvgInfLine" :zeileData="zeileData"
     />
     <g class="tEventLine" :transform="'translate(' + transcript.aSVG.infWidth + ',0)'">
       <AnnotationsAnzeigeZeileEventsLineEvent
