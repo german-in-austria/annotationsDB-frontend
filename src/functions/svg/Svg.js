@@ -33,5 +33,6 @@ localFunctions.SvgBase.prototype.updateDimensionen = prototypeSvgBase.updateDime
 localFunctions.SvgBase.prototype.scrolling = prototypeSvgBase.scrolling
 localFunctions.SvgBase.prototype.getTextWidth = prototypeSvgFunktionen.getTextWidth
 localFunctions.SvgBase.prototype.updateZeilen = prototypeSvgBase.updateZeilen
+localFunctions.SvgBase.prototype.getTEventOfAEvent = prototypeSvgBase.getTEventOfAEvent
 
 export default localFunctions

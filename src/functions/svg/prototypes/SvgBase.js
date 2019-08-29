@@ -114,7 +114,6 @@ const localFunctions = {
             let aTokenSetsDeepList = []
             let tokenSetsSvgData = {}
             if (aTokenSetsList.length > 0) {
-              // console.log(aInf.pk, aTokenSetsList, aZeile.tokenListByInf[aInf.pk])
               aTokenSetsList = this.root.aTokenSets.sortTokenSets(aTokenSetsList)
               // TokenSets in Zeilen laden:
               aTokenSetsList.some(function (aTokenSet) {
@@ -122,7 +121,6 @@ const localFunctions = {
                 var aSetT = (aTokenSet.tObj || aTokenSet.tx)
                 var atSetStart = this.root.aTokens.tokenLists.all.indexOf(aSetT[0])
                 var atSetEnde = this.root.aTokens.tokenLists.all.indexOf(aSetT[aSetT.length - 1])
-                // console.log(aSetT, atSetStart, atSetEnde, this.root.aTokens.tokenLists.all)
                 // Aktuelle Tiefe ermitteln
                 let aDeep = aTokenSetsDeepList.length
                 aTokenSetsDeepList.some(function (adTokenSets, i) {
@@ -145,20 +143,21 @@ const localFunctions = {
                 aTokenSetsDeepList[aDeep].push(aTokenSet)
                 // Zusätzliche Daten für SVG Darstellung der Token Sets hinzufügen:
                 tokenSetsSvgData[aTokenSet.pk] = {}
-                tokenSetsSvgData[aTokenSet.pk]['sT'] = ((atSetStart < aZteStart) ? undefined : aSetT[0])
-                tokenSetsSvgData[aTokenSet.pk]['eT'] = ((atSetEnde > aZteEnde) ? undefined : aSetT[aSetT.length - 1])
+                tokenSetsSvgData[aTokenSet.pk]['startToken'] = ((atSetStart < aZteStart) ? undefined : aSetT[0])
+                tokenSetsSvgData[aTokenSet.pk]['endToken'] = ((atSetEnde > aZteEnde) ? undefined : aSetT[aSetT.length - 1])
                 if (aTokenSet.tx) {
-                  // tokenSetsSvgData[aTokenSet.pk]['sX'] = ((atSetStart < aZteStart) ? undefined : (this.tEvents[this.getTEventOfAEvent(this.searchByKey(this.aTokens[aSetT[0]].e, 'pk', this.aEvents))].svgLeft + this.aTokens[aSetT[0]].svgLeft))
-                  // tokenSetsSvgData[aTokenSet.pk]['eX'] = ((atSetEnde > aZteEnde) ? undefined : (this.tEvents[this.getTEventOfAEvent(this.searchByKey(this.aTokens[aSetT[aSetT.length - 1]].e, 'pk', this.aEvents))].svgLeft + this.aTokens[aSetT[aSetT.length - 1]].svgLeft + this.aTokens[aSetT[aSetT.length - 1]].svgWidth))
+                  tokenSetsSvgData[aTokenSet.pk]['startX'] = ((atSetStart < aZteStart) ? undefined : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft))
+                  tokenSetsSvgData[aTokenSet.pk]['endX'] = ((atSetEnde > aZteEnde) ? undefined : (this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth))
                 } else {
-                //   tokenSetsSvgData[aTokenSet.pk]['sX'] = ((atSetStart < aZteStart) ? undefined : (this.tEvents[this.getTEventOfAEvent(this.searchByKey(this.aTokens[aSetT[0]].e, 'pk', this.aEvents))].svgLeft + this.aTokens[aSetT[0]].svgLeft + (this.aTokens[aSetT[0]].svgWidth / 2)))
-                //   tokenSetsSvgData[aTokenSet.pk]['eX'] = ((atSetEnde > aZteEnde) ? undefined : (this.tEvents[this.getTEventOfAEvent(this.searchByKey(this.aTokens[aSetT[aSetT.length - 1]].e, 'pk', this.aEvents))].svgLeft + this.aTokens[aSetT[aSetT.length - 1]].svgLeft + (this.aTokens[aSetT[aSetT.length - 1]].svgWidth / 2)))
-                //   tokenSetsSvgData[aTokenSet.pk]['tX'] = []
-                //   aSetT.forEach(function (aToken) {
-                //   //  if (this.root.aTokens.tokenLists.all.indexOf(aToken) > -1) {
-                //   //     tokenSetsSvgData[aTokenSet.pk]['tX'].push(this.tEvents[this.getTEventOfAEvent(this.searchByKey(aToken.e, 'pk', this.aEvents))].svgLeft + aToken.svgLeft + (aToken.svgWidth / 2))
-                //   //   }
-                //   }, this);
+                  tokenSetsSvgData[aTokenSet.pk]['startX'] = ((atSetStart < aZteStart) ? undefined : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft + (aSetT[0].svgWidth / 2)))
+                  tokenSetsSvgData[aTokenSet.pk]['endX'] = ((atSetEnde > aZteEnde) ? undefined : (this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + (aSetT[aSetT.length - 1].svgWidth / 2)))
+                  tokenSetsSvgData[aTokenSet.pk]['tokensX'] = []
+                  aSetT.forEach(function (aToken) {
+                    let aTEvent = this.getTEventOfAEvent(aToken.eObj, aZeile.teObjs)
+                    if (aTEvent) {
+                      tokenSetsSvgData[aTokenSet.pk]['tokensX'].push(aTEvent.svgLeft + aToken.svgLeft + (aToken.svgWidth / 2))
+                    }
+                  }, this)
                 }
                 // // Sortierung optimieren:
                 // let dChange = true
@@ -185,7 +184,6 @@ const localFunctions = {
                 //   }
                 // }
               }, this)
-              console.log(aTokenSetsDeepList, tokenSetsSvgData, aZteStart + ' - ' + aZteEnde)
             }
             aZeile.tokenSetsListByInf[aInf.pk] = aTokenSetsList
             aZeile.tokenSetsDeepList[aInf.pk] = aTokenSetsDeepList
@@ -203,6 +201,17 @@ const localFunctions = {
       this.scrolling()
     }
     this.update = true
+  },
+  getTEventOfAEvent: function (sEvent, tEvents) {
+    // Gibt das tEvent zu einem Event zurück.
+    let nObj = null
+    tEvents.some(function (aTEvent) {
+      if (aTEvent.events.indexOf(sEvent) > -1) {
+        nObj = aTEvent
+        return true
+      }
+    }, this)
+    return nObj
   },
   scrolling () {
     // Zeilen im Sichtbreich ermitteln
