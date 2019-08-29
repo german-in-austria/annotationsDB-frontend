@@ -108,7 +108,7 @@ const localFunctions = {
               }, this)
             }, this)
             if (aTokenSetsList.length > 0) {
-              console.log(aInf.pk, aTokenSetsList, aZeile.tokenListByInf[aInf.pk])
+              // console.log(aInf.pk, aTokenSetsList, aZeile.tokenListByInf[aInf.pk])
               // ToDo: TokenSets sortieren
             }
             aZeile.tokenSetsListByInf[aInf.pk] = aTokenSetsList

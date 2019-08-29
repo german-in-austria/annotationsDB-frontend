@@ -17,5 +17,6 @@ localFunctions.TokenSetsBase.prototype.update = prototypeTokenSetsBase.update
 localFunctions.TokenSetsBase.prototype.updateTokenSetsLists = prototypeTokenSetsBase.updateTokenSetsLists
 localFunctions.TokenSetsBase.prototype.updateTokenSetsData = prototypeTokenSetsBase.updateTokenSetsData
 localFunctions.TokenSetsBase.prototype.updateLength = prototypeTokenSetsBase.updateLength
+localFunctions.TokenSetsBase.prototype.sortTokenSets = prototypeTokenSetsBase.sortTokenSets
 
 export default localFunctions
