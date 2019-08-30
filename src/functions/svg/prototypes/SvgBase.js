@@ -126,7 +126,7 @@ const localFunctions = {
                 aTokenSetsDeepList.some(function (adTokenSets, i) {
                   let aOk = true
                   adTokenSets.forEach(function (adTokenSet) {
-                    let tSet = (adTokenSet.t || adTokenSet.tx)
+                    let tSet = (adTokenSet.tObj || adTokenSet.tx)
                     if (atSetStart <= this.root.aTokens.tokenLists.all.indexOf(tSet[tSet.length - 1]) && atSetEnde >= this.root.aTokens.tokenLists.all.indexOf(tSet[0])) {
                       aOk = false
                       return true
@@ -183,12 +183,12 @@ const localFunctions = {
                 //   dChange = false
                 //   for (var i = aTokenSetsDeepList.length - 2; i >= 0; i--) {
                 //     aTokenSetsDeepList[i].forEach(function (aVal, aIndex) {
-                //       var aSetT = (this.aTokenSets[aVal].t || this.aTokenSets[aVal].tx)
+                //       var aSetT = (this.aTokenSets[aVal].tObj || this.aTokenSets[aVal].tx)
                 //       var atSetStart = this.aTokenReihung.indexOf(aSetT[0])
                 //       var atSetEnde = this.aTokenReihung.indexOf(aSetT[aSetT.length - 1])
                 //       var aOk = true
                 //       aTokenSetsDeepList[i + 1].some(function (nVal, nIndex) {
-                //         var nSetT = (this.aTokenSets[nVal].t || this.aTokenSets[nVal].tx)
+                //         var nSetT = (this.aTokenSets[nVal].tObj || this.aTokenSets[nVal].tx)
                 //         if (atSetStart <= this.aTokenReihung.indexOf(nSetT[nSetT.length - 1]) && atSetEnde >= this.aTokenReihung.indexOf(nSetT[0])) {
                 //           aOk = false
                 //           return true

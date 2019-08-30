@@ -2,7 +2,7 @@
   <g class="zTokenSets"
     :transform="
       'translate(' +
-        (transcript.aSVG.frmPadding + transcript.aSVG.infWidth) +
+        transcript.aSVG.infWidth +
       ',' +
         -7 +
       ')'"
@@ -12,13 +12,13 @@
       v-for="(aTokenSetDeep, aTsdI) in tokenSetsDeepList"
       :key="'ztsl' + aTsdI"
     >
-      <g :class="'zTokenSet' + ((aTokenSetId===selTokenSet) ? ' selected' : '') + ((selToken > 0 && aTokens[selToken].tokenSets && aTokens[selToken].tokenSets.indexOf(aTokenSetId) > -1) ? ' active' : '')"
+      <g :class="'zTokenSet'"
         v-for="(aTokenSet, aTsI) in aTokenSetDeep"
         :key="aTsI"
         :transform="'translate(0,' + (aTsdI * aTokenSetHeight) + ')'"
+        @click="showaTokenSetInfos(aTokenSet.pk, false, $event)"
       >
-      <!-- @click="showaTokenSetInfos(aTokenSetId, false, $event)" -->
-        <!-- <text :transform="'translate(' + (aTsI * 200) + ',0)'">xxx: {{ aTsdI + ' - ' + aTsI + ' - ' + tokenSetsSvgData[aTokenSet.pk].startX }}</text> -->
+       <!-- + ((aTokenSet.pk === selTokenSet) ? ' selected' : '') + ((selToken > 0 && aTokens[selToken].tokenSets && aTokens[selToken].tokenSets.indexOf(aTokenSet) > -1) ? ' active' : '') -->
         <g class="zTsVB" v-if="aTokenSet.tx">
           <g :class="'zTsVBln dg' + dg" v-for="dg in [0,1]" :key="'zTsVBlndg' + dg">
             <path :d="'M' + (((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX + 1 : 0)) + ' ' +
@@ -26,10 +26,10 @@
                       ((tokenSetsSvgData[aTokenSet.pk].startX)
                         ? ' V' + (aTokenSetHeight / 2 + 6) + 'a6,6 0 0 1 6,-6 '
                         : '') +
-                      ' H' + ((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX - 7 : (mWidth - transcript.aSVG.infWidth - 15)) +
+                      ' H' + ((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX - 7 : svgWidth) +
                       ((tokenSetsSvgData[aTokenSet.pk].endX) ? 'a6,6 0 0 1 6,6 V' + ((tokenSetsDeepList.length - aTsdI) * aTokenSetHeight) : '')" />
           </g>
-          <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : (mWidth - transcript.aSVG.infWidth - 15)) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0)) / 2"
+          <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : svgWidth) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0)) / 2"
                 :y="0"
                 style="text-anchor:middle;"  filter="url(#solid)">&nbsp;
                   <!-- :text-decoration="((getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'underline' : '')"
@@ -44,28 +44,29 @@
         </g>
         <g class="zTsTs" v-else>
           <g :class="'zTsVBln dg' + dg" v-for="dg in [0,1]" :key="'zTsVBlndg' + dg">
-            <!-- <line :x1="parseInt((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0)"
-                  :y1="aTokenSetHeight/2"
-                  :x2="parseInt((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : (mWidth - transcript.aSVG.infWidth - 15))"
-                  :y2="aTokenSetHeight/2"/>
-            <line :x1="parseInt(tX)"
-                  :y1="aTokenSetHeight/2"
-                  :x2="parseInt(tX)"
+            <line :x1="parseInt((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0)"
+                  :y1="aTokenSetHeight / 2"
+                  :x2="parseInt((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : svgWidth)"
+                  :y2="aTokenSetHeight / 2"/>
+            <line :x1="parseInt(tokenX)"
+                  :y1="aTokenSetHeight / 2"
+                  :x2="parseInt(tokenX)"
                   :y2="(tokenSetsDeepList.length - aTsdI) * aTokenSetHeight - 2"
-                  v-for="tX in zeilenTEvent['tX']" :marker-end="'url(#arrow-zTsTs'+dg+')'"/> -->
+                  v-for="(tokenX, txKey) in tokenSetsSvgData[aTokenSet.pk].tokensX" :marker-end="'url(#arrow-zTsTs' + dg + ')'"
+                  :key="'ztsts' + txKey"/>
           </g>
-          <!-- <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : (mWidth - transcript.aSVG.infWidth - 15)) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0))/2"
-                :y="15"
-                style="text-anchor:middle;"  filter="url(#solid)"
-                :text-decoration="((getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'underline' : '')"
-                :class="{'bold': (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0)}">&nbsp;
-                  ${
-                    aTokenSetId
+          <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : svgWidth) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0))/2"
+                :y="0"
+                style="text-anchor:middle;"  filter="url(#solid)">&nbsp;
+                <!-- :text-decoration="((getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'underline' : '')"
+                :class="{'bold': (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0)}" -->
+                  {{ aTokenSet.pk }}
+                  <!-- {{
                     + ((showTagEbene && previewTagEbene > 0 && (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene))) ?
                       ': ' + tagCache.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene).tags)
                     : '')
-                  }
-                &nbsp;</text> -->
+                  }} -->
+                &nbsp;</text>
         </g>
       </g>
     </g>
@@ -84,7 +85,15 @@ export default {
   },
   mounted () {
     // console.log(this.transcript.aSVG)
-    console.log(this.zeileData)
+    // console.log(this.zeileData)
+    // console.log(this.tokenSetsSvgData)
+  },
+  methods: {
+    showaTokenSetInfos (eTokSet, direkt = false, e = undefined) {
+      console.log('showaTokenSetInfos', eTokSet, direkt, e)
+    },
+    objectKeyFilter: AllgemeineFunktionen.objectKeyFilter,
+    objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter
   },
   computed: {
     tokenSetsDeepList () {
@@ -96,13 +105,9 @@ export default {
     aTokenSetHeight () {
       return this.transcript.aSVG.tokenSetsHeight
     },
-    mWidth () {
-      return 1000
+    svgWidth () {
+      return this.transcript.aSVG.width - this.transcript.aSVG.infWidth - this.transcript.aSVG.frmPadding * 2 - 15
     }
-  },
-  methods: {
-    objectKeyFilter: AllgemeineFunktionen.objectKeyFilter,
-    objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter
   },
   watch: {
   }
@@ -122,6 +127,9 @@ export default {
   .zTsVBln.dg0 > line, .zTsVBln.dg0 > path {
     stroke-width: 4px !important;
     stroke: #fff !important;
+  }
+  g.zTokenSet {
+    cursor: pointer;
   }
   g.zTokenSet.active .zTsVBln.dg1 > line, g.zTokenSet.active .zTsVBln.dg1 > path {
     stroke: #99f;
