@@ -5,14 +5,14 @@
       <div v-if="showTokenSetInfo">
         <div class="tokensets">
           <template v-if="selTokenSet.ivt">
-            <b>Von Token:</b> <a href="#" v-on:click.prevent="selectToken(selTokenSet.ivt)" :title="'ID: ' + selTokenSet.ivt">{{ transcript.aTokens.tokensObj[selTokenSet.ivt].t }}</a>
+            <b>Von Token:</b> <a href="#" v-on:click.prevent="selectToken(selTokenSet.ivt)" :title="'ID: ' + selTokenSet.ivt">{{ allTokensObj[selTokenSet.ivt].t }}</a>
             <!-- <a href="#" v-on:click.prevent="setATokenSetBereich(selTokenSet, selToken, 'ivt')" class="pull-right" title="Ersetzen durch ausgewähltes Token."
-              v-if="selToken && getValOfSubProp(aTokens[selToken], 'i') === transcript.aTokens.tokensObj[selTokenSet.ivt].i && aTokenReihung.indexOf(selTokenSet.ibt) > aTokenReihung.indexOf(selToken)"
+              v-if="selToken && getValOfSubProp(aTokens[selToken], 'i') === allTokensObj[selTokenSet.ivt].i && aTokenReihung.indexOf(selTokenSet.ibt) > aTokenReihung.indexOf(selToken)"
             ><span class="glyphicon glyphicon-screenshot pull-right" aria-hidden="true"></span></a> -->
             <br>
           </template>
           <template v-if="selTokenSet.ibt">
-            <b>Bis Token:</b> <a href="#" v-on:click.prevent="selectToken(selTokenSet.ibt)" :title="'ID: ' + selTokenSet.ibt">{{ transcript.aTokens.tokensObj[selTokenSet.ibt].t }}</a>
+            <b>Bis Token:</b> <a href="#" v-on:click.prevent="selectToken(selTokenSet.ibt)" :title="'ID: ' + selTokenSet.ibt">{{ allTokensObj[selTokenSet.ibt].t }}</a>
             <!-- <a href="#" v-on:click.prevent="setATokenSetBereich(selTokenSet,selToken,'ibt')" class="pull-right" title="Ersetzen durch ausgewähltes Token."
               v-if="selToken && getValOfSubProp(aTokens[selToken], 'i') === aTokens[selTokenSet.ibt].i && aTokenReihung.indexOf(selTokenSet.ivt) < aTokenReihung.indexOf(selToken)"
             ><span class="glyphicon glyphicon-screenshot pull-right" aria-hidden="true"></span></a> -->
@@ -46,10 +46,10 @@
         >
           <b>ID:</b> {{ aTokenSet.pk + ((0 > aTokenSet.p) ? ' (Neu)' : '') }} <a href="#" v-on:click.prevent="selTokenSet = aTokenSet" v-if="selTokenSet !== aTokenSet" class="pull-right"><span class="glyphicon glyphicon-copy pull-right" aria-hidden="true"></span></a><br>
           <template v-if="aTokenSet.ivt">
-            <b>Von Token:</b> <a href="#" v-on:click.prevent="selectToken(aTokenSet.ivt)" :title="'ID: ' + aTokenSet.ivt">{{ transcript.aTokens.tokensObj[aTokenSet.ivt].t }}</a><br>
+            <b>Von Token:</b> <a href="#" v-on:click.prevent="selectToken(aTokenSet.ivt)" :title="'ID: ' + aTokenSet.ivt">{{ allTokensObj[aTokenSet.ivt].t }}</a><br>
           </template>
           <template v-if="aTokenSet.ibt">
-            <b>Bis Token:</b> <a href="#" v-on:click.prevent="selectToken(aTokenSet.ibt)" :title="'ID: ' + aTokenSet.ibt">{{ transcript.aTokens.tokensObj[aTokenSet.ibt].t }}</a><br>
+            <b>Bis Token:</b> <a href="#" v-on:click.prevent="selectToken(aTokenSet.ibt)" :title="'ID: ' + aTokenSet.ibt">{{ allTokensObj[aTokenSet.ibt].t }}</a><br>
           </template>
           <b>Tokens:</b> {{ (aTokenSet.t || aTokenSet.tx || []).length.toLocaleString() }} {{ ((aTokenSet.t) ? '(Liste)' : '(Bereich)') }}
             <a href="#" v-on:click.prevent="ipShow(aTokenSet.pk)" class="pull-right"><span :class="'glyphicon glyphicon-' + ((showTokensList[aTokenSet.pk]) ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span></a><br>
@@ -91,7 +91,7 @@ export default {
       console.log('setATokenSetBereich', aTokenSetId, aTokenId, feld, direkt)
     },
     selectToken (sTok) {
-      this.transcript.selectedToken = this.transcript.aTokens.tokensObj[sTok]
+      this.transcript.selectedToken = this.allTokensObj[sTok]
       // ToDo: focusFocusCatch()
     },
     ipShow (aTsPk) {
@@ -109,6 +109,9 @@ export default {
     },
     selTokenSet () {
       return this.transcript.selectedTokenSet
+    },
+    allTokensObj () {
+      return this.transcript.aTokens.tokensObj
     }
   },
   components: {

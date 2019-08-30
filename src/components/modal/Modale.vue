@@ -20,6 +20,9 @@ export default {
     return {
     }
   },
+  mounted () {
+    console.log('Modale', this.modalData)
+  },
   watch: {
   },
   methods: {

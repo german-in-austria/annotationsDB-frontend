@@ -91,13 +91,12 @@ export default {
   },
   methods: {
     showaTokenSetInfos (eTokSet, direkt = false, e = undefined) {
-      console.log(this.transcript.selectedToken)
       if (e.ctrlKey) {
         // ToDo: TokenSet select
         // ToDo: ctrlKey
       } else {
         if (this.transcript.selectedTokenSet === eTokSet) {
-          this.transcript.vueObj.modalData = { type: 'tokenset', data: {aTokenSet: _.cloneDeep(eTokSet)} }
+          this.transcript.vueObj.modalData = { type: 'tokenSet', data: {aTokenSet: _.cloneDeep(eTokSet)} }
         } else {
           this.transcript.selectedTokenSet = eTokSet
           console.log('showaTokenSetInfos', eTokSet)
