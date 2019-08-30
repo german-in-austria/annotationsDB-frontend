@@ -118,9 +118,9 @@ const localFunctions = {
               // TokenSets in Zeilen laden:
               aTokenSetsList.some(function (aTokenSet) {
                 // TokenSets sortieren:
-                var aSetT = (aTokenSet.tObj || aTokenSet.tx)
-                var atSetStart = this.root.aTokens.tokenLists.all.indexOf(aSetT[0])
-                var atSetEnde = this.root.aTokens.tokenLists.all.indexOf(aSetT[aSetT.length - 1])
+                let aSetT = (aTokenSet.tObj || aTokenSet.tx)
+                let atSetStart = this.root.aTokens.tokenLists.all.indexOf(aSetT[0])
+                let atSetEnde = this.root.aTokens.tokenLists.all.indexOf(aSetT[aSetT.length - 1])
                 // Aktuelle Tiefe ermitteln
                 let aDeep = aTokenSetsDeepList.length
                 aTokenSetsDeepList.some(function (adTokenSets, i) {
@@ -177,30 +177,30 @@ const localFunctions = {
                     }
                   }, this)
                 }
-                // // Sortierung optimieren:
-                // let dChange = true
-                // for (var m = 0; (m < 10 && dChange); m++) {
-                //   dChange = false
-                //   for (var i = aTokenSetsDeepList.length - 2; i >= 0; i--) {
-                //     aTokenSetsDeepList[i].forEach(function (aVal, aIndex) {
-                //       var aSetT = (this.aTokenSets[aVal].tObj || this.aTokenSets[aVal].tx)
-                //       var atSetStart = this.aTokenReihung.indexOf(aSetT[0])
-                //       var atSetEnde = this.aTokenReihung.indexOf(aSetT[aSetT.length - 1])
-                //       var aOk = true
-                //       aTokenSetsDeepList[i + 1].some(function (nVal, nIndex) {
-                //         var nSetT = (this.aTokenSets[nVal].tObj || this.aTokenSets[nVal].tx)
-                //         if (atSetStart <= this.aTokenReihung.indexOf(nSetT[nSetT.length - 1]) && atSetEnde >= this.aTokenReihung.indexOf(nSetT[0])) {
-                //           aOk = false
-                //           return true
-                //         }
-                //       }, this)
-                //      if (aOk) {
-                //        dChange = true
-                //         aTokenSetsDeepList[i + 1].push(aTokenSetsDeepList[i].splice(aIndex, 1)[0])
-                //      }
-                //     }, this)
-                //   }
-                // }
+                // Sortierung optimieren:
+                let dChange = true
+                for (let m = 0; (m < 10 && dChange); m++) {
+                  dChange = false
+                  for (let i = aTokenSetsDeepList.length - 2; i >= 0; i--) {
+                    aTokenSetsDeepList[i].forEach(function (aTokenSets, aIndex) {
+                      let aSetT = (aTokenSets.tObj || aTokenSets.tx)
+                      let atSetStart = this.root.aTokens.tokenLists.all.indexOf(aSetT[0])
+                      let atSetEnde = this.root.aTokens.tokenLists.all.indexOf(aSetT[aSetT.length - 1])
+                      let aOk = true
+                      aTokenSetsDeepList[i + 1].some(function (bTokenSets) {
+                        let nSetT = (bTokenSets.tObj || bTokenSets.tx)
+                        if (atSetStart <= this.root.aTokens.tokenLists.all.indexOf(nSetT[nSetT.length - 1]) && atSetEnde >= this.root.aTokens.tokenLists.all.indexOf(nSetT[0])) {
+                          aOk = false
+                          return true
+                        }
+                      }, this)
+                      if (aOk) {
+                        dChange = true
+                        aTokenSetsDeepList[i + 1].push(aTokenSetsDeepList[i].splice(aIndex, 1)[0])
+                      }
+                    }, this)
+                  }
+                }
               }, this)
             }
             aZeile.tokenSetsListByInf[aInf.pk] = aTokenSetsList
