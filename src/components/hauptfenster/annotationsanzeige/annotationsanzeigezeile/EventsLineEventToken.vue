@@ -1,5 +1,5 @@
 <template>
-  <g @click="showaTokenInfos($event)" :transform="'translate('+(aToken.svgLeft-1)+',1)'"
+  <g @click="showaTokenInfos(false, $event)" :transform="'translate('+(aToken.svgLeft-1)+',1)'"
     :class="{
       'eTok': true,
       ['eTokT' + aToken.tt]: true,
@@ -47,7 +47,7 @@ export default {
     }
   },
   methods: {
-    showaTokenInfos (e) {
+    showaTokenInfos (direkt = false, e) {
       if (e.ctrlKey) {
         // ToDo: TokenSet select
         // ToDo: ctrlKey

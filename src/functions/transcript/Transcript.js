@@ -29,6 +29,7 @@ const localFunctions = {
     this.lMaxSet = 1                    // Maxiamle Ladedurchgänge
     this.changed = false                // Gab es Änderungen?
     this.selectedToken = null           // Aktuell ausgewählter Token
+    this.selectedTokenSet = null        // Aktuell ausgewählter TokenSet
     // Init
     this.init()                         // Immer dirket initialisieren
   }

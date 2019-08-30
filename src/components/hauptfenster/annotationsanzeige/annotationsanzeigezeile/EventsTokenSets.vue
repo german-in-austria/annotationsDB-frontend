@@ -12,13 +12,13 @@
       v-for="(aTokenSetDeep, aTsdI) in tokenSetsDeepList"
       :key="'ztsl' + aTsdI"
     >
-      <g :class="'zTokenSet'"
+      <g :class="'zTokenSet' + ((aTokenSet === transcript.selectedTokenSet) ? ' selected' : '') + ((transcript.selectedToken && transcript.selectedToken.tokenSetsList && transcript.selectedToken.tokenSetsList.indexOf(aTokenSet) > -1) ? ' active' : '')"
         v-for="(aTokenSet, aTsI) in aTokenSetDeep"
         :key="aTsI"
         :transform="'translate(0,' + (aTsdI * aTokenSetHeight) + ')'"
-        @click="showaTokenSetInfos(aTokenSet.pk, false, $event)"
+        @click="showaTokenSetInfos(aTokenSet, false, $event)"
       >
-       <!-- + ((aTokenSet.pk === selTokenSet) ? ' selected' : '') + ((selToken > 0 && aTokens[selToken].tokenSets && aTokens[selToken].tokenSets.indexOf(aTokenSet) > -1) ? ' active' : '') -->
+       <!-- -->
         <g class="zTsVB" v-if="aTokenSet.tx">
           <g :class="'zTsVBln dg' + dg" v-for="dg in [0,1]" :key="'zTsVBlndg' + dg">
             <path :d="'M' + (((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX + 1 : 0)) + ' ' +
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+/* global _ */
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 
 export default {
@@ -90,7 +91,18 @@ export default {
   },
   methods: {
     showaTokenSetInfos (eTokSet, direkt = false, e = undefined) {
-      console.log('showaTokenSetInfos', eTokSet, direkt, e)
+      console.log(this.transcript.selectedToken)
+      if (e.ctrlKey) {
+        // ToDo: TokenSet select
+        // ToDo: ctrlKey
+      } else {
+        if (this.transcript.selectedTokenSet === eTokSet) {
+          this.transcript.vueObj.modalData = { type: 'tokenset', data: {aTokenSet: _.cloneDeep(eTokSet)} }
+        } else {
+          this.transcript.selectedTokenSet = eTokSet
+          console.log('showaTokenSetInfos', eTokSet)
+        }
+      }
     },
     objectKeyFilter: AllgemeineFunktionen.objectKeyFilter,
     objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter
