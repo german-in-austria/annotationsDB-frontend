@@ -165,7 +165,6 @@ const localFunctions = {
       this.delTokenSetsObj[aTSPK] = delTokenSet
       delete this.tokenSetsObj[aTSPK]
       this.root.changed = true
-      // ToDo: Auswahl updaten -> this.selTokenSet = 0
       this.root.update()
       console.log('TokenSet ID ' + aTSPK + ' gelöscht!')
       return true

@@ -1,15 +1,15 @@
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 
 const localFunctions = {
-  // Antworten setzen
   addMultiple (nAntworten) {
+    // Antworten setzen
     Object.keys(nAntworten).map(function (key, i) {
       this.add(key, nAntworten[key], true)
     }, this)
     this.update()
   },
-  // Antwort setzen
   add (nPk, nAntwort, dontUpdate = false) {
+    // Antwort setzen
     if (nAntwort.pt) {
       nAntwort.tags = []
       nAntwort.pt.forEach(function (val) {
@@ -23,15 +23,15 @@ const localFunctions = {
     this.set(nPk, nAntwort, true)
     if (!dontUpdate) { this.update() }
   },
-  // Antwort löschen
   del (nPk, dontUpdate = false) {
+    // Antwort löschen
     if (!isNaN(nPk)) {
       this.set(nPk, null, true)
     }
     if (!dontUpdate) { this.update() }
   },
-  // Antwort setzen
   set (nPk, nAntwort = null, dontUpdate = false) {
+    // Antwort setzen
     if (nAntwort === null) { // Antwort Löschen
       if (this.antwortenObj[nPk]) {
         if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
@@ -64,8 +64,8 @@ const localFunctions = {
     if (!dontUpdate) { this.update() }
     return nPk
   },
-  // Diverse Updates für weiterführende Daten durchführen
   update () {
+    // Diverse Updates für weiterführende Daten durchführen
     let t1 = performance.now()
     this.updateAntwortenLists()
     this.updateLength()
@@ -79,8 +79,8 @@ const localFunctions = {
       this.antwortLists.all.push(this.antwortenObj[key])
     }, this)
   },
-  // Anzahl der Antworten setzen
   updateLength () {
+    // Anzahl der Antworten setzen
     this.length = Object.keys(this.antwortenObj).length
     return this.length
   }

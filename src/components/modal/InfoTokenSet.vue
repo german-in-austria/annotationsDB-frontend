@@ -96,7 +96,6 @@ export default {
       this.transcript.aTokenSets.updateTokenSetData(this.aTokenSet, this.aAntwort)
     },
     deleteATokenSet () {
-      // ToDo: TokenSet löschen
       console.log('deleteATokenSet')
       if (this.transcript.aTokenSets.deleteATokenSet(this.aTokenSet)) {
         this.$refs.modal.close()

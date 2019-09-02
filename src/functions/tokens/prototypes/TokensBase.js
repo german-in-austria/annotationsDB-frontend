@@ -2,15 +2,15 @@
 // var _ = require('lodash')
 
 const localFunctions = {
-  // Tokens setzen
   addMultiple (nTokens) {
+    // Tokens setzen
     Object.keys(nTokens).map(function (key, i) {
       this.add(key, nTokens[key], true)
     }, this)
     this.update()
   },
-  // Token setzten
   add (nPk, nToken, dontUpdate = false) {
+    // Token setzten
     this.tokensObj[nPk] = nToken
     if (!this.tokensObj[nPk].pk) {
       this.tokensObj[nPk].pk = parseInt(nPk)
@@ -51,8 +51,8 @@ const localFunctions = {
     }
     return atTxt
   },
-  // Diverse Updates für weiterführende Daten durchführen
   update () {
+    // Diverse Updates für weiterführende Daten durchführen
     let t1 = performance.now()
     this.updateTokensLists()
     this.updateTokensSVGData()
