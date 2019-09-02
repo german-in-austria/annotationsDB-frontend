@@ -4,8 +4,8 @@
     <div class="container" v-else-if="transcript.error"><div class="alert alert-danger mt-5">Fehler beim Laden des Transcripts: {{ transcript.pk }}!</div></div>
     <div class="container" v-else-if="!transcript.ready"><div class="alert alert-info mt-5">Transkript({{ transcript.pk }}) wird geladen!</div></div>
     <template v-else>
-      <div id="svgscroller" class="h100 mcon vscroller" ref="viewElement" v-on:scroll="transcript.aSVG.scrolling()" @click="$refs.focusInput.focus()">
-        <input ref="focusInput" id="focus-input" type="text" @focus="focus = true" @blur="focus = false" />
+      <div id="svgscroller" class="h100 mcon vscroller" ref="viewElement" v-on:scroll="transcript.aSVG.scrolling()" @click="setFocus">
+        <input ref="focusInput" @keyup="keyup" id="focus-input" type="text" @focus="focus = true" @blur="focus = false" />
         <AnnotationsAnzeige :transcript="transcript" />
         <div id="loadsym" v-if="transcript.loading">
           <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
@@ -20,24 +20,94 @@
 
 <script>
 import AnnotationsAnzeige from './annotationsanzeige/AnnotationsAnzeige'
+import Globals from '@/functions/globals'
 
 export default {
   name: 'Hauptfenster',
   props: ['transcript'],
   data () {
     return {
+      globals: Globals,
       unsaved: false,
       focus: false
     }
   },
   mounted () {
-    console.log(this.$refs.focusInput)
+    console.log(this.globals)
   },
   computed: {
   },
   methods: {
+    setFocus () {
+      this.$refs.focusInput.focus()
+    },
     speichern () {
       console.log('ToDo: Transcript speichern ...')
+    },
+    keyup (e) {
+      if (e.keyCode === 39) { // rechts
+        e.preventDefault()
+        // if (e.shiftKey && this.selTokenBereich.v === -1) {
+        //   this.selTokenBereich.v = this.selToken
+        // }
+        if (e.ctrlKey && !this.globals.ctrlUsed === false) {
+          // this.updateSelTokenListe(this.selToken)
+        }
+        // this.selectNextToken()
+        // if (e.shiftKey) {
+        //   this.selTokenBereich.b = this.selToken
+        // } else {
+        //   this.selTokenBereich = {'v': -1, 'b': -1}
+        // }
+        if (e.ctrlKey) {
+          // this.updateSelTokenListe(this.selToken);
+          this.globals.ctrlUsed = true
+        }
+      } else if (e.keyCode === 37) { // links
+        e.preventDefault()
+        // if (e.shiftKey && this.selTokenBereich.v === -1) {
+        //   this.selTokenBereich.v = this.selToken
+        // }
+        if (e.ctrlKey && !this.globals.ctrlUsed) {
+          // this.updateSelTokenListe(this.selToken)
+        }
+        // this.selectPrevToken()
+        // if (e.shiftKey) {
+        //   this.selTokenBereich.b = this.selToken
+        // } else {
+        //   this.selTokenBereich = {'v': -1, 'b': -1}
+        // }
+        if (e.ctrlKey) {
+          // this.updateSelTokenListe(this.selToken)
+          this.globals.ctrlUsed = true
+        }
+      } else if (e.keyCode === 40) { // unten
+        e.preventDefault()
+        // this.selTokenBereich = {'v': -1, 'b': -1}
+        // this.selectNextInf()
+      } else if (e.keyCode === 38) { // oben
+        e.preventDefault()
+        // this.selTokenBereich = {'v': -1, 'b': -1}
+        // this.selectPrevInf()
+      } else if (e.ctrlKey && e.keyCode === 13) { // Strg. + Enter
+        // if (this.selTokenSet !== 0) {
+        //   this.showaTokenSetInfos(this.selTokenSet, true)
+        // }
+        this.globals.ctrlUsed = true
+      } else if (e.keyCode === 13) { // Enter
+        e.preventDefault()
+        // if (this.selToken > -1) {
+        //   this.showaTokenInfos(this.selToken, true)
+        // }
+      } else if (e.keyCode === 17) { // Strg
+        // if (!this.globals.ctrlUsed) {
+        //   this.updateSelTokenListe(this.selToken)
+        // }
+        this.globals.ctrlUsed = false
+      } else {
+        console.log('focusCatchKeyUp: ' + e.keyCode)
+      }
+      e.target.value = ''
     }
   },
   watch: {
