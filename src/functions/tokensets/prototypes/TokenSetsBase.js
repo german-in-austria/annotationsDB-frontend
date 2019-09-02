@@ -3,15 +3,15 @@ import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 // var _ = require('lodash')
 
 const localFunctions = {
-  // TokenSets setzen
   addMultiple (nTokenSets) {
+    // TokenSets setzen
     Object.keys(nTokenSets).map(function (key, i) {
       this.add(key, nTokenSets[key], true)
     }, this)
     this.update()
   },
-  // TokenSet setzten
   add (nPk, nTokenSet, dontUpdate = false) {
+    // TokenSet setzen
     this.tokenSetsObj[nPk] = nTokenSet
     if (!this.tokenSetsObj[nPk].pk) {
       this.tokenSetsObj[nPk].pk = parseInt(nPk)
@@ -22,8 +22,8 @@ const localFunctions = {
     }
     if (!dontUpdate) { this.update() }
   },
-  // Diverse Updates für weiterführende Daten durchführen
   update () {
+    // Diverse Updates für weiterführende Daten durchführen
     let t1 = performance.now()
     this.updateTokenSetsLists()
     this.updateTokenSetsData()
@@ -41,12 +41,13 @@ const localFunctions = {
   updateTokenSetsData () {
     // Verbindung bei Tokens zu TokenSets überprüfen ob die Tokens noch verwendet werden
     Object.keys(this.root.aTokens.tokensObj).map(function (tId, iI) {
-      if (this.root.aTokens.tokensObj[tId].tokenSets) {
-        _.remove(this.root.aTokens.tokensObj[tId].tokenSets, (n) => {
+      let aToken = this.root.aTokens.tokensObj[tId]
+      if (aToken.tokenSetsList) {
+        _.remove(aToken.tokenSetsList, (n) => {
           return (!n || !n.ok)
         })
-        if (this.root.aTokens.tokensObj[tId].tokenSets.length < 1) {
-          delete this.root.aTokens.tokensObj[tId].tokenSets
+        if (aToken.tokenSetsList.length < 1) {
+          delete aToken.tokenSetsList
         }
       }
     }, this)
@@ -100,12 +101,13 @@ const localFunctions = {
       }
     }, this)
   },
-  // Anzahl der TokenSets setzen
   updateLength () {
+    // Anzahl der TokenSets setzen
     this.length = Object.keys(this.tokenSetsObj).length
     return this.length
   },
   sortTokenSets: function (tokSets) {
+    // TokenSets sortieren
     return tokSets.slice().sort((a, b) => {
       var xa = this.root.aTokens.tokenLists.all.indexOf((a.tObj || a.tx)[0])
       var xb = this.root.aTokens.tokenLists.all.indexOf((b.tObj || b.tx)[0])
@@ -121,6 +123,53 @@ const localFunctions = {
       if (a.tx && b.t) { return -1 }
       return 0
     })
+  },
+  updateTokenSetData (nTokenSet, nAntwort) {
+    // TokenSet ändern
+    nTokenSet = _.cloneDeep(nTokenSet)
+    nAntwort = _.cloneDeep(nAntwort)
+    let aTSPK = nTokenSet.pk
+    if (!nTokenSet.delAntwort && nTokenSet.aId) {
+      let nTags = null
+      if (nAntwort.tags) {
+        nAntwort.tags.forEach(aTags => {
+          if (!parseInt(aTags.e) < 1) {
+            if (!nTags) {
+              nTags = []
+            }
+            nTags.push(aTags)
+          }
+        }, this)
+      }
+      this.tokenSetsObj[aTSPK].aId = this.root.aAntworten.set(parseInt(nTokenSet.aId), {'it': aTSPK, 'vi': nTokenSet.i, 'tags': nTags})
+      this.root.aAntworten.antwortenObj[this.tokenSetsObj[aTSPK].aId].changed = true
+    }
+    if (nTokenSet.delAntwort && nTokenSet.aId) {
+      console.log('del', nTokenSet.aId)
+      this.root.aAntworten.del(nTokenSet.aId)
+      delete nTokenSet.delAntwort
+    }
+    this.tokenSetsObj[aTSPK].ok = false
+    this.root.changed = true
+    console.log('updateTokenSetData', nTokenSet, '->', this.tokenSetsObj[aTSPK])
+    this.root.update()
+  },
+  deleteATokenSet: function (delTokenSet, direkt = false, aDirekt = false) {
+    // TokenSet löschen
+    let aTSPK = delTokenSet.pk
+    if (direkt || confirm('Soll das TokenSet ID ' + aTSPK + ' gelöscht werden?')) {
+      if ((delTokenSet.aId && this.root.aAntworten.antwortenObj[delTokenSet.aId]) && ((aDirekt) || confirm('Soll die dazugehörige Antwort auch gelöscht werden?'))) {
+        this.root.aAntworten.set(delTokenSet.aId)
+      }
+      this.tokenSetsObj[aTSPK].ok = false
+      this.delTokenSetsObj[aTSPK] = delTokenSet
+      delete this.tokenSetsObj[aTSPK]
+      this.root.changed = true
+      // ToDo: Auswahl updaten -> this.selTokenSet = 0
+      this.root.update()
+      console.log('TokenSet ID ' + aTSPK + ' gelöscht!')
+      return true
+    }
   }
 }
 

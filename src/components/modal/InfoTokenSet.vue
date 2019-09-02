@@ -78,6 +78,7 @@ export default {
     this.aTokenSet = _.cloneDeep(this.modalData.data.aTokenSet)
     this.oTokenSet = _.cloneDeep(this.aTokenSet)
     if (this.aTokenSet.aId) {
+      console.log(this.aTokenSet.aId)
       this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.aTokenSet.aId])
       if (!this.aAntwort.tags) {
         this.$set(this.aAntwort, 'tags', [])
@@ -90,12 +91,16 @@ export default {
   },
   methods: {
     updateTokenSetData () {
-      // Änderungen am Token anwenden.
+      // Änderungen am TokenSet anwenden.
       this.$refs.modal.close()
-      // ToDo: this.transcript.aTokenSets.updateTokenSetData(this.aTokenSet, this.aAntwort)
+      this.transcript.aTokenSets.updateTokenSetData(this.aTokenSet, this.aAntwort)
     },
     deleteATokenSet () {
+      // ToDo: TokenSet löschen
       console.log('deleteATokenSet')
+      if (this.transcript.aTokenSets.deleteATokenSet(this.aTokenSet)) {
+        this.$refs.modal.close()
+      }
     },
     newAntwort () {
       // Neue Antwort erstellen.
@@ -133,7 +138,7 @@ export default {
           // Von/Bis Position des Tokenberiechs ermitteln.
           let vToken = tLbIkey - tokensBA
           let bToken = tLbIkey2 + tokensBA
-          console.log(vToken, bToken)
+          // console.log(vToken, bToken)
           if (vToken < 0) {
             vToken = 0
             bToken = tLbIkey2 + tokensBA * 2

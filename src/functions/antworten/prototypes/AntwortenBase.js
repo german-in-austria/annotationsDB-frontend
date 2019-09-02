@@ -33,16 +33,18 @@ const localFunctions = {
   // Antwort setzen
   set (nPk, nAntwort = null, dontUpdate = false) {
     if (nAntwort === null) { // Antwort Löschen
-      if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
-        delete this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its].aId
+      if (this.antwortenObj[nPk]) {
+        if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
+          delete this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its].aId
+        }
+        if (this.antwortenObj[nPk].it && this.root.aTokens.tokensObj[this.antwortenObj[nPk].it]) {
+          delete this.root.aTokens.tokensObj[this.antwortenObj[nPk].it].aId
+        }
+        if (nPk > 0) {
+          this.delAntworten[nPk] = this.antwortenObj[nPk]
+        }
+        delete this.antwortenObj[nPk]
       }
-      if (this.antwortenObj[nPk].it && this.root.aTokens.tokensObj[this.antwortenObj[nPk].it]) {
-        delete this.root.aTokens.tokensObj[this.antwortenObj[nPk].it].aId
-      }
-      if (nPk > 0) {
-        this.delAntworten[nPk] = this.antwortenObj[nPk]
-      }
-      delete this.antwortenObj[nPk]
     } else { // Antwort setzen
       if (nPk === 0 || isNaN(nPk)) { // Neue Antwort
         nPk = -1

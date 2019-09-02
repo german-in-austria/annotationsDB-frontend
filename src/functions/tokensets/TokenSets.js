@@ -6,6 +6,7 @@ const localFunctions = {
     this.root = root                    // Verbindung zum Transkript Objekt
     this.tokenSetsObj = {}              // TokenSets Objekte
     this.tokenSetsLists = {}            // TokenSet Listen (all)
+    this.delTokenSetsObj = {}           // Objekte der zu löschenden TokenSets
     this.length = 0                     // Anzahl der TokenSets
   }
 }
@@ -18,5 +19,7 @@ localFunctions.TokenSetsBase.prototype.updateTokenSetsLists = prototypeTokenSets
 localFunctions.TokenSetsBase.prototype.updateTokenSetsData = prototypeTokenSetsBase.updateTokenSetsData
 localFunctions.TokenSetsBase.prototype.updateLength = prototypeTokenSetsBase.updateLength
 localFunctions.TokenSetsBase.prototype.sortTokenSets = prototypeTokenSetsBase.sortTokenSets
+localFunctions.TokenSetsBase.prototype.updateTokenSetData = prototypeTokenSetsBase.updateTokenSetData
+localFunctions.TokenSetsBase.prototype.deleteATokenSet = prototypeTokenSetsBase.deleteATokenSet
 
 export default localFunctions
