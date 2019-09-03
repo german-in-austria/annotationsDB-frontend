@@ -137,6 +137,21 @@ const localFunctions = {
     this.root.changed = true
     console.log('updateTokenData', nToken, '->', this.tokensObj[aTPK])
     this.root.update()
+  },
+  getNextPrev (aToken, next = true) {
+    let nToken = null
+    if (!aToken) {
+      nToken = next ? this.tokenLists.all[0] : this.tokenLists.all[this.tokenLists.all.length - 1]
+    } else {
+      let aTokReihung = this.tokenLists.byInf[aToken.i]
+      let aPos = aTokReihung.indexOf(aToken)
+      if (next) {
+        nToken = (aPos < aTokReihung.length - 1) ? aTokReihung[aPos + 1] : aTokReihung[0]
+      } else {
+        nToken = (aPos > 0) ? aTokReihung[aPos - 1] : aTokReihung[aTokReihung.length - 1]
+      }
+    }
+    return nToken
   }
 }
 

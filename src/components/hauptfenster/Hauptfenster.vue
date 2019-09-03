@@ -34,8 +34,14 @@ export default {
   },
   mounted () {
     console.log(this.globals)
+    if (this.transcript && this.transcript.aSVG) {
+      this.transcript.aSVG.setViewElement(this.transcript.ready ? this.$refs.viewElement : null)
+    }
   },
   computed: {
+    selectedTokenPk () {
+      return (this.transcript && this.transcript.selectedToken) ? this.transcript.selectedToken.pk : null
+    }
   },
   methods: {
     setFocus () {
@@ -53,7 +59,7 @@ export default {
         if (e.ctrlKey && !this.globals.ctrlUsed === false) {
           // this.updateSelTokenListe(this.selToken)
         }
-        // this.selectNextToken()
+        this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
         // if (e.shiftKey) {
         //   this.selTokenBereich.b = this.selToken
         // } else {
@@ -71,7 +77,7 @@ export default {
         if (e.ctrlKey && !this.globals.ctrlUsed) {
           // this.updateSelTokenListe(this.selToken)
         }
-        // this.selectPrevToken()
+        this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
         // if (e.shiftKey) {
         //   this.selTokenBereich.b = this.selToken
         // } else {
@@ -117,6 +123,12 @@ export default {
           this.transcript.aSVG.setViewElement(this.transcript.ready ? this.$refs.viewElement : null)
         }
       })
+    },
+    selectedTokenPk (nVal) {
+      if (nVal) {
+        // Zu aktuell ausgewählten Token scrollen
+        this.transcript.aSVG.scrollToToken(this.transcript.selectedToken)
+      }
     }
   },
   beforeDestroy () {
@@ -179,5 +191,8 @@ export default {
     border: 0;
     padding: 0;
     display: block;
+    position: fixed;
+    right: 1px;
+    bottom: 1px;
   }
 </style>

@@ -1,3 +1,5 @@
+/* global $ */
+
 const localFunctions = {
   setViewElement (nViewElement) {
     this.viewElement = nViewElement
@@ -242,6 +244,30 @@ const localFunctions = {
       }
     }, this)
     // console.log('Scrolling', aTop, '-', aBottom, this.renderZeilen)
+  },
+  scrollToToken (aToken) {
+    let sTop = this.viewElement.scrollTop
+    let sBottom = sTop + this.viewHeight - 75
+    let aZTE = null
+    this.zeilen.all.some(aZeile => {
+      if (aZeile.tokenListByInf[aToken.i]) {
+        if (aZeile.tokenListByInf[aToken.i].indexOf(aToken) > -1) {
+          aZTE = aZeile
+          return true
+        }
+      }
+    })
+    let sTo = -1
+    if (aZTE) {
+      if (aZTE.svgTop < sTop) {
+        sTo = aZTE.svgTop - 20
+        if (sTo < 0) sTo = 0
+      } else if ((aZTE.svgTop + aZTE.svgHeight) > sBottom) {
+        sTo = (aZTE.svgTop + aZTE.svgHeight + 20) - (this.viewHeight + 75) * 0.8
+        if (sTo < 0) sTo = 0
+      }
+      if (sTo > -1) $(this.viewElement).stop().animate({scrollTop: sTo}, 250)
+    }
   }
 }
 

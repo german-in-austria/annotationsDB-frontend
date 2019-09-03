@@ -68,6 +68,7 @@ export default {
     'selTranscriptPk' (nPk, oPk) {
       if (nPk > 0) {
         this.selTranscript = new TranscriptObject.TranscriptBase(nPk, this)
+        this.$set(this.selTranscript, 'selectedToken', null)
       } else {
         this.selTranscript = null
       }

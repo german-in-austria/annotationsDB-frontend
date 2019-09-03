@@ -31,6 +31,7 @@ localFunctions.SvgBase.prototype.setViewElement = prototypeSvgBase.setViewElemen
 localFunctions.SvgBase.prototype.setAnnotationsSVG = prototypeSvgBase.setAnnotationsSVG
 localFunctions.SvgBase.prototype.updateDimensionen = prototypeSvgBase.updateDimensionen
 localFunctions.SvgBase.prototype.scrolling = prototypeSvgBase.scrolling
+localFunctions.SvgBase.prototype.scrollToToken = prototypeSvgBase.scrollToToken
 localFunctions.SvgBase.prototype.getTextWidth = prototypeSvgFunktionen.getTextWidth
 localFunctions.SvgBase.prototype.updateZeilen = prototypeSvgBase.updateZeilen
 localFunctions.SvgBase.prototype.getTEventOfAEvent = prototypeSvgBase.getTEventOfAEvent
