@@ -24,13 +24,14 @@
 
 <script>
 /* global _ */
-// var _ = require('lodash')
+import Globals from '@/functions/globals'
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsLineEventToken',
   props: ['transcript', 'zeileData', 'aToken'],
   data () {
     return {
+      globals: Globals
     }
   },
   mounted () {
@@ -49,8 +50,9 @@ export default {
   methods: {
     showaTokenInfos (direkt = false, e) {
       if (e.ctrlKey) {
-        // ToDo: TokenSet select
-        // ToDo: ctrlKey
+        this.transcript.toggleSelectedTokenListe(this.aToken)
+        this.transcript.selectedToken = this.aToken
+        this.globals.ctrlUsed = true
       } else if (e.shiftKey) {
         if (this.transcript.selectedTokenBereich.v) {
           this.transcript.selectedTokenBereich.b = this.aToken

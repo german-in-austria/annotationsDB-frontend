@@ -90,6 +90,21 @@ const localFunctions = {
         this.aSVG.selectedTokenList = []
       }
     }
+  },
+  toggleSelectedTokenListe (eTok = undefined) {
+    if (eTok !== undefined) {
+      this.selTokenBereich = {'v': null, 'b': null}
+      if (this.selectedTokenListe.indexOf(eTok) > -1) {
+        this.selectedTokenListe.splice(this.selectedTokenListe.indexOf(eTok), 1)
+      } else {
+        if (this.selectedTokenListe.length < 1 || eTok.iObj === this.selectedTokenListe[0].iObj) {
+          this.selectedTokenListe.push(eTok)
+        } else {
+          this.selectedTokenListe = []
+        }
+      }
+    }
+    this.aSVG.selectedTokenList = this.selectedTokenListe
   }
 }
 

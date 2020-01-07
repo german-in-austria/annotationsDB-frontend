@@ -62,7 +62,7 @@ export default {
             this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
           }
           if (e.ctrlKey && !this.globals.ctrlUsed) {
-            // this.updateSelTokenListe(this.transcript.selectedToken)
+            this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
           this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
           if (e.shiftKey) {
@@ -71,7 +71,7 @@ export default {
             this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
           if (e.ctrlKey) {
-            // this.updateSelTokenListe(this.transcript.selectedToken);
+            this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
             this.globals.ctrlUsed = true
           }
         } else if (e.keyCode === 37) { // links
@@ -80,7 +80,7 @@ export default {
             this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
           }
           if (e.ctrlKey && !this.globals.ctrlUsed) {
-            // this.updateSelTokenListe(this.transcript.selectedToken)
+            this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
           this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
           if (e.shiftKey) {
@@ -89,7 +89,7 @@ export default {
             this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
           if (e.ctrlKey) {
-            // this.updateSelTokenListe(this.transcript.selectedToken)
+            this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
             this.globals.ctrlUsed = true
           }
         } else if (e.keyCode === 40) { // unten
@@ -112,7 +112,7 @@ export default {
           }
         } else if (e.keyCode === 17) { // Strg
           if (!this.globals.ctrlUsed) {
-            // this.updateSelTokenListe(this.transcript.selectedToken)
+            this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
           this.globals.ctrlUsed = false
         } else {
