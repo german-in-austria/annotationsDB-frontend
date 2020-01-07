@@ -46,7 +46,9 @@ export default {
   },
   methods: {
     setFocus () {
-      this.$refs.focusInput.focus()
+      if (this.$refs.focusInput) {
+        this.$refs.focusInput.focus()
+      }
     },
     speichern () {
       console.log('ToDo: Transcript speichern ...')
@@ -125,6 +127,9 @@ export default {
       this.$nextTick(() => {
         if (this.transcript && this.transcript.aSVG) {
           this.transcript.aSVG.setViewElement(this.transcript.ready ? this.$refs.viewElement : null)
+        }
+        if (this.transcript.ready) {
+          this.setFocus()
         }
       })
     },

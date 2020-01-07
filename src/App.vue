@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AnnotationsTool/>
+    <AnnotationsTool ref="annotationstool"/>
   </div>
 </template>
 

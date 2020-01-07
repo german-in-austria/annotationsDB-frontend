@@ -33,6 +33,7 @@ export default {
     $(this.$refs.modal).on('hidden.bs.modal', function (e) {
       aModalThis.modalData.type = null
       aModalThis.modalData.data = null
+      aModalThis.$root.$children[0].$refs.annotationstool.$refs.hauptfenster.setFocus()
     })
     $(this.$refs.modal).on('hide.bs.modal', function (e) {
       return !aModalThis.blocked || document.activeElement === aModalThis.$refs.closeButton || aModalThis.forceClose
