@@ -30,6 +30,8 @@ const localFunctions = {
     this.changed = false                // Gab es Änderungen?
     this.selectedToken = null           // Aktuell ausgewählter Token
     this.selectedTokenSet = null        // Aktuell ausgewählter TokenSet
+    this.selectedTokenBereich = {'v': null, 'b': null}  // Aktuell ausgewählter Token Bereich
+    this.selectedTokenListe = []        // Liste der aktuell ausgewählten Tokens
     // Init
     this.init()                         // Immer dirket initialisieren
   }

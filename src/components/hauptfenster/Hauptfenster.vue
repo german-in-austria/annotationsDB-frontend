@@ -19,6 +19,7 @@
 </template>
 
 <script>
+/* global _ */
 import AnnotationsAnzeige from './annotationsanzeige/AnnotationsAnzeige'
 import Globals from '@/functions/globals'
 
@@ -51,69 +52,72 @@ export default {
       console.log('ToDo: Transcript speichern ...')
     },
     keyup (e) {
-      if (e.keyCode === 39) { // rechts
-        e.preventDefault()
-        // if (e.shiftKey && this.selTokenBereich.v === -1) {
-        //   this.selTokenBereich.v = this.selToken
-        // }
-        if (e.ctrlKey && !this.globals.ctrlUsed) {
-          // this.updateSelTokenListe(this.selToken)
-        }
-        this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
-        if (e.shiftKey) {
-          // this.selTokenBereich.b = this.selToken
-        } else {
-          // this.selTokenBereich = {'v': -1, 'b': -1}
-        }
-        if (e.ctrlKey) {
-          // this.updateSelTokenListe(this.selToken);
+      // console.log('keyUp: ' + e.keyCode)
+      if (this.transcript) {
+        if (e.keyCode === 39) { // rechts
+          e.preventDefault()
+          // if (e.shiftKey && this.transcript.selectedTokenBereich.v === -1) {
+          //   this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
+          // }
+          if (e.ctrlKey && !this.globals.ctrlUsed) {
+            // this.updateSelTokenListe(this.transcript.selectedToken)
+          }
+          this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
+          if (e.shiftKey) {
+            // this.transcript.selectedTokenBereich.b = this.transcript.selectedToken
+          } else {
+            this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+          }
+          if (e.ctrlKey) {
+            // this.updateSelTokenListe(this.transcript.selectedToken);
+            this.globals.ctrlUsed = true
+          }
+        } else if (e.keyCode === 37) { // links
+          e.preventDefault()
+          // if (e.shiftKey && this.transcript.selectedTokenBereich.v === -1) {
+          //   this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
+          // }
+          if (e.ctrlKey && !this.globals.ctrlUsed) {
+            // this.updateSelTokenListe(this.transcript.selectedToken)
+          }
+          this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
+          if (e.shiftKey) {
+            // this.transcript.selectedTokenBereich.b = this.transcript.selectedToken
+          } else {
+            this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+          }
+          if (e.ctrlKey) {
+            // this.updateSelTokenListe(this.transcript.selectedToken)
+            this.globals.ctrlUsed = true
+          }
+        } else if (e.keyCode === 40) { // unten
+          e.preventDefault()
+          this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+          // this.selectNextInf()
+        } else if (e.keyCode === 38) { // oben
+          e.preventDefault()
+          this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+          // this.selectPrevInf()
+        } else if (e.ctrlKey && e.keyCode === 13) { // Strg. + Enter
+          if (this.transcript.selectedTokenSet) {
+            this.transcript.vueObj.modalData = { type: 'tokenSet', data: {aTokenSet: _.cloneDeep(this.transcript.selectedTokenSet)} }
+          }
           this.globals.ctrlUsed = true
-        }
-      } else if (e.keyCode === 37) { // links
-        e.preventDefault()
-        // if (e.shiftKey && this.selTokenBereich.v === -1) {
-        //   this.selTokenBereich.v = this.selToken
-        // }
-        if (e.ctrlKey && !this.globals.ctrlUsed) {
-          // this.updateSelTokenListe(this.selToken)
-        }
-        this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
-        if (e.shiftKey) {
-          // this.selTokenBereich.b = this.selToken
+        } else if (e.keyCode === 13) { // Enter
+          e.preventDefault()
+          if (this.transcript.selectedToken) {
+            this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.transcript.selectedToken)} }
+          }
+        } else if (e.keyCode === 17) { // Strg
+          if (!this.globals.ctrlUsed) {
+            // this.updateSelTokenListe(this.transcript.selectedToken)
+          }
+          this.globals.ctrlUsed = false
         } else {
-          // this.selTokenBereich = {'v': -1, 'b': -1}
+          console.log('keyUp: ' + e.keyCode)
         }
-        if (e.ctrlKey) {
-          // this.updateSelTokenListe(this.selToken)
-          this.globals.ctrlUsed = true
-        }
-      } else if (e.keyCode === 40) { // unten
-        e.preventDefault()
-        // this.selTokenBereich = {'v': -1, 'b': -1}
-        // this.selectNextInf()
-      } else if (e.keyCode === 38) { // oben
-        e.preventDefault()
-        // this.selTokenBereich = {'v': -1, 'b': -1}
-        // this.selectPrevInf()
-      } else if (e.ctrlKey && e.keyCode === 13) { // Strg. + Enter
-        // if (this.selTokenSet !== 0) {
-        //   this.showaTokenSetInfos(this.selTokenSet, true)
-        // }
-        this.globals.ctrlUsed = true
-      } else if (e.keyCode === 13) { // Enter
-        e.preventDefault()
-        // if (this.selToken > -1) {
-        //   this.showaTokenInfos(this.selToken, true)
-        // }
-      } else if (e.keyCode === 17) { // Strg
-        if (!this.globals.ctrlUsed) {
-          // this.updateSelTokenListe(this.selToken)
-        }
-        this.globals.ctrlUsed = false
-      } else {
-        console.log('focusCatchKeyUp: ' + e.keyCode)
+        e.target.value = ''
       }
-      e.target.value = ''
     }
   },
   watch: {
