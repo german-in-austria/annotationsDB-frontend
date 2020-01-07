@@ -56,6 +56,7 @@ export default {
           this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.aToken)} }
         } else {
           this.transcript.selectedToken = this.aToken
+          this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           console.log('showaTokenInfos', this.aToken)
         }
       }

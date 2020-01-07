@@ -58,17 +58,17 @@ export default {
       if (this.transcript) {
         if (e.keyCode === 39) { // rechts
           e.preventDefault()
-          // if (e.shiftKey && this.transcript.selectedTokenBereich.v === -1) {
-          //   this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
-          // }
+          if (e.shiftKey && !this.transcript.selectedTokenBereich.v) {
+            this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
+          }
           if (e.ctrlKey && !this.globals.ctrlUsed) {
             // this.updateSelTokenListe(this.transcript.selectedToken)
           }
           this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
           if (e.shiftKey) {
-            // this.transcript.selectedTokenBereich.b = this.transcript.selectedToken
+            this.transcript.selectedTokenBereich.b = this.transcript.selectedToken
           } else {
-            this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+            this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
           if (e.ctrlKey) {
             // this.updateSelTokenListe(this.transcript.selectedToken);
@@ -76,17 +76,17 @@ export default {
           }
         } else if (e.keyCode === 37) { // links
           e.preventDefault()
-          // if (e.shiftKey && this.transcript.selectedTokenBereich.v === -1) {
-          //   this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
-          // }
+          if (e.shiftKey && !this.transcript.selectedTokenBereich.v) {
+            this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
+          }
           if (e.ctrlKey && !this.globals.ctrlUsed) {
             // this.updateSelTokenListe(this.transcript.selectedToken)
           }
           this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
           if (e.shiftKey) {
-            // this.transcript.selectedTokenBereich.b = this.transcript.selectedToken
+            this.transcript.selectedTokenBereich.b = this.transcript.selectedToken
           } else {
-            this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+            this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
           if (e.ctrlKey) {
             // this.updateSelTokenListe(this.transcript.selectedToken)
@@ -94,11 +94,11 @@ export default {
           }
         } else if (e.keyCode === 40) { // unten
           e.preventDefault()
-          this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+          this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           // this.selectNextInf()
         } else if (e.keyCode === 38) { // oben
           e.preventDefault()
-          this.transcript.selectedTokenBereich = {'v': -1, 'b': -1}
+          this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           // this.selectPrevInf()
         } else if (e.ctrlKey && e.keyCode === 13) { // Strg. + Enter
           if (this.transcript.selectedTokenSet) {

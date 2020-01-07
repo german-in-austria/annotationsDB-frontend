@@ -92,6 +92,7 @@ export default {
     },
     selectToken (sTok) {
       this.transcript.selectedToken = this.allTokensObj[sTok]
+      this.transcript.selectedTokenBereich = {'v': null, 'b': null}
       // ToDo: focusFocusCatch()
     },
     ipShow (aTsPk) {
