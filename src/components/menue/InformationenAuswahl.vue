@@ -1,11 +1,11 @@
 <template>
   <div class="auswahl">
     <div class="infpanel open selpanel" v-if="(transcript.selectedTokenBereich.v && transcript.selectedTokenBereich.b)">
-      <span><b>Auswahl Bereich:</b> <!-- {{ svgSelTokenList.length }} Token{{ ((svgSelTokenList.length!==1)?'s':'') }} --><button @click="transcript.selectedTokenBereich={'v': null, 'b': null};" class="close"><span aria-hidden="true">×</span></button></span>
+      <span><b>Auswahl Bereich:</b> {{ transcript.aSVG.selectedTokenList.length }} Token{{ ((transcript.aSVG.selectedTokenList.length !==1) ? 's' : '') }}<button @click="transcript.selectedTokenBereich={'v': null, 'b': null};" class="close"><span aria-hidden="true">×</span></button></span>
       <div>
         <b>Informant:</b> {{ transcript.selectedTokenBereich.v.iObj.k }}<br>
-        <b>Von Token:</b> <a href="#" v-on:click.prevent="transcript.selectedToken=transcript.selectedTokenBereich.v;focusFocusCatch();" :title="'ID: '+transcript.selectedTokenBereich.v.i">{{ transcript.selectedTokenBereich.v.t }}</a><br>
-        <b>Bis Token:</b> <a href="#" v-on:click.prevent="transcript.selectedToken=transcript.selectedTokenBereich.b;focusFocusCatch();" :title="'ID: '+transcript.selectedTokenBereich.b.i">{{ transcript.selectedTokenBereich.b.t }}</a><br>
+        <b>Von Token:</b> <a href="#" v-on:click.prevent="transcript.selectedToken=vSelectedTokenBereich;focusFocusCatch();" :title="'ID: ' + vSelectedTokenBereich.pk">{{ vSelectedTokenBereich.t }}</a><br>
+        <b>Bis Token:</b> <a href="#" v-on:click.prevent="transcript.selectedToken=bSelectedTokenBereich;focusFocusCatch();" :title="'ID: ' + bSelectedTokenBereich.pk">{{ bSelectedTokenBereich.t }}</a><br>
         <!-- <button @click="selToTokenSet()" class="lmfabc text-center">Auswahl in Token Set umwandeln</button> -->
       </div>
     </div>
@@ -36,6 +36,18 @@ export default {
     }
   },
   computed: {
+    vSelectedTokenBereich () {
+      if (this.transcript.selectedTokenBereich.v && this.transcript.aSVG.selectedTokenList.length > 0) {
+        return this.transcript.aSVG.selectedTokenList[0]
+      }
+      return null
+    },
+    bSelectedTokenBereich () {
+      if (this.transcript.selectedTokenBereich.b && this.transcript.aSVG.selectedTokenList.length > 0) {
+        return this.transcript.aSVG.selectedTokenList[this.transcript.aSVG.selectedTokenList.length - 1]
+      }
+      return null
+    }
   },
   components: {
   }

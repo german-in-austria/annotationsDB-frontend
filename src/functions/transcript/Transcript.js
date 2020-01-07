@@ -17,7 +17,7 @@ const localFunctions = {
     this.aTranskript = {}               // Model des Transkripts
     this.aEinzelErhebung = {}           // Model der EinzelErhebung
     this.aSaetze = {}                   // Model der Saetze
-    this.aInformanten = new InformantenObject.InformantenBase(this)   // Akutelle Informanten (InformantenBase)
+    this.aInformanten = new InformantenObject.InformantenBase(this)   // Aktuelle Informanten (InformantenBase)
     this.aTokens = new TokensObject.TokensBase(this)                  // Aktuelle Tokens (TokensBase)
     this.aTokenSets = new TokenSetsObject.TokenSetsBase(this)         // Aktuelle TokenSets (TokenSetsBase)
     this.aEvents = new EventsObject.EventsBase(this)                  // Aktuelle Events (EventsBase)
@@ -41,5 +41,6 @@ const localFunctions = {
 localFunctions.TranscriptBase.prototype.init = prototypeTranscriptBase.init
 localFunctions.TranscriptBase.prototype.getTranscript = prototypeTranscriptBase.getTranscript
 localFunctions.TranscriptBase.prototype.update = prototypeTranscriptBase.update
+localFunctions.TranscriptBase.prototype.selectedTokenBereichUpdate = prototypeTranscriptBase.selectedTokenBereichUpdate
 
 export default localFunctions

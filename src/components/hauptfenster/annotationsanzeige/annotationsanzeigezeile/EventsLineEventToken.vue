@@ -7,9 +7,9 @@
       'selected': transcript.selectedToken === aToken,
       'lastview': transcript.aTokens.svgLastView === aToken.pk,
       'hastags': hasTags,
+      'selectlist': transcript.aSVG.selectedTokenList.indexOf(aToken) > -1
     }">
     <!-- ToDo:  :class="{
-      'selectlist': svgSelTokenList.indexOf(aTokenId) > -1,
       'found': suchTokens.indexOf(aTokenId) >= 0,
     }" -->
     <rect x="1" y="0" :width="width" :height="height" class="bg" />
@@ -51,6 +51,14 @@ export default {
       if (e.ctrlKey) {
         // ToDo: TokenSet select
         // ToDo: ctrlKey
+      } else if (e.shiftKey) {
+        if (this.transcript.selectedTokenBereich.v) {
+          this.transcript.selectedTokenBereich.b = this.aToken
+        } else if (this.transcript.selectedToken) {
+          this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
+          this.transcript.selectedTokenBereich.b = this.aToken
+        }
+        this.transcript.selectedToken = this.aToken
       } else {
         if (this.transcript.selectedToken === this.aToken) {
           this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.aToken)} }

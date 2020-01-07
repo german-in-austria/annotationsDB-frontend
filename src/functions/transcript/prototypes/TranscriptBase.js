@@ -67,6 +67,29 @@ const localFunctions = {
     this.aTokenSets.update()
     this.aAntworten.update()
     this.aSVG.updateZeilen()
+  },
+  selectedTokenBereichUpdate () {
+    if (this.selectedTokenBereich.v && this.selectedTokenBereich.b) {
+      if ((this.selectedTokenBereich.v.iObj !== this.selectedTokenBereich.b.iObj) || this.selectedTokenBereich.v === this.selectedTokenBereich.b) {
+        this.selectedTokenBereich = {'v': null, 'b': null}
+        this.aSVG.selectedTokenList = []
+        return true
+      }
+      this.selectedTokenListe = []
+      let tokenList = this.aTokens.tokenLists.byInf[this.selectedTokenBereich.v.iObj.pk]
+      if (tokenList) {
+        let vListPos = tokenList.indexOf(this.selectedTokenBereich.v)
+        let bListPos = tokenList.indexOf(this.selectedTokenBereich.b)
+        if (vListPos > bListPos) { var temp = vListPos; vListPos = bListPos; bListPos = temp }
+        this.aSVG.selectedTokenList = tokenList.slice(vListPos, bListPos + 1)
+      } else {
+        this.aSVG.selectedTokenList = []
+      }
+    } else {
+      if (this.selectedTokenListe.length < 1) {
+        this.aSVG.selectedTokenList = []
+      }
+    }
   }
 }
 

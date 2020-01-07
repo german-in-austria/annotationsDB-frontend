@@ -22,6 +22,7 @@ const localFunctions = {
     this.tokenSetsHeight = 20           // Höhe eines Tokensets
     this.zeilen = {}                    // Zeilen mit Events
     this.renderZeilen = []              // Zu rendernde Zeilen
+    this.selectedTokenList = []         // Liste der ausgewählten Tokens für Token Liste und Bereich
     this.update = false                 // Neu rendern
   }
 }

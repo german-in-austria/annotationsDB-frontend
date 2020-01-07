@@ -133,6 +133,12 @@ export default {
         }
       })
     },
+    'transcript.selectedTokenBereich.v' () {
+      this.transcript.selectedTokenBereichUpdate()
+    },
+    'transcript.selectedTokenBereich.b' () {
+      this.transcript.selectedTokenBereichUpdate()
+    },
     selectedTokenPk (nVal) {
       if (nVal) {
         // Zu aktuell ausgewählten Token scrollen
