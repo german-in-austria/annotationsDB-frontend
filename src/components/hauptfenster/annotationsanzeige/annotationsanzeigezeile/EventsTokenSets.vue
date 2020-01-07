@@ -21,9 +21,9 @@
        <!-- -->
         <g class="zTsVB" v-if="aTokenSet.tx">
           <g :class="'zTsVBln dg' + dg" v-for="dg in [0,1]" :key="'zTsVBlndg' + dg">
-            <path :d="'M' + (((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX + 1 : 0)) + ' ' +
-                            ((tokenSetsSvgData[aTokenSet.pk].startX) ? ((tokenSetsDeepList.length - aTsdI) * aTokenSetHeight) : (aTokenSetHeight / 2)) +
-                      ((tokenSetsSvgData[aTokenSet.pk].startX)
+            <path :d="'M' + (((typeof tokenSetsSvgData[aTokenSet.pk].startX === 'number') ? tokenSetsSvgData[aTokenSet.pk].startX + 1 : 0)) + ' ' +
+                            ((typeof tokenSetsSvgData[aTokenSet.pk].startX === 'number') ? ((tokenSetsDeepList.length - aTsdI) * aTokenSetHeight) : (aTokenSetHeight / 2)) +
+                      ((typeof tokenSetsSvgData[aTokenSet.pk].startX === 'number')
                         ? ' V' + (aTokenSetHeight / 2 + 6) + 'a6,6 0 0 1 6,-6 '
                         : '') +
                       ' H' + ((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX - 7 : svgWidth) +

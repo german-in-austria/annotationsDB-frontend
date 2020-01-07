@@ -56,15 +56,15 @@ export default {
         // if (e.shiftKey && this.selTokenBereich.v === -1) {
         //   this.selTokenBereich.v = this.selToken
         // }
-        if (e.ctrlKey && !this.globals.ctrlUsed === false) {
+        if (e.ctrlKey && !this.globals.ctrlUsed) {
           // this.updateSelTokenListe(this.selToken)
         }
         this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
-        // if (e.shiftKey) {
-        //   this.selTokenBereich.b = this.selToken
-        // } else {
-        //   this.selTokenBereich = {'v': -1, 'b': -1}
-        // }
+        if (e.shiftKey) {
+          // this.selTokenBereich.b = this.selToken
+        } else {
+          // this.selTokenBereich = {'v': -1, 'b': -1}
+        }
         if (e.ctrlKey) {
           // this.updateSelTokenListe(this.selToken);
           this.globals.ctrlUsed = true
@@ -78,11 +78,11 @@ export default {
           // this.updateSelTokenListe(this.selToken)
         }
         this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
-        // if (e.shiftKey) {
-        //   this.selTokenBereich.b = this.selToken
-        // } else {
-        //   this.selTokenBereich = {'v': -1, 'b': -1}
-        // }
+        if (e.shiftKey) {
+          // this.selTokenBereich.b = this.selToken
+        } else {
+          // this.selTokenBereich = {'v': -1, 'b': -1}
+        }
         if (e.ctrlKey) {
           // this.updateSelTokenListe(this.selToken)
           this.globals.ctrlUsed = true
@@ -106,9 +106,9 @@ export default {
         //   this.showaTokenInfos(this.selToken, true)
         // }
       } else if (e.keyCode === 17) { // Strg
-        // if (!this.globals.ctrlUsed) {
-        //   this.updateSelTokenListe(this.selToken)
-        // }
+        if (!this.globals.ctrlUsed) {
+          // this.updateSelTokenListe(this.selToken)
+        }
         this.globals.ctrlUsed = false
       } else {
         console.log('focusCatchKeyUp: ' + e.keyCode)
