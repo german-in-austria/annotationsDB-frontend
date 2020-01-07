@@ -18,7 +18,7 @@
         :transform="'translate(0,' + (aTsdI * aTokenSetHeight) + ')'"
         @click="showaTokenSetInfos(aTokenSet, false, $event)"
       >
-       <!-- -->
+       <!-- Tokensets anzeigen -->
         <g class="zTsVB" v-if="aTokenSet.tx">
           <g :class="'zTsVBln dg' + dg" v-for="dg in [0,1]" :key="'zTsVBlndg' + dg">
             <path :d="'M' + (((typeof tokenSetsSvgData[aTokenSet.pk].startX === 'number') ? tokenSetsSvgData[aTokenSet.pk].startX + 1 : 0)) + ' ' +
