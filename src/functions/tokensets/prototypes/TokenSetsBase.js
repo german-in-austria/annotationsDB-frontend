@@ -12,15 +12,21 @@ const localFunctions = {
   },
   add (nPk, nTokenSet, dontUpdate = false) {
     // TokenSet setzen
+    if (nPk === 'new') {
+      nPk = this.getNextUnusedPk()
+    }
     this.tokenSetsObj[nPk] = nTokenSet
     if (!this.tokenSetsObj[nPk].pk) {
       this.tokenSetsObj[nPk].pk = parseInt(nPk)
     }
-    if (this.tokenSetsObj[nPk].t) {
-    } else {
-
-    }
     if (!dontUpdate) { this.update() }
+  },
+  getNextUnusedPk () {
+    let nPk = -1
+    while (this.tokenSetsObj[nPk]) {
+      nPk -= 1
+    }
+    return nPk
   },
   update () {
     // Diverse Updates für weiterführende Daten durchführen

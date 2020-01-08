@@ -44,7 +44,7 @@
           v-for="aTokenSet in selToken.tokenSetsList"
           :key="'tsi' + aTokenSet.pk"
         >
-          <b>ID:</b> {{ aTokenSet.pk + ((0 > aTokenSet.p) ? ' (Neu)' : '') }} <a href="#" v-on:click.prevent="selTokenSet = aTokenSet" v-if="selTokenSet !== aTokenSet" class="pull-right"><span class="glyphicon glyphicon-copy pull-right" aria-hidden="true"></span></a><br>
+          <b>ID:</b> {{ aTokenSet.pk + ((0 > aTokenSet.p) ? ' (Neu)' : '') }} <a href="#" v-on:click.prevent="transcript.selectedTokenSet = aTokenSet" v-if="selTokenSet !== aTokenSet" class="pull-right"><span class="glyphicon glyphicon-copy pull-right" aria-hidden="true"></span></a><br>
           <template v-if="aTokenSet.ivt">
             <b>Von Token:</b> <a href="#" v-on:click.prevent="selectToken(aTokenSet.ivt)" :title="'ID: ' + aTokenSet.ivt">{{ allTokensObj[aTokenSet.ivt].t }}</a><br>
           </template>
