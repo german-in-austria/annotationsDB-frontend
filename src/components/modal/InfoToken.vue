@@ -146,7 +146,12 @@ export default {
   },
   computed: {
     changed () {
-      return !(_.isEqual(this.aToken, this.oToken) && _.isEqual(this.aAntwort, this.oAntwort))
+      let ieToken = _.isEqual(
+        [this.aToken.t, this.aToken.tt, this.aToken.o, this.aToken.le, this.aToken.to],
+        [this.oToken.t, this.oToken.tt, this.oToken.o, this.oToken.le, this.oToken.to]
+      )
+      let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
+      return !(ieToken && ieAntort)
     },
     satzView () {
       // Liste der Tokens um den aktuellen Token. Für Satzvorschau.
