@@ -110,43 +110,42 @@ const localFunctions = {
   },
   getChangedData () {
     let cData = {
-      changedTokens: [],
-      changedTokenSets: [],
+      changedTokens: {},
+      changedTokenSets: {},
       deletedTokenSets: [],
-      changedAntworten: [],
+      changedAntworten: {},
       deletedAntworten: []
     }
     // Tokens
     this.aTokens.tokenLists.all.forEach(function (val) {
       if (val.changed) {
-        cData.changedTokens.push(AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 't', 'tt', 'tr', 'e', 'to', 'i', 'o', 's', 'sr', 'fo', 'le']))
+        cData.changedTokens[val.pk] = AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 't', 'tt', 'tr', 'e', 'to', 'i', 'o', 's', 'sr', 'fo', 'le'])
       }
     })
     // TokenSets
     this.aTokenSets.tokenSetsLists.all.forEach(function (val) {
       if (val.changed) {
-        cData.changedTokenSets.push(AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 'ivt', 'ibt', 't']))
+        cData.changedTokenSets[val.pk] = AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 'ivt', 'ibt', 't'])
       }
     })
     Object.keys(this.aTokenSets.delTokenSetsObj).forEach(function (val) {
       if (val > 0) {
-        cData.deletedTokenSets.push(val)
+        cData.deletedTokenSets.push(parseInt(val))
       }
     })
     // Antworten
     this.aAntworten.antwortLists.all.forEach(function (val) {
       if (val.changed) {
-        let aVal = AllgemeineFunktionen.filterProperties(val, ['vi', 'inat', 'is', 'ibfl', 'it', 'its', 'bds', 'sa', 'ea', 'k'])
+        cData.changedAntworten[val.pk] = AllgemeineFunktionen.filterProperties(val, ['pk', 'vi', 'inat', 'is', 'ibfl', 'it', 'its', 'bds', 'sa', 'ea', 'k'])
         // Tags
         if (val.tags) {
-          aVal.tags = getFlatTags(val.tags)
+          cData.changedAntworten[val.pk].tags = getFlatTags(val.tags)
         }
-        cData.changedAntworten.push(aVal)
       }
     })
     Object.keys(this.aAntworten.delAntworten).forEach(function (val) {
       if (val > 0) {
-        cData.deletedAntworten.push(val)
+        cData.deletedAntworten.push(parseInt(val))
       }
     })
     return cData

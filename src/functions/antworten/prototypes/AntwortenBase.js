@@ -51,6 +51,7 @@ const localFunctions = {
         while (this.antwortenObj[nPk]) {
           nPk -= 1
         }
+        nAntwort.pk = nPk
         nAntwort.changed = true
       }
       this.antwortenObj[nPk] = nAntwort

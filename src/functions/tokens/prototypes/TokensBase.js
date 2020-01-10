@@ -125,7 +125,10 @@ const localFunctions = {
           }
         }, this)
       }
-      this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), {'it': aTPK, 'vi': nToken.i, 'tags': nTags})
+      nAntwort.it = aTPK
+      nAntwort.vi = nToken.i
+      nAntwort.tags = nTags
+      this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), nAntwort)
       this.root.aAntworten.antwortenObj[this.tokensObj[aTPK].aId].changed = true
     }
     if (nToken.delAntwort && nToken.aId) {
