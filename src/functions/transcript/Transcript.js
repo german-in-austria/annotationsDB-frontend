@@ -44,5 +44,6 @@ localFunctions.TranscriptBase.prototype.getTranscript = prototypeTranscriptBase.
 localFunctions.TranscriptBase.prototype.update = prototypeTranscriptBase.update
 localFunctions.TranscriptBase.prototype.selectedTokenBereichUpdate = prototypeTranscriptBase.selectedTokenBereichUpdate
 localFunctions.TranscriptBase.prototype.toggleSelectedTokenListe = prototypeTranscriptBase.toggleSelectedTokenListe
+localFunctions.TranscriptBase.prototype.getChangedData = prototypeTranscriptBase.getChangedData
 
 export default localFunctions

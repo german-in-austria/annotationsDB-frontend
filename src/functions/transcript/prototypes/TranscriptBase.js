@@ -1,3 +1,5 @@
+import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+
 const localFunctions = {
   init () {
     console.log('init TranscriptBase', this.pk)
@@ -5,7 +7,7 @@ const localFunctions = {
     this.timer = performance.now()
     return this.getTranscript()
   },
-  // Transkipt Daten laden
+  // Transkript Daten laden
   getTranscript () {
     // console.log('getTranscript', this.pk, this.lSet, this.lMaxSet)
     if (!this.loaded) {
@@ -105,7 +107,71 @@ const localFunctions = {
       }
     }
     this.aSVG.selectedTokenList = this.selectedTokenListe
+  },
+  getChangedData () {
+    let cData = {
+      changedTokens: [],
+      changedTokenSets: [],
+      deletedTokenSets: [],
+      changedAntworten: [],
+      deletedAntworten: []
+    }
+    // Tokens
+    this.aTokens.tokenLists.all.forEach(function (val) {
+      if (val.changed) {
+        cData.changedTokens.push(AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 't', 'tt', 'tr', 'e', 'to', 'i', 'o', 's', 'sr', 'fo', 'le']))
+      }
+    })
+    // TokenSets
+    this.aTokenSets.tokenSetsLists.all.forEach(function (val) {
+      if (val.changed) {
+        cData.changedTokenSets.push(AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 'ivt', 'ibt', 't']))
+      }
+    })
+    Object.keys(this.aTokenSets.delTokenSetsObj).forEach(function (val) {
+      if (val > 0) {
+        cData.deletedTokenSets.push(val)
+      }
+    })
+    // Antworten
+    this.aAntworten.antwortLists.all.forEach(function (val) {
+      if (val.changed) {
+        let aVal = AllgemeineFunktionen.filterProperties(val, ['vi', 'inat', 'is', 'ibfl', 'it', 'its', 'bds', 'sa', 'ea', 'k'])
+        // Tags
+        if (val.tags) {
+          aVal.tags = getFlatTags(val.tags)
+        }
+        cData.changedAntworten.push(aVal)
+      }
+    })
+    Object.keys(this.aAntworten.delAntworten).forEach(function (val) {
+      if (val > 0) {
+        cData.deletedAntworten.push(val)
+      }
+    })
+    return cData
   }
+}
+
+function getFlatTags (aTags) {
+  var fTags = []
+  aTags.forEach(function (val) {
+    fTags.push({'e': val.e, 't': getFlatTagsX(val.tags)})
+  })
+  return fTags
+}
+function getFlatTagsX (aTags) {
+  var fTags = []
+  aTags.forEach(function (val) {
+    var aTag = {'i': val.id, 't': val.tag}
+    fTags.push(aTag)
+    if (val.tags) {
+      getFlatTagsX(val.tags).forEach(function (sVal) {
+        fTags.push(sVal)
+      })
+    }
+  })
+  return fTags
 }
 
 export default localFunctions

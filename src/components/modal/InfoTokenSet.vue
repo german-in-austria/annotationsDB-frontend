@@ -107,6 +107,7 @@ export default {
       // Neue Antwort erstellen.
       this.$set(this.aTokenSet, 'aId', '? - Neu')
       this.$set(this.aAntwort, 'tags', [])
+      this.$set(this.aAntwort, 'vi', this.aTokenSet.tObj[0].i)
     }
   },
   computed: {

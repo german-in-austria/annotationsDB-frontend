@@ -137,6 +137,7 @@ export default {
       // Neue Antwort erstellen.
       this.$set(this.aToken, 'aId', '? - Neu')
       this.$set(this.aAntwort, 'tags', [])
+      this.$set(this.aAntwort, 'vi', this.aToken.i)
     },
     updateTokenData () {
       // Änderungen am Token anwenden.

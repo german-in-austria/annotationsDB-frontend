@@ -50,7 +50,10 @@ export default {
       }
     },
     speichern () {
-      console.log('ToDo: Transcript speichern ...', this.transcript.unsaved)
+      if (this.transcript.unsaved) {
+        console.log('Transcript speichern ...')
+        console.log(this.transcript.getChangedData())
+      }
     },
     keyup (e) {
       // console.log('keyUp: ' + e.keyCode)
