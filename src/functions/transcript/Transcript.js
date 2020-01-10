@@ -13,6 +13,7 @@ const localFunctions = {
     this.loaded = false                 // Wird das Transcript noch geladen?
     this.vueObj = vueObj                // Aktuelles Vue Objekt
     this.timer = 0                      // Zeit der Initialisierung der TranscriptBase
+    this.unsaved = false                // Gibt es ungespeicherte Änderungen?
     // Transkript Daten
     this.aTranskript = {}               // Model des Transkripts
     this.aEinzelErhebung = {}           // Model der EinzelErhebung

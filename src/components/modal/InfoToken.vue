@@ -142,6 +142,7 @@ export default {
       // Änderungen am Token anwenden.
       this.$refs.modal.close()
       this.transcript.aTokens.updateTokenData(this.aToken, this.aAntwort)
+      this.transcript.unsaved = true
     }
   },
   computed: {

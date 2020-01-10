@@ -13,7 +13,7 @@
         </div>
         <div id="mcon-focus" :class="focus ? 'focus' : ''" />
       </div>
-      <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !unsaved }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
+      <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !(transcript && transcript.unsaved) }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
     </template>
   </div>
 </template>
@@ -29,7 +29,6 @@ export default {
   data () {
     return {
       globals: Globals,
-      unsaved: false,
       focus: false
     }
   },
@@ -51,7 +50,7 @@ export default {
       }
     },
     speichern () {
-      console.log('ToDo: Transcript speichern ...')
+      console.log('ToDo: Transcript speichern ...', this.transcript.unsaved)
     },
     keyup (e) {
       // console.log('keyUp: ' + e.keyCode)

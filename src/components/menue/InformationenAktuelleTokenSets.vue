@@ -89,6 +89,7 @@ export default {
     setATokenSetBereich (aTokenSetId, aTokenId, feld, direkt = false) {
       // ToDo: TokenSet Bereich neu setzen
       console.log('setATokenSetBereich', aTokenSetId, aTokenId, feld, direkt)
+      this.transcript.unsaved = true
     },
     selectToken (sTok) {
       this.transcript.selectedToken = this.allTokensObj[sTok]

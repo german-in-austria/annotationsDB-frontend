@@ -94,10 +94,12 @@ export default {
       // Änderungen am TokenSet anwenden.
       this.$refs.modal.close()
       this.transcript.aTokenSets.updateTokenSetData(this.aTokenSet, this.aAntwort)
+      this.transcript.unsaved = true
     },
     deleteATokenSet () {
       console.log('deleteATokenSet')
       if (this.transcript.aTokenSets.deleteATokenSet(this.aTokenSet)) {
+        this.transcript.unsaved = true
         this.$refs.modal.close()
       }
     },

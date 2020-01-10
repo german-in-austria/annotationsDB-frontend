@@ -1,5 +1,5 @@
 <template>
-  <div id="annotationsTool" v-bind:class="{ loading: loading, bgloading: false, unsaved: unsaved }">
+  <div id="annotationsTool" v-bind:class="{ loading: loading, bgloading: false, unsaved: selTranscript && selTranscript.unsaved }">
     <div class="row h100">
       <div class="col-md-2 h100 mh200px vscroller lmfa">
         <SuchenUndFiltern v-if="selTranscriptPk > 0" />
