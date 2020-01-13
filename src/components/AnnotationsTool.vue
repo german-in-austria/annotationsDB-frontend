@@ -34,7 +34,7 @@ import TranscriptObject from '@/functions/transcript/Transcript'
 export default {
   name: 'AnnotationsTool',
   http: {
-    root: '/annotationsdb/startvue',
+    root: '/annotationsdb/annotool',
     headers: {
       'X-CSRFToken': csrf
     },

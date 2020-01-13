@@ -10,7 +10,7 @@ const localFunctions = {
     this.update()
   },
   add (nPk, nToken, dontUpdate = false) {
-    // Token setzten
+    // Token setzen
     this.tokensObj[nPk] = nToken
     if (!this.tokensObj[nPk].pk) {
       this.tokensObj[nPk].pk = parseInt(nPk)
