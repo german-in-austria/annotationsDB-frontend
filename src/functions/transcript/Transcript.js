@@ -10,6 +10,7 @@ const localFunctions = {
   TranscriptBase (lPk, vueObj) {
     this.ready = false                  // Ist das Objekt bereit?
     this.loading = false                // Wird gerade geladen/gespeichert?
+    this.saving = false                 // Wird gerade gespeichert?
     this.loaded = false                 // Wird das Transcript noch geladen?
     this.vueObj = vueObj                // Aktuelles Vue Objekt
     this.timer = 0                      // Zeit der Initialisierung der TranscriptBase
@@ -45,5 +46,6 @@ localFunctions.TranscriptBase.prototype.update = prototypeTranscriptBase.update
 localFunctions.TranscriptBase.prototype.selectedTokenBereichUpdate = prototypeTranscriptBase.selectedTokenBereichUpdate
 localFunctions.TranscriptBase.prototype.toggleSelectedTokenListe = prototypeTranscriptBase.toggleSelectedTokenListe
 localFunctions.TranscriptBase.prototype.getChangedData = prototypeTranscriptBase.getChangedData
+localFunctions.TranscriptBase.prototype.save = prototypeTranscriptBase.save
 
 export default localFunctions

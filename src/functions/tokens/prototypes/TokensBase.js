@@ -155,6 +155,15 @@ const localFunctions = {
       }
     }
     return nToken
+  },
+  sortTokenIdListe: function (aEListe) {
+    var nEListe = []
+    this.tokenLists.all.forEach(function (val) {
+      if (aEListe.indexOf(val.pk) >= 0) {
+        nEListe.push(val.pk)
+      }
+    }, this)
+    return nEListe
   }
 }
 

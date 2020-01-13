@@ -100,6 +100,16 @@ const localFunctions = {
     }
     return aList
   },
+  wertAusListeEntfernen: function (liste, val) {
+    var aList = liste.slice()
+    for (var i = 0; i < aList.length; i++) {
+      if (aList[i] === val) {
+        aList.splice(i, 1)
+        i--
+      }
+    }
+    return aList
+  },
   getFirstObjectOfValueInPropertyOfArray (arr, property, value, returnObj) {
     let rObj = ((returnObj) ? {} : null)
     if (Array.isArray(arr)) {

@@ -19,7 +19,7 @@ const localFunctions = {
     if (!this.tokenSetsObj[nPk].pk) {
       this.tokenSetsObj[nPk].pk = parseInt(nPk)
     }
-    this.tokenSetsObj[nPk].changed = changed
+    if (changed) { this.tokenSetsObj[nPk].changed = true }
     if (!dontUpdate) { this.update() }
   },
   getNextUnusedPk () {
@@ -77,16 +77,18 @@ const localFunctions = {
           aTokSet.tObj = []
           let missToken = false
           aTokSet.t.some(function (tId) {
-            if (this.root.aTokens.tokensObj[tId]) {
-              aTokSet.tObj.push(this.root.aTokens.tokensObj[tId])
-            } else {
+            if (!this.root.aTokens.tokensObj[tId]) {
               missToken = true
               return true
             }
           }, this)
           if (!missToken) {
-            // ToDo: Tokens sortieren ...
-            // aTokSet.t = this.sortEventIdListe(aTokSet.t)
+            aTokSet.t = this.root.aTokens.sortTokenIdListe(aTokSet.t)
+            aTokSet.t.some(function (tId) {
+              if (this.root.aTokens.tokensObj[tId]) {
+                aTokSet.tObj.push(this.root.aTokens.tokensObj[tId])
+              }
+            }, this)
             aTokSet.ok = aTokSet.tObj.length > 0
           }
         }
@@ -179,6 +181,10 @@ const localFunctions = {
       console.log('TokenSet ID ' + aTSPK + ' gelöscht!')
       return true
     }
+  },
+  directDeleteATokenSet: function (delTokenSetId) {
+    this.tokenSetsObj[delTokenSetId].ok = false
+    delete this.tokenSetsObj[delTokenSetId]
   }
 }
 

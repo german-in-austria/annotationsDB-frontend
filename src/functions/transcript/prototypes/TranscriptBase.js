@@ -149,6 +149,68 @@ const localFunctions = {
       }
     })
     return cData
+  },
+  save () {
+    let sData = this.getChangedData()
+    console.log('Transcript speichern', sData)
+    this.loading = true
+    this.saving = true
+    this.vueObj.$http
+      .post('', {
+        speichern: JSON.stringify(sData)
+      })
+      .then((response) => {
+        console.log('Transcript gespeichert', response.data)
+        if (response.data.gespeichert.errors.length > 0) {
+          let errTxt = ''
+          response.data.gespeichert.errors.forEach(aErr => {
+            errTxt += JSON.stringify(aErr) + ' \n'
+          })
+          alert('Fehler!\nEs kam beim speichern zu Fehlern!\n-----\n' + errTxt)
+        }
+        // changedTokens
+        // -> Nothing to do ...
+        // changedTokenSets
+        Object.keys(response.data.gespeichert.changedTokenSets).forEach(changedTokenSetId => {
+          let aChangedTokenSet = response.data.gespeichert.changedTokenSets[changedTokenSetId]
+          if (aChangedTokenSet.saved) {
+            aChangedTokenSet.pk = aChangedTokenSet.nId
+            delete aChangedTokenSet.nId
+            console.log(changedTokenSetId, this.aTokenSets.tokenSetsObj[changedTokenSetId], this)
+            // delete this.aTokenSets.tokenSetsObj[changedTokenSetId]
+            this.aTokenSets.directDeleteATokenSet(changedTokenSetId)
+            this.aTokenSets.add(aChangedTokenSet.pk, aChangedTokenSet, true)
+          }
+        })
+        // deletedTokenSets
+        response.data.gespeichert.deletedTokenSets.forEach(delTokenSetId => {
+          let ok = true
+          response.data.gespeichert.errors.forEach(aErr => {
+            if (aErr.type === 'deletedTokenSets' && aErr.id === delTokenSetId) {
+              ok = false
+            }
+          })
+          if (ok) {
+            delete this.aTokenSets.delTokenSetsObj[delTokenSetId]
+          }
+        })
+        // changedAntworten
+        // ToDo: ...
+        // deletedAntworten
+        // ToDo: ...
+        this.aTokenSets.update()
+        this.update()
+        this.aSVG.updateZeilen()
+        // this.root.changed = false
+        this.loading = false
+        this.saving = false
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('Fehler!')
+        this.loading = false
+        this.saving = false
+      })
   }
 }
 

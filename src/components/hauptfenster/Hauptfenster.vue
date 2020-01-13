@@ -13,7 +13,7 @@
         </div>
         <div id="mcon-focus" :class="focus ? 'focus' : ''" />
       </div>
-      <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !(transcript && transcript.unsaved) }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
+      <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !(transcript && transcript.unsaved) || transcript.loading }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
     </template>
   </div>
 </template>
@@ -51,8 +51,7 @@ export default {
     },
     speichern () {
       if (this.transcript.unsaved) {
-        console.log('Transcript speichern ...')
-        console.log(this.transcript.getChangedData())
+        this.transcript.save()
       }
     },
     keyup (e) {
