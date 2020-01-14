@@ -114,20 +114,8 @@ const localFunctions = {
     this.tokensObj[aTPK].le = nToken.le
     this.tokensObj[aTPK].to = nToken.to
     if (!nToken.delAntwort && nToken.aId) {
-      let nTags = null
-      if (nAntwort.tags) {
-        nAntwort.tags.forEach(aTags => {
-          if (!parseInt(aTags.e) < 1) {
-            if (!nTags) {
-              nTags = []
-            }
-            nTags.push(aTags)
-          }
-        }, this)
-      }
       nAntwort.it = aTPK
       nAntwort.vi = nToken.i
-      nAntwort.tags = nTags
       this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), nAntwort)
       this.root.aAntworten.antwortenObj[this.tokensObj[aTPK].aId].changed = true
     }

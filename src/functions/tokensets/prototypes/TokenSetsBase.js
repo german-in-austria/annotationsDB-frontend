@@ -139,19 +139,7 @@ const localFunctions = {
     nAntwort = _.cloneDeep(nAntwort)
     let aTSPK = nTokenSet.pk
     if (!nTokenSet.delAntwort && nTokenSet.aId) {
-      let nTags = null
-      if (nAntwort.tags) {
-        nAntwort.tags.forEach(aTags => {
-          if (!parseInt(aTags.e) < 1) {
-            if (!nTags) {
-              nTags = []
-            }
-            nTags.push(aTags)
-          }
-        }, this)
-      }
       nAntwort.its = aTSPK
-      nAntwort.tags = nTags
       this.tokenSetsObj[aTSPK].aId = this.root.aAntworten.set(parseInt(nTokenSet.aId), nAntwort)
       this.root.aAntworten.antwortenObj[this.tokenSetsObj[aTSPK].aId].changed = true
     }

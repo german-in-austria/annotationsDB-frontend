@@ -140,6 +140,8 @@ const localFunctions = {
         // Tags
         if (val.tags) {
           cData.changedAntworten[val.pk].tags = getFlatTags(val.tags)
+        } else {
+          cData.changedAntworten[val.pk].tags = null
         }
       }
     })
@@ -205,7 +207,7 @@ const localFunctions = {
             aChangedAntworten.pk = aChangedAntworten.nId
             delete aChangedAntworten.nId
             console.log(changedAntwortId, this.aAntworten.antwortenObj[changedAntwortId], this)
-            this.aAntworten.del(changedAntwortId, true)
+            if (changedAntwortId < 1) { this.aAntworten.del(changedAntwortId, true) }
             this.aAntworten.add(aChangedAntworten.pk, aChangedAntworten, true)
           }
         })

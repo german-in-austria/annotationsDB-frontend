@@ -78,7 +78,6 @@ export default {
     this.aTokenSet = _.cloneDeep(this.modalData.data.aTokenSet)
     this.oTokenSet = _.cloneDeep(this.aTokenSet)
     if (this.aTokenSet.aId) {
-      console.log(this.aTokenSet.aId)
       this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.aTokenSet.aId])
       if (!this.aAntwort.tags) {
         this.$set(this.aAntwort, 'tags', [])
