@@ -150,8 +150,7 @@ const localFunctions = {
           }
         }, this)
       }
-      nAntwort.it = aTSPK
-      nAntwort.vi = nTokenSet.i
+      nAntwort.its = aTSPK
       nAntwort.tags = nTags
       this.tokenSetsObj[aTSPK].aId = this.root.aAntworten.set(parseInt(nTokenSet.aId), nAntwort)
       this.root.aAntworten.antwortenObj[this.tokenSetsObj[aTSPK].aId].changed = true
@@ -163,7 +162,7 @@ const localFunctions = {
     }
     this.tokenSetsObj[aTSPK].ok = false
     this.root.changed = true
-    console.log('updateTokenSetData', nTokenSet, '->', this.tokenSetsObj[aTSPK])
+    console.log('updateTokenSetData', nTokenSet, '->', this.tokenSetsObj[aTSPK], '|', nAntwort, '->', this.root.aAntworten.antwortenObj[this.tokenSetsObj[aTSPK].aId])
     this.root.update()
   },
   deleteATokenSet: function (delTokenSet, direkt = false, aDirekt = false) {

@@ -169,7 +169,11 @@ const localFunctions = {
           alert('Fehler!\nEs kam beim speichern zu Fehlern!\n-----\n' + errTxt)
         }
         // changedTokens
-        // -> Nothing to do ...
+        Object.keys(response.data.gespeichert.changedTokens).forEach(changedTokenId => {
+          if (response.data.gespeichert.changedTokens[changedTokenId].saved) {
+            delete this.aTokens.tokensObj[changedTokenId].changed
+          }
+        })
         // changedTokenSets
         Object.keys(response.data.gespeichert.changedTokenSets).forEach(changedTokenSetId => {
           let aChangedTokenSet = response.data.gespeichert.changedTokenSets[changedTokenSetId]
@@ -177,7 +181,6 @@ const localFunctions = {
             aChangedTokenSet.pk = aChangedTokenSet.nId
             delete aChangedTokenSet.nId
             console.log(changedTokenSetId, this.aTokenSets.tokenSetsObj[changedTokenSetId], this)
-            // delete this.aTokenSets.tokenSetsObj[changedTokenSetId]
             this.aTokenSets.directDeleteATokenSet(changedTokenSetId)
             this.aTokenSets.add(aChangedTokenSet.pk, aChangedTokenSet, true)
           }
@@ -194,6 +197,18 @@ const localFunctions = {
             delete this.aTokenSets.delTokenSetsObj[delTokenSetId]
           }
         })
+        this.aTokenSets.update()
+        // changedAntworten
+        Object.keys(response.data.gespeichert.changedAntworten).forEach(changedAntwortId => {
+          let aChangedAntworten = response.data.gespeichert.changedAntworten[changedAntwortId]
+          if (aChangedAntworten.saved) {
+            aChangedAntworten.pk = aChangedAntworten.nId
+            delete aChangedAntworten.nId
+            console.log(changedAntwortId, this.aAntworten.antwortenObj[changedAntwortId], this)
+            this.aAntworten.del(changedAntwortId, true)
+            this.aAntworten.add(aChangedAntworten.pk, aChangedAntworten, true)
+          }
+        })
         // deletedAntworten
         response.data.gespeichert.deletedAntworten.forEach(delAntwortId => {
           let ok = true
@@ -208,9 +223,6 @@ const localFunctions = {
           }
         })
         this.aAntworten.update()
-        // changedAntworten
-        // ToDo: ...
-        this.aTokenSets.update()
         this.update()
         this.aSVG.updateZeilen()
         // this.root.changed = false
