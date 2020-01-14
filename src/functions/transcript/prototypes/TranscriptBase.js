@@ -194,9 +194,21 @@ const localFunctions = {
             delete this.aTokenSets.delTokenSetsObj[delTokenSetId]
           }
         })
-        // changedAntworten
-        // ToDo: ...
         // deletedAntworten
+        response.data.gespeichert.deletedAntworten.forEach(delAntwortId => {
+          let ok = true
+          response.data.gespeichert.errors.forEach(aErr => {
+            if (aErr.type === 'deletedAntworten' && aErr.id === delAntwortId) {
+              ok = false
+            }
+          })
+          if (ok) {
+            this.aAntworten.del(delAntwortId, true)
+            delete this.aAntworten.delAntworten[delAntwortId]
+          }
+        })
+        this.aAntworten.update()
+        // changedAntworten
         // ToDo: ...
         this.aTokenSets.update()
         this.update()

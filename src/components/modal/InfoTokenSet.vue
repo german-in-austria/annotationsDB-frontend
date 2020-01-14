@@ -115,7 +115,12 @@ export default {
       return this.transcript.aTokens.tokensObj
     },
     changed () {
-      return !(_.isEqual(this.aTokenSet, this.oTokenSet) && _.isEqual(this.aAntwort, this.oAntwort))
+      let ieToken = _.isEqual(
+        [this.aTokenSet.delAntwort, this.aTokenSet.aId],
+        [this.oTokenSet.delAntwort, this.oTokenSet.aId]
+      )
+      let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
+      return !(ieToken && ieAntort)
     },
     satzView () {
       // Liste der Tokens um das aktuelle TokenSet. Für Satzvorschau.
