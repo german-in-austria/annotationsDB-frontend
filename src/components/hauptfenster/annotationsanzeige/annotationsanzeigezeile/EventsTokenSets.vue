@@ -12,11 +12,13 @@
       v-for="(aTokenSetDeep, aTsdI) in tokenSetsDeepList"
       :key="'ztsl' + aTsdI"
     >
-      <g :class="'zTokenSet' + ((aTokenSet === transcript.selectedTokenSet) ? ' selected' : '') + ((transcript.selectedToken && transcript.selectedToken.tokenSetsList && transcript.selectedToken.tokenSetsList.indexOf(aTokenSet) > -1) ? ' active' : '')"
+      <g :class="'zTokenSet' + (transcript.hoveredTokenSet === aTokenSet.pk ? ' hover' : '') + ((aTokenSet === transcript.selectedTokenSet) ? ' selected' : '') + ((transcript.selectedToken && transcript.selectedToken.tokenSetsList && transcript.selectedToken.tokenSetsList.indexOf(aTokenSet) > -1) ? ' active' : '')"
         v-for="(aTokenSet, aTsI) in aTokenSetDeep"
         :key="aTsI"
         :transform="'translate(0,' + (aTsdI * aTokenSetHeight) + ')'"
         @click="showaTokenSetInfos(aTokenSet, false, $event)"
+        @mouseover="transcript.hoveredTokenSet = aTokenSet.pk"
+        @mouseleave="transcript.hoveredTokenSet = null"
       >
        <!-- Tokensets anzeigen -->
         <g class="zTsVB" v-if="aTokenSet.tx">
@@ -148,7 +150,7 @@ export default {
   g.zTokenSet.selected .zTsVBln.dg1 > line, g.zTokenSet.selected .zTsVBln.dg1 > path {
     stroke: #4b4;
   }
-  g.zTokenSet:hover .zTsVBln.dg1 > line, g.zTokenSet:hover .zTsVBln.dg1 > path {
+  g.zTokenSet.hover .zTsVBln.dg1 > line, g.zTokenSet.hover .zTsVBln.dg1 > path {
     stroke: #9f9;
   }
   g.zTokenSet.active  text, g.zTokenSet.active  text {
@@ -157,7 +159,7 @@ export default {
   g.zTokenSet.selected  text, g.zTokenSet.selected  text {
     fill: #2e842e;
   }
-  g.zTokenSet:hover text, g.zTokenSet:hover text {
+  g.zTokenSet.hover text, g.zTokenSet.hover text {
     fill: #4b4;
   }
 </style>

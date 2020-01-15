@@ -34,6 +34,7 @@ const localFunctions = {
     this.selectedTokenSet = null        // Aktuell ausgewählter TokenSet
     this.selectedTokenBereich = {'v': null, 'b': null}  // Aktuell ausgewählter Token Bereich
     this.selectedTokenListe = []        // Liste der aktuell ausgewählten Tokens
+    this.hoveredTokenSet = null         // TokenSet über dem der Mauszeiger ist
     // Init
     this.init()                         // Immer dirket initialisieren
   }
