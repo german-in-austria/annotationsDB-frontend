@@ -33,16 +33,16 @@
           </g>
           <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : svgWidth) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0)) / 2"
                 :y="0"
-                style="text-anchor:middle;"  filter="url(#solid)">&nbsp;
-                  <!-- :text-decoration="((getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'underline' : '')"
-                  :class="{'bold': (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0)}" -->
-                  {{ aTokenSet.pk }}
+                style="text-anchor:middle;"  filter="url(#solid)"
+                :class="(getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'hasTags' : ''"
+          >&nbsp;
+            {{ aTokenSet.pk }}
                   <!-- {{
                     + ((showTagEbene && previewTagEbene > 0 && (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene))) ?
                       ': ' + tagCache.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene).tags)
                     : '')
                   }} -->
-                &nbsp;</text>
+          &nbsp;</text>
         </g>
         <g class="zTsTs" v-else>
           <g :class="'zTsVBln dg' + dg" v-for="dg in [0,1]" :key="'zTsVBlndg' + dg">
@@ -59,16 +59,16 @@
           </g>
           <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : svgWidth) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0))/2"
                 :y="0"
-                style="text-anchor:middle;"  filter="url(#solid)">&nbsp;
-                <!-- :text-decoration="((getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'underline' : '')"
-                :class="{'bold': (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0)}" -->
-                  {{ aTokenSet.pk }}
+                :class="(getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'hasTags' : ''"
+                style="text-anchor:middle;"  filter="url(#solid)"
+          >&nbsp;
+            {{ aTokenSet.pk }}
                   <!-- {{
                     + ((showTagEbene && previewTagEbene > 0 && (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene))) ?
                       ': ' + tagCache.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene).tags)
                     : '')
                   }} -->
-                &nbsp;</text>
+          &nbsp;</text>
         </g>
       </g>
     </g>
@@ -106,9 +106,13 @@ export default {
       }
     },
     objectKeyFilter: AllgemeineFunktionen.objectKeyFilter,
-    objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter
+    objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter,
+    getValOfSubProp: AllgemeineFunktionen.getValOfSubProp
   },
   computed: {
+    aAntworten () {
+      return this.transcript.aAntworten.antwortenObj
+    },
     tokenSetsDeepList () {
       return this.zeileData.tokenSetsDeepList[this.aInf.pk]
     },
@@ -132,6 +136,10 @@ export default {
     stroke-width: 2;
     stroke: #333;
     fill:none;
+  }
+  g.zTsVB > text.hasTags {
+    text-decoration: underline;
+    font-weight: bold;
   }
   g.zTsTs > .zTsVBln > line {
     stroke-width: 1;
