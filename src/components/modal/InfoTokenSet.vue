@@ -34,10 +34,11 @@
           <hr/>
           <div class="satzview">
             <span
-              :class="sv.class + ' tt' + sv.token.tt"
+              :class="sv.class + (sv.ellipsis ? '' : ' tt' + sv.token.tt)"
               v-for="(sv, svKey) in satzView"
               :key="'sv' + svKey"
-            >{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
+              :title="sv.ellipsis ? sv.ellipsis.toLocaleString() + ' Tokens ausgeblendet!' : ''"
+            >{{ sv.ellipsis ? '...' : transcript.aTokens.getTokenString(sv.token, 't') }}</span>
           </div>
         </template>
         <template v-if="aTokenSet.aId && !aTokenSet.delAntwort">
@@ -125,8 +126,10 @@ export default {
     },
     satzView () {
       // Liste der Tokens um das aktuelle TokenSet. Für Satzvorschau.
+      let t0 = performance.now()
       let aSatz = []
       let tokensBA = 10     // Anzahl der Tokens die vor und nach dem aktuellen TokenSet angezeigt werden sollen.
+      let tokensMax = 100    // Maximale Tokens am Anfang und Ende.
       let aTokensInTokenSet = this.aTokenSet.tObj || this.aTokenSet.tx
       if (aTokensInTokenSet) {
         let aTLbInf = this.transcript.aTokens.tokenLists.byInf[aTokensInTokenSet[0].i]
@@ -158,22 +161,30 @@ export default {
           if (vToken < 0) {
             vToken = 0
           }
+          console.log('sv', vToken, bToken, bToken - vToken)
           // Tokens als Liste umsetzen und Klasse des Tokens bestimmen.
+          let tokenLen = bToken - vToken
           let aClass = 'before'
           for (var i = vToken; i <= bToken; i++) {
-            let fxClass = ''
-            if (AllgemeineFunktionen.getFirstObjectOfValueInPropertyOfArray(aTokensInTokenSet, 'pk', aTLbInf[i].pk)) {
-              aClass = 'active'
-              if (this.transcript.aTokens.aTokenFragmenteObj[aTLbInf[i].pk]) {
-                fxClass += ' has-fragments'
+            let tp = i - vToken
+            if (tp <= tokensMax || tp >= tokenLen - tokensMax) {
+              let fxClass = ''
+              if (AllgemeineFunktionen.getFirstObjectOfValueInPropertyOfArray(aTokensInTokenSet, 'pk', aTLbInf[i].pk)) {
+                aClass = 'active'
+                if (this.transcript.aTokens.aTokenFragmenteObj[aTLbInf[i].pk]) {
+                  fxClass += ' has-fragments'
+                }
+              } else if (aClass === 'active') {
+                aClass = 'after'
               }
-            } else if (aClass === 'active') {
-              aClass = 'after'
+              aSatz.push({class: aClass + fxClass, token: aTLbInf[i]})
+            } else if (tp === tokensMax + 1) {
+              aSatz.push({class: 'ellipsis', ellipsis: tokenLen - tokensMax * 2})
             }
-            aSatz.push({class: aClass + fxClass, token: aTLbInf[i]})
           }
         }
       }
+      console.log('satzView', parseInt(performance.now() - t0), 'ms')
       return aSatz.length > 0 ? aSatz : false
     }
   },
@@ -203,8 +214,16 @@ export default {
   .satzview > span.before, .satzview > span.after {
     color: #888;
   }
-
   .satzview > span.tt3 {
     font-style: italic;
+  }
+  .satzview > span.ellipsis{
+    padding: 0 1rem;
+    margin: 0 0.75rem;
+    background: #ddd;
+    color: #666;
+    border-radius: 1rem;
+    cursor: default;
+    text-decoration: none!important;
   }
 </style>
