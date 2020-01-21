@@ -51,16 +51,33 @@ export default {
     }
   },
   mounted () {
+    console.log(this.transcript, this.transcript.aTokens)
     this.$nextTick(() => { this.$refs.suchtext.focus() })
   },
   methods: {
     suche () {
       if (!this.suchen) {
         this.suchen = true
+        this.resetSuche()
         if (this.suchText.trim().length > 1) {  // Suche durchführen
           var t0 = performance.now()
-          // ToDo: ...
-          console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms')
+          if (this.suchModus === 'token') {
+            this.transcript.aTokens.tokenLists.all.forEach(aToken => {
+              if (parseInt(this.suchInf) === 0 || aToken.i === parseInt(this.suchInf)) {
+                let addToken = (
+                  (this.suchOptText && aToken.t && aToken.t.toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0) ||
+                  (this.suchOptOrtho && aToken.o && aToken.o.toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0) ||
+                  (this.suchOptTextInOrtho && aToken.to && aToken.to.toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0)
+                )
+                if (addToken) {
+                  this.transcript.aTokens.foundTokensList.push(aToken)
+                  this.transcript.aTokens.foundTokensInfoObj[aToken.pk] = { z: 0 }
+                }
+              }
+            })
+          } else {
+          }
+          console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', this.transcript.aTokens.foundTokensList, this.transcript.aTokens.foundTokensInfoObj)
         }
         this.suchen = false
       }
@@ -84,7 +101,15 @@ export default {
     },
     focusFocusCatch () {
       this.$root.$children[0].$refs.annotationstool.$refs.hauptfenster.setFocus()
+    },
+    resetSuche () {
+      console.log('Suche zurücksetzen ...')
+      this.transcript.aTokens.foundTokensInfoObj = {}
+      this.transcript.aTokens.foundTokensList = []
     }
+  },
+  beforeDestroy () {
+    this.resetSuche()
   },
   computed: {
   },
