@@ -76,6 +76,47 @@ export default {
               }
             })
           } else if (this.suchModus === 'volltext') {
+            let sTxt = this.suchText.toLowerCase().replace(String.fromCharCode(160), ' ').trim()
+            let sTxtLen = sTxt.length
+            if (this.suchModusWild) {
+              sTxt = new RegExp('\\b' + sTxt.replace(/[|\\{}()[\]^$+?.]/g, '\\$&').split(/\*+/).join('[a-zäöüß]*') + '\\b', 'ig')
+            }
+            Object.keys(this.transcript.aTokens.aTokenTextInf).forEach(function (aInfKey) {
+              if (parseInt(this.suchInf) === 0 || parseInt(this.suchInf) === parseInt(aInfKey)) {
+                [{'prop': 'text', 'opt': 'suchOptText'}, {'prop': 'ortho', 'opt': 'suchOptOrtho'}, {'prop': 'text_in_ortho', 'opt': 'suchOptTextInOrtho'}].forEach(function (aField) {
+                  if (this[aField.opt]) {
+                    let fPos = []
+                    let aTxt = this.transcript.aTokens.aTokenTextInf[aInfKey][aField.prop].toLowerCase()
+                    if (this.suchModusWild) {
+                      let aMatch
+                      while ((aMatch = sTxt.exec(aTxt)) !== null) {
+                        fPos.push({'v': aMatch.index, 'b': aMatch.index + aMatch[0].length - 1})
+                      }
+                    } else {
+                      let sTxtPos = aTxt.indexOf(sTxt, 0)
+                      while (sTxtPos > -1) {
+                        fPos.push({'v': sTxtPos, 'b': sTxtPos + sTxtLen - 1})
+                        sTxtPos = aTxt.indexOf(sTxt, sTxtPos + sTxtLen - 1)
+                      }
+                    }
+                    if (fPos.length > 0) {
+                      Object.keys(this.transcript.aTokens.aTokenTextInf[aInfKey].tokens).forEach(function (aTokenId) {
+                        let aToken = this.transcript.aTokens.tokensObj[aTokenId]
+                        if (this.transcript.aTokens.foundTokensList.indexOf(aToken) === -1) {
+                          let aTokenTxtInfo = this.transcript.aTokens.aTokenTextInf[aInfKey].tokens[aTokenId][aField.prop]
+                          fPos.forEach(function (aPos) {
+                            if ((aPos.v <= aTokenTxtInfo.b && aPos.b >= aTokenTxtInfo.v)) {
+                              this.transcript.aTokens.foundTokensList.push(aToken)
+                              this.transcript.aTokens.foundTokensInfoObj[aToken.pk] = { z: 0 }
+                            }
+                          }, this)
+                        }
+                      }, this)
+                    }
+                  }
+                }, this)
+              }
+            }, this)
           }
           console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', [this.transcript.aTokens.foundTokensList, this.transcript.aTokens.foundTokensInfoObj])
         }
