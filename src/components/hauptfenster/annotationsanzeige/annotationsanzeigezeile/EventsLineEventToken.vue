@@ -1,17 +1,14 @@
 <template>
   <g @click="showaTokenInfos(false, $event)" :transform="'translate('+(aToken.svgLeft-1)+',1)'"
-    :class="{
-      'eTok': true,
-      ['eTokT' + aToken.tt]: true,
-      'viewed': aToken.viewed,
-      'selected': transcript.selectedToken === aToken,
-      'lastview': transcript.aTokens.svgLastView === aToken.pk,
-      'hastags': hasTags,
-      'selectlist': transcript.aSVG.selectedTokenList.indexOf(aToken) > -1
-    }">
-    <!-- ToDo:  :class="{
-      'found': suchTokens.indexOf(aTokenId) >= 0,
-    }" -->
+    :class="
+      'eTok eTokT' + aToken.tt +
+      (aToken.viewed ? ' viewed' : '') +
+      (transcript.selectedToken === aToken ? ' selected' : '') +
+      (transcript.aTokens.svgLastView === aToken.pk ? ' lastview' : '') +
+      (hasTags ? ' hastags' : '') +
+      (transcript.aSVG.selectedTokenList.indexOf(aToken) > -1 ? ' selectlist' : '') +
+      (transcript.aTokens.foundTokensList.indexOf(aToken) >= 0 ? ' found' : '')
+    ">
     <rect x="1" y="0" :width="width" :height="height" class="bg" />
     <rect x="1" y="0" :width="width - 3" :height="height" class="fx" v-if="hasTags"/>
     <text x="1" y="2" :text-decoration="(hasTags ? 'underline' : '')">{{ transcript.aTokens.getTokenString(aToken, 't') }}</text>

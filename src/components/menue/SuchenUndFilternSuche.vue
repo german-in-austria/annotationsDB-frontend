@@ -22,12 +22,12 @@
       </div>
       <select size="1" class="form-control" v-model="suchInf" @change="suche()">
         <option value="0">Alle Informanten</option>
-        <option v-for="(aInf, aInfKey) in transcript.aInformanten.informantenList" :key="'stis' + aInfKey" :value="aInfKey.pk">{{ aInf.k }}</option>
+        <option v-for="aInf in transcript.aInformanten.informantenList" :key="'stis' + aInf.pk" :value="aInf.pk">{{ aInf.k }}</option>
       </select>
-      <!-- <div v-if="suchTokens.length" class="mit10">
-        Gefunden: <b>{{ suchTokens.length }}</b> Token{{ ((suchTokens.length>1)?'s':'') }}<br>
-        <a href="#" v-on:click.prevent="sucheZuAuswahlListe" v-if="suchInf>0" class="lmfabc text-center">Alle Funde {{ ((selTokenListe.length>0) ? 'in' : 'als') }} Auswahl Liste</a>
-      </div> -->
+      <div v-if="transcript.aTokens.foundTokensList.length" class="mit10">
+        Gefunden: <b>{{ transcript.aTokens.foundTokensList.length }}</b> Token{{ ((transcript.aTokens.foundTokensList.length>1)?'s':'') }}<br>
+        <!-- <a href="#" v-on:click.prevent="sucheZuAuswahlListe" v-if="suchInf>0" class="lmfabc text-center">Alle Funde {{ ((selTokenListe.length>0) ? 'in' : 'als') }} Auswahl Liste</a> -->
+      </div>
       <hr>
     </div>
 </template>
@@ -75,9 +75,9 @@ export default {
                 }
               }
             })
-          } else {
+          } else if (this.suchModus === 'volltext') {
           }
-          console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', this.transcript.aTokens.foundTokensList, this.transcript.aTokens.foundTokensInfoObj)
+          console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', [this.transcript.aTokens.foundTokensList, this.transcript.aTokens.foundTokensInfoObj])
         }
         this.suchen = false
       }
@@ -118,8 +118,7 @@ export default {
       if (nVal.length > 0) {
         this.debouncedSuche()
       } else {
-        // this.suchTokens = []
-        // this.suchTokensInfo = {}
+        this.resetSuche()
       }
     }
   }
