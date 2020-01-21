@@ -55,6 +55,7 @@ const localFunctions = {
     // Diverse Updates für weiterführende Daten durchführen
     let t1 = performance.now()
     this.updateTokensLists()
+    this.updateATokenTextInf()
     this.updateTokensSVGData()
     console.log('Tokens Data updated', (performance.now() - t1).toFixed(2), 'ms')
   },
@@ -152,6 +153,30 @@ const localFunctions = {
       }
     }, this)
     return nEListe
+  },
+  updateATokenTextInf: function () {
+    this.aTokenTextInf = {}
+    var t0 = performance.now()
+    Object.keys(this.tokenLists.byInf).forEach(function (aInfKey) {
+      if (!this.aTokenTextInf[aInfKey]) {
+        this.aTokenTextInf[aInfKey] = {'text': '', 'ortho': '', 'text_in_ortho': '', 'tokens': {}}
+      }
+      let aInfTokens = this.tokenLists.byInf[aInfKey]
+      aInfTokens.forEach(function (aToken) {
+        [{'prop': 'text', 'o1': 't', 'o2': false}, {'prop': 'ortho', 'o1': 'o', 'o2': 't'}, {'prop': 'text_in_ortho', 'o1': 'to', 'o2': false}].forEach(function (aField) {
+          let vPos = this.aTokenTextInf[aInfKey][aField.prop].length
+          let aTxt = this.getTokenString(aToken, aField.o1, aField.o2).replace(String.fromCharCode(160), ' ')
+          let bPos = vPos + aTxt.length - 1
+          this.aTokenTextInf[aInfKey][aField.prop] += aTxt
+          if (!this.aTokenTextInf[aInfKey].tokens[aToken.pk]) {
+            this.aTokenTextInf[aInfKey].tokens[aToken.pk] = {}
+          }
+          this.aTokenTextInf[aInfKey].tokens[aToken.pk][aField.prop] = {'v': vPos, 'b': bPos}
+        }, this)
+      }, this)
+    }, this)
+    console.log('updateATokenTextInf: ' + Math.ceil(performance.now() - t0) + ' ms')
+    console.log(this.aTokenTextInf)
   }
 }
 

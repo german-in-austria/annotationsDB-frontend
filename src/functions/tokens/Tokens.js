@@ -6,6 +6,7 @@ const localFunctions = {
     this.root = root                    // Verbindung zum Transkript Objekt
     this.tokensObj = {}                 // Token Objekte
     this.tokenLists = {}                // Token Listen (all, byInf)
+    this.aTokenTextInf = {}             // Tokens als Fließtext nach Informanten
     this.foundTokensList = []           // Liste der gefundenen Tokens
     this.foundTokensInfoObj = {}        // Informationen zum gefundenen Token
     this.aTokenFragmenteObj = {}        // Token zu Fragment Zuordnung
@@ -30,5 +31,6 @@ localFunctions.TokensBase.prototype.setTokenTypes = prototypeTokensBase.setToken
 localFunctions.TokensBase.prototype.updateTokenData = prototypeTokensBase.updateTokenData
 localFunctions.TokensBase.prototype.getNextPrev = prototypeTokensBase.getNextPrev
 localFunctions.TokensBase.prototype.sortTokenIdListe = prototypeTokensBase.sortTokenIdListe
+localFunctions.TokensBase.prototype.updateATokenTextInf = prototypeTokensBase.updateATokenTextInf
 
 export default localFunctions
