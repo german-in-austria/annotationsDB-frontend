@@ -227,7 +227,8 @@ const localFunctions = {
         this.aAntworten.update()
         this.update()
         this.aSVG.updateZeilen()
-        // this.root.changed = false
+        this.changed = false
+        this.unsaved = false
         this.loading = false
         this.saving = false
       })

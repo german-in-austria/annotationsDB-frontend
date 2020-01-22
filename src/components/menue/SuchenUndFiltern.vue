@@ -5,7 +5,7 @@
       <!-- <button @click="showFilter=!showFilter;" v-bind:class="{tfxbtn: true, open: showFilter}"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span></button> -->
       <!-- <button @click="showTagEbene=!showTagEbene;" v-bind:class="{tfxbtn: true, open: showFilter}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button> -->
     </div>
-    <SuchenUndFilternSuche :transcript="transcript" @closeSuche="showSuche=false" v-if="transcript && transcript.ready && showSuche"/>
+    <SuchenUndFilternSuche ref="suchenUndFilternSuche" :transcript="transcript" @closeSuche="showSuche=false" v-if="transcript && transcript.ready && showSuche"/>
     <!-- <div class="filtergroup" v-if="transcript && transcript.ready && showFilter">
       <h4>Filter:<a href="#" v-on:click.prevent="showFilter=false" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
       <b>Informanten:</b>
@@ -38,6 +38,10 @@ export default {
   mounted () {
   },
   methods: {
+    focusSuche () {
+      this.showSuche = true
+      this.$nextTick(() => { this.$refs.suchenUndFilternSuche.$refs.suchtext.focus() })
+    }
   },
   computed: {
   },

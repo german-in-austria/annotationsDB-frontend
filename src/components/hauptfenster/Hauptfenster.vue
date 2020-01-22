@@ -5,7 +5,7 @@
     <div class="container" v-else-if="!transcript.ready"><div class="alert alert-info mt-5">Transkript({{ transcript.pk }}) wird geladen!</div></div>
     <template v-else>
       <div id="svgscroller" class="h100 mcon vscroller" ref="viewElement" v-on:scroll="transcript.aSVG.scrolling()" @click="setFocus">
-        <input ref="focusInput" @keyup="keyup" id="focus-input" type="text" @focus="focus = true" @blur="focus = false" />
+        <input ref="focusInput" @keyup="keyup" @keydown="keydown" id="focus-input" type="text" @focus="focus = true" @blur="focus = false" />
         <AnnotationsAnzeige :transcript="transcript" />
         <div id="loadsym" v-if="transcript.loading">
           <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
@@ -52,6 +52,16 @@ export default {
     speichern () {
       if (this.transcript.unsaved) {
         this.transcript.save()
+      }
+    },
+    keydown (e) {
+      if (e.keyCode === 114) { // F3
+        e.preventDefault()
+        this.transcript.aTokens.naechsterSuchToken(!e.shiftKey)
+      } else if (e.ctrlKey && e.keyCode === 70) { // Strg + F
+        e.preventDefault()
+        this.$root.$children[0].$refs.annotationstool.showSuchenUndFiltern()
+        this.globals.ctrlUsed = true
       }
     },
     keyup (e) {

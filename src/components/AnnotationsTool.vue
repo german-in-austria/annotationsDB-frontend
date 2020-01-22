@@ -2,7 +2,7 @@
   <div id="annotationsTool" v-bind:class="{ loading: loading, bgloading: false, unsaved: selTranscript && selTranscript.unsaved }">
     <div class="row h100">
       <div class="col-md-2 h100 mh200px vscroller lmfa">
-        <SuchenUndFiltern :transcript="selTranscript" v-if="selTranscriptPk > 0" />
+        <SuchenUndFiltern ref="suchenUndFiltern" :transcript="selTranscript" v-if="selTranscriptPk > 0" />
         <Informationen :transcript="selTranscript" v-if="selTranscriptPk > 0" />
         <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @loadTranscript="loadTranscript" />
       </div>
@@ -14,6 +14,9 @@
     <Modale :transcript="selTranscript" :modalData="modalData" />
     <div id="loading" v-if="loading">Lade ...</div>
     <svg style="position:absolute;right:0px;bottom:0px;width:1px;height:1px;"><text ref="svgTextSize" x="-100" y="-100"></text></svg>
+    <div class="saving" v-if="selTranscript && selTranscript.saving">
+      Speichere ...
+    </div>
   </div>
 </template>
 
@@ -43,7 +46,6 @@ export default {
   data () {
     return {
       loading: false,
-      unsaved: false,
       audiodir: '',
       transcripts: {},
       selTranscriptPk: null,
@@ -62,6 +64,11 @@ export default {
   methods: {
     loadTranscript (lTranscript) {
       this.selTranscriptPk = lTranscript
+    },
+    showSuchenUndFiltern () {
+      if (this.selTranscriptPk > 0 && this.selTranscript && this.selTranscript.ready) {
+        this.$refs.suchenUndFiltern.focusSuche()
+      }
     }
   },
   watch: {
@@ -102,5 +109,20 @@ export default {
     margin-left: -15px;
     margin-right: -15px;
     z-index: 1000000;
+  }
+  .saving {
+    position: absolute;
+    left: -1.5rem;
+    top: 0;
+    width: 100%;
+    width: calc(100% + 3rem);
+    height: 100%;
+    text-align: center;
+    padding-top: 26%;
+    background: #ddd;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999999;
+    color: #fff;
+    font-size: 4rem;
   }
 </style>

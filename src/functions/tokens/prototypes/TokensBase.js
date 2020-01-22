@@ -1,5 +1,6 @@
 /* global _ */
 // var _ = require('lodash')
+import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 
 const localFunctions = {
   addMultiple (nTokens) {
@@ -21,7 +22,7 @@ const localFunctions = {
     }
     if (!dontUpdate) { this.update() }
   },
-  updateTokenFragment: function (pkFo, foPk) {
+  updateTokenFragment (pkFo, foPk) {
     if (this.aTokenFragmenteObj[foPk]) {
       if (this.aTokenFragmenteObj[foPk].indexOf(pkFo) < 0) {
         this.aTokenFragmenteObj[foPk].push(pkFo)
@@ -145,7 +146,7 @@ const localFunctions = {
     }
     return nToken
   },
-  sortTokenIdListe: function (aEListe) {
+  sortTokenIdListe (aEListe) {
     var nEListe = []
     this.tokenLists.all.forEach(function (val) {
       if (aEListe.indexOf(val.pk) >= 0) {
@@ -154,7 +155,7 @@ const localFunctions = {
     }, this)
     return nEListe
   },
-  updateATokenTextInf: function () {
+  updateATokenTextInf () {
     this.aTokenTextInf = {}
     var t0 = performance.now()
     Object.keys(this.tokenLists.byInf).forEach(function (aInfKey) {
@@ -176,7 +177,15 @@ const localFunctions = {
       }, this)
     }, this)
     console.log('updateATokenTextInf: ' + Math.ceil(performance.now() - t0) + ' ms')
-    console.log(this.aTokenTextInf)
+    // console.log(this.aTokenTextInf)
+  },
+  naechsterSuchToken (next = true) {
+    console.log('naechsterSuchToken')
+    if (this.foundTokensList.length > 0) {
+      this.root.selectedToken = AllgemeineFunktionen.wertNachWert(this.foundTokensList, this.root.selectedToken, next, true)
+    } else {
+      this.root.vueObj.$refs.suchenUndFiltern.focusSuche()
+    }
   }
 }
 

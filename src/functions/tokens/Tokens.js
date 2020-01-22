@@ -8,7 +8,6 @@ const localFunctions = {
     this.tokenLists = {}                // Token Listen (all, byInf)
     this.aTokenTextInf = {}             // Tokens als Fließtext nach Informanten
     this.foundTokensList = []           // Liste der gefundenen Tokens
-    this.foundTokensInfoObj = {}        // Informationen zum gefundenen Token
     this.aTokenFragmenteObj = {}        // Token zu Fragment Zuordnung
     this.aTokenTypes = {}               // Model der TokenTypes
     this.svgTwCache = {}                // Cache für SVG Textbreite
@@ -32,5 +31,6 @@ localFunctions.TokensBase.prototype.updateTokenData = prototypeTokensBase.update
 localFunctions.TokensBase.prototype.getNextPrev = prototypeTokensBase.getNextPrev
 localFunctions.TokensBase.prototype.sortTokenIdListe = prototypeTokensBase.sortTokenIdListe
 localFunctions.TokensBase.prototype.updateATokenTextInf = prototypeTokensBase.updateATokenTextInf
+localFunctions.TokensBase.prototype.naechsterSuchToken = prototypeTokensBase.naechsterSuchToken
 
 export default localFunctions

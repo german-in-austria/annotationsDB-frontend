@@ -82,10 +82,13 @@ const localFunctions = {
     }
     return []
   },
-  wertNachWert: function (list, val, next = true) {
+  wertNachWert: function (list, val, next = true, loop = false) {
     var aList = ((next) ? list : list.slice().reverse())
-    if (aList.indexOf(val) < aList.length - 1) {
+    if ((aList.indexOf(val) < aList.length - 1)) {
       return aList[aList.indexOf(val) + 1]
+    }
+    if (loop && aList.length > 0) {
+      return aList[0]
     }
     return undefined
   },

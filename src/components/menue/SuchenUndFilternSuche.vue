@@ -26,7 +26,7 @@
       </select>
       <div v-if="transcript.aTokens.foundTokensList.length" class="mit10">
         Gefunden: <b>{{ transcript.aTokens.foundTokensList.length }}</b> Token{{ ((transcript.aTokens.foundTokensList.length>1)?'s':'') }}<br>
-        <!-- <a href="#" v-on:click.prevent="sucheZuAuswahlListe" v-if="suchInf>0" class="lmfabc text-center">Alle Funde {{ ((selTokenListe.length>0) ? 'in' : 'als') }} Auswahl Liste</a> -->
+        <!-- <a href="#" v-on:click.prevent="sucheZuAuswahlListe" v-if="suchInf > 0" class="lmfabc text-center">Alle Funde {{ selTokenListe.length > 0 ? 'in' : 'als' }} Auswahl Liste</a> -->
       </div>
       <hr>
     </div>
@@ -55,6 +55,9 @@ export default {
     this.$nextTick(() => { this.$refs.suchtext.focus() })
   },
   methods: {
+    sucheZuAuswahlListe () {
+      // ToDo ...
+    },
     suche () {
       if (!this.suchen) {
         this.suchen = true
@@ -71,7 +74,6 @@ export default {
                 )
                 if (addToken) {
                   this.transcript.aTokens.foundTokensList.push(aToken)
-                  this.transcript.aTokens.foundTokensInfoObj[aToken.pk] = { z: 0 }
                 }
               }
             })
@@ -107,7 +109,6 @@ export default {
                           fPos.forEach(function (aPos) {
                             if ((aPos.v <= aTokenTxtInfo.b && aPos.b >= aTokenTxtInfo.v)) {
                               this.transcript.aTokens.foundTokensList.push(aToken)
-                              this.transcript.aTokens.foundTokensInfoObj[aToken.pk] = { z: 0 }
                             }
                           }, this)
                         }
@@ -118,7 +119,7 @@ export default {
               }
             }, this)
           }
-          console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', [this.transcript.aTokens.foundTokensList, this.transcript.aTokens.foundTokensInfoObj])
+          console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', this.transcript.aTokens.foundTokensList)
         }
         this.suchen = false
       }
@@ -136,7 +137,7 @@ export default {
     sucheCatchKeyDown (e) {
       if (e.keyCode === 114) { // F3
         e.preventDefault()
-        // this.naechsterSuchToken(!e.shiftKey)
+        this.transcript.aTokens.naechsterSuchToken(!e.shiftKey)
         this.focusFocusCatch()
       }
     },
@@ -145,7 +146,6 @@ export default {
     },
     resetSuche () {
       console.log('Suche zurücksetzen ...')
-      this.transcript.aTokens.foundTokensInfoObj = {}
       this.transcript.aTokens.foundTokensList = []
     }
   },
