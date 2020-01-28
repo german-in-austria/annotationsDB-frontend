@@ -64,11 +64,20 @@ const localFunctions = {
         // Tokens aus Bereich laden ...
         if (aTokSet.ivt) {
           let aInf = this.root.aTokens.tokensObj[aTokSet.ivt].i
-          let aTokListByInf = this.root.aTokens.tokenLists.byInf[aInf];
-          [aTokSet.ivt, aTokSet.ibt] = [aTokSet.ivt, aTokSet.ibt].sort()
+          let aTokListByInf = this.root.aTokens.tokenLists.byInf[aInf]
           let ivtIdx = AllgemeineFunktionen.searchByKey(aTokSet.ivt, 'pk', aTokListByInf)
           let ibtIdx = AllgemeineFunktionen.searchByKey(aTokSet.ibt, 'pk', aTokListByInf)
           if (ivtIdx > -1 && ibtIdx > -1) {
+            if (ivtIdx > ibtIdx) {
+              console.log('TokenSet Reihenfolge korrigieren', aTokSet)
+              let tmp = aTokSet.ivt
+              aTokSet.ivt = aTokSet.ibt
+              aTokSet.ibt = tmp
+              aTokSet.changed = true
+              this.root.changed = true
+              this.root.unsaved = true
+            }
+            // ;[ivtIdx, ibtIdx] = [ivtIdx, ibtIdx].sort()
             aTokSet.tx = aTokListByInf.slice(ivtIdx, ibtIdx + 1)
             aTokSet.ok = aTokSet.tx.length > 0
           }

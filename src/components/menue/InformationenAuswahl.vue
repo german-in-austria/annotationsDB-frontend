@@ -53,7 +53,7 @@ export default {
         this.transcript.unsaved = true
       } else if (this.transcript.selectedTokenBereich.v && this.transcript.selectedTokenBereich.b) {
         this.transcript.aTokenSets.add('new', { ivt: this.vSelectedTokenBereich.pk, ibt: this.bSelectedTokenBereich.pk }, false, true)
-        console.log('sel2TokenSet - Bereich', this.vSelectedTokenBereich.pk, this.bSelectedTokenBereich.pk)
+        console.log('sel2TokenSet - Bereich', this.vSelectedTokenBereich.pk, this.bSelectedTokenBereich.pk, this.transcript.aSVG.selectedTokenList, this.transcript.aTokenSets)
         this.transcript.selectedTokenBereich = {'v': null, 'b': null}
         this.transcript.aSVG.updateZeilen()
         this.transcript.unsaved = true
