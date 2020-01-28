@@ -1,28 +1,33 @@
 <template>
   <div class="tokensets">
     <div :class="{'infpanel': true, 'open': showTokenSetInfo}" v-if="selTokenSet">
-      <a href="#" v-on:click.prevent="showTokenSetInfo = !showTokenSetInfo"><b>Akutelles Token Set</b> (ID: {{ selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '') }})<span :class="'glyphicon glyphicon-' + ((showTokenSetInfo)?'eye-open':'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
+      <a href="#" class="mw-20" v-on:click.prevent="showTokenSetInfo = !showTokenSetInfo">
+        <span class="mw-20-el" :title="'Akutelles Token Set ID: ' + selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '')"><b>Akutelles Token Set</b> (ID: {{ selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '') }})</span>
+        <span :class="'mw-20-icon glyphicon glyphicon-' + ((showTokenSetInfo) ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span>
+      </a>
       <div v-if="showTokenSetInfo">
         <div class="tokensets">
           <template v-if="selTokenSet.ivt">
             <b>Von Token:</b> <a href="#" v-on:click.prevent="selectToken(selTokenSet.ivt)" :title="'ID: ' + selTokenSet.ivt">{{ allTokensObj[selTokenSet.ivt].t }}</a>
-            <!-- <a href="#" v-on:click.prevent="setATokenSetBereich(selTokenSet, selToken, 'ivt')" class="pull-right" title="Ersetzen durch ausgewähltes Token."
-              v-if="selToken && getValOfSubProp(aTokens[selToken], 'i') === allTokensObj[selTokenSet.ivt].i && aTokenReihung.indexOf(selTokenSet.ibt) > aTokenReihung.indexOf(selToken)"
-            ><span class="glyphicon glyphicon-screenshot pull-right" aria-hidden="true"></span></a> -->
+            <a href="#" v-on:click.prevent="setATokenSetBereich(selTokenSet, selToken, 'ivt')" class="pull-right" title="Ersetzen durch ausgewähltes Token."
+              v-if="selToken && selToken.i === allTokensObj[selTokenSet.ivt].i && selTokenSet.ivt !== selToken.pk && selTokenSet.ibt !== selToken.pk"
+            ><span class="glyphicon glyphicon-screenshot pull-right" aria-hidden="true"></span></a>
             <br>
           </template>
           <template v-if="selTokenSet.ibt">
             <b>Bis Token:</b> <a href="#" v-on:click.prevent="selectToken(selTokenSet.ibt)" :title="'ID: ' + selTokenSet.ibt">{{ allTokensObj[selTokenSet.ibt].t }}</a>
-            <!-- <a href="#" v-on:click.prevent="setATokenSetBereich(selTokenSet,selToken,'ibt')" class="pull-right" title="Ersetzen durch ausgewähltes Token."
-              v-if="selToken && getValOfSubProp(aTokens[selToken], 'i') === aTokens[selTokenSet.ibt].i && aTokenReihung.indexOf(selTokenSet.ivt) < aTokenReihung.indexOf(selToken)"
-            ><span class="glyphicon glyphicon-screenshot pull-right" aria-hidden="true"></span></a> -->
+            <a href="#" v-on:click.prevent="setATokenSetBereich(selTokenSet, selToken, 'ibt')" class="pull-right" title="Ersetzen durch ausgewähltes Token."
+              v-if="selToken && selToken.i === allTokensObj[selTokenSet.ivt].i && selTokenSet.ivt !== selToken.pk && selTokenSet.ibt !== selToken.pk"
+            ><span class="glyphicon glyphicon-screenshot pull-right" aria-hidden="true"></span></a>
             <br>
           </template>
           <b>Tokens:</b> {{ (selTokenSet.t||selTokenSet.tx||[]).length.toLocaleString() }} {{ ((selTokenSet.t) ? '(Liste)' : '(Bereich)') }}
             <a href="#" v-on:click.prevent="ipShow2(selTokenSet.pk)" class="pull-right"><span :class="'glyphicon glyphicon-' + ((showTokensList2[selTokenSet.pk]) ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
             <!-- <a href="#" v-on:click.prevent="selTokenSet.ipshow2=((selTokenSet.ipshow2 || (selTokenSet.ipshow2===undefined&&(selTokenSet.t||selTokenSet.tx||[]).length<=selTokenSetSTMax))?false:true);reRenderSelToken();" class="pull-right"><span :class="'glyphicon glyphicon-' + ((selTokenSet.ipshow2 || (selTokenSet.ipshow2===undefined&&(selTokenSet.t||selTokenSet.tx||[]).length<=selTokenSetSTMax))?'eye-open':'eye-close') + ' pull-right'" aria-hidden="true"></span></a> -->
-            <!-- <a href="#" v-on:click.prevent="showaTokenSetInfos(selTokenSet, true);" class="pull-right mir5"><span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span></a>
-            <a href="#" v-on:click.prevent="toggleATokenSetListe(selTokenSet,selToken)" class="pull-right mir5" title="Token hinzufügen/entfernen" v-if="selTokenSet.t && selToken && getValOfSubProp(aTokens[selToken], 'i') === aTokens[selTokenSet.t[0]].i && aTokenReihung.indexOf(selTokenSet.ivt) < aTokenReihung.indexOf(selToken)"><span :class="'glyphicon glyphicon-'+((selTokenSet.t.indexOf(selToken)<0)?'plus':'minus')+' pull-right'" aria-hidden="true"></span></a> -->
+            <a href="#" v-on:click.prevent="showaTokenSetInfos()" class="pull-right mir5"><span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span></a>
+            <a href="#" v-on:click.prevent="toggleATokenSetListe()" class="pull-right mir5" title="Token hinzufügen/entfernen" v-if="(selTokenSet.tObj || selTokenSet.tx) && selToken && selToken.i === (selTokenSet.tObj || selTokenSet.tx)[0].i">
+              <span :class="'glyphicon glyphicon-' + (((selTokenSet.tObj || selTokenSet.tx).indexOf(selToken)<0) ? 'plus' : 'minus') + ' pull-right'" aria-hidden="true"></span>
+            </a>
           <br>
           <div class="listtokens mit10" v-if="showTokensList2[selTokenSet.pk]">
             <a href="#"
@@ -69,6 +74,8 @@
 </template>
 
 <script>
+/* global _ */
+
 export default {
   name: 'InformationenAktuelleTokenSets',
   props: ['transcript'],
@@ -86,15 +93,41 @@ export default {
     // console.log(this.selToken, this.selToken.tokenSetsList)
   },
   methods: {
+    toggleATokenSetListe () {
+      console.log('toggleATokenSetListe', ((this.selTokenSet.tObj || this.selTokenSet.tx).indexOf(this.selToken) < 0), this.selTokenSet)
+      let aIndex = this.selTokenSet.t.indexOf(this.selToken.pk)
+      if (aIndex < 0) {
+        this.selTokenSet.t.push(this.selToken.pk)
+      } else {
+        this.selTokenSet.t.splice(aIndex, 1)
+      }
+      this.selTokenSet.changed = true
+      this.selTokenSet.ok = false
+      this.transcript.aTokenSets.update()
+      this.transcript.aTokenSets.update()
+      this.transcript.aSVG.updateZeilen()
+      this.transcript.unsaved = true
+      this.focusFocusCatch()
+    },
+    showaTokenSetInfos () {
+      this.transcript.vueObj.modalData = { type: 'tokenSet', data: {aTokenSet: _.cloneDeep(this.selTokenSet)} }
+    },
     setATokenSetBereich (aTokenSetId, aTokenId, feld, direkt = false) {
       // ToDo: TokenSet Bereich neu setzen
       console.log('setATokenSetBereich', aTokenSetId, aTokenId, feld, direkt)
+      aTokenSetId[feld] = aTokenId.pk
+      aTokenSetId.changed = true
+      aTokenSetId.ok = false
+      this.transcript.aTokenSets.update()
+      this.transcript.aTokenSets.update()
+      this.transcript.aSVG.updateZeilen()
       this.transcript.unsaved = true
+      this.focusFocusCatch()
     },
     selectToken (sTok) {
       this.transcript.selectedToken = this.allTokensObj[sTok]
       this.transcript.selectedTokenBereich = {'v': null, 'b': null}
-      // ToDo: focusFocusCatch()
+      this.focusFocusCatch()
     },
     ipShow (aTsPk) {
       this.$set(this.showTokensList, aTsPk, !this.showTokensList[aTsPk])
@@ -103,6 +136,9 @@ export default {
     ipShow2 (aTsPk) {
       this.$set(this.showTokensList2, aTsPk, !this.showTokensList2[aTsPk])
       // ToDo: reRenderSelToken() ?
+    },
+    focusFocusCatch () {
+      this.$root.$children[0].$refs.annotationstool.$refs.hauptfenster.setFocus()
     }
   },
   computed: {

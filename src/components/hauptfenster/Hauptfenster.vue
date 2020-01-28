@@ -197,14 +197,12 @@ export default {
   }
   #mcon-focus {
     position: sticky;
-    bottom: -75px;
-    margin-left: -15px;
+    bottom: 0;
     margin-right: -8px;
-    height: calc(100% + 74px);
+    height: calc(100% + -1px);
     border: 2px solid rgba(51, 122, 183, 0.45);
     /* box-shadow: inset 0 0 5px rgba(51, 122, 183, 0.5); */
     pointer-events: none;
-    margin-bottom: -75px;
     opacity: 0;
     transition: opacity 0.5s;
   }

@@ -172,6 +172,34 @@ export default {
     text-decoration: none;
   }
 
+  .mw-20 {
+    position: relative
+  }
+  .mw-20-el {
+    max-width: calc(100% - 26px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+  }
+  .mw-20-icon {
+    position: absolute;
+    right: 9px;
+    top: 6px!important;
+  }
+  .mit10 {
+    margin-top: 10px;
+  }
+  .mib10 {
+    margin-top: 10px;
+  }
+  .mil5 {
+    margin-left: 5px;
+  }
+  .mir5 {
+    margin-right: 5px;
+  }
+
   @-moz-keyframes spin {
     0% {
       -moz-transform: rotate(0deg);
