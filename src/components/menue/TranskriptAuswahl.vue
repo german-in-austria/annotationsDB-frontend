@@ -4,7 +4,7 @@
     <div class="input-group mit10 mib10">
       <select size="1" class="form-control" v-model="aInformant" :disabled="transcripts.loading">
         <option value="0">Informant</option>
-        <option v-for="infWithTrans in transcripts.infTransList" :key="'i' + infWithTrans.pk"
+        <option v-for="infWithTrans in infTransListFiltered" :key="'i' + infWithTrans.pk"
           :value="infWithTrans.pk"
           :class="{'active': selectedInformantenPk.indexOf(infWithTrans.pk) > -1 }">
           {{infWithTrans.modelStr}} - {{infWithTrans.transcriptsPKs.length}} Transkripte
@@ -34,6 +34,15 @@ export default {
     }
   },
   computed: {
+    infTransListFiltered () {
+      let aItlf = []
+      this.transcripts.infTransList.forEach(aItl => {
+        if (aItl.transcriptsPKs.length > 0) {
+          aItlf.push(aItl)
+        }
+      })
+      return aItlf
+    },
     updateTime () {
       return (this.transcripts.time ? this.transcripts.time.toISOString() : '...')
     },
