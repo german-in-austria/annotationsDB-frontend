@@ -21,6 +21,14 @@ const localFunctions = {
     this.viewHeight = this.viewElement.clientHeight
     this.updateZeilen()
   },
+  updateShownTracks () {
+    this.shownTracks = []
+    this.root.allTracks.forEach(aSpur => {
+      if (aSpur.show) {
+        this.shownTracks.push(aSpur)
+      }
+    })
+  },
   updateZeilen () {
     // Alle Zeilen neu berechnen
     function zeilenObj () { // Leeres Zeilen Objekt
@@ -36,6 +44,10 @@ const localFunctions = {
         'tokenSetsSvgData': {}
       }
     }
+    // Informanten Höhe ermitteln
+    this.updateShownTracks()
+    this.root.aTokens.updateTokensSVGData()
+    this.infHeight = 6 + 22 * this.shownTracks.length
     if (this.svgElement && this.viewElement) {
       // Zeilen mit Events erstellen
       this.zeilen = {}

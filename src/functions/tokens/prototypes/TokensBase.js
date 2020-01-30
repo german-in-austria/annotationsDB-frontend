@@ -52,6 +52,42 @@ const localFunctions = {
     }
     return atTxt
   },
+  getTokenStringArray (aToken, fields) {
+    let aTxt = this.getTokenFragmentArray(aToken, fields)
+    if (aTxt) {
+      let space = ((aToken.tt === 2) || (aToken.fo > 0 || aTxt[0] === '_') ? '' : '\u00A0')
+      if (aTxt[0] === '_') {
+        aTxt = aTxt.substr(1)
+      }
+      return space + aTxt
+    }
+    return ''
+  },
+  getTokenFragmentArray (aToken, fields) {
+    let sField = null
+    fields.some(aField => {
+      sField = aField
+      return aToken[aField]
+    })
+    let atTxt = aToken[sField]
+    if (this.aTokenFragmenteObj[aToken.pk] && this.aTokenFragmenteObj[aToken.pk].length === 1) {
+      this.aTokenFragmenteObj[aToken.pk].forEach(function (val) {
+        let xField = null
+        fields.some(aField => {
+          xField = aField
+          return this.tokensObj[val][aField]
+        })
+        let ntTxt = this.tokensObj[val][xField]
+        if (ntTxt) {
+          let aPos = atTxt.lastIndexOf(ntTxt)
+          if (aPos > 0) {
+            atTxt = atTxt.substr(0, aPos)
+          }
+        }
+      }, this)
+    }
+    return atTxt
+  },
   update () {
     // Diverse Updates für weiterführende Daten durchführen
     let t1 = performance.now()
@@ -62,19 +98,19 @@ const localFunctions = {
   },
   updateTokensSVGData () {
     this.tokenLists.all.forEach(function (val) {
-      if (val.svgUpdate || !val.svgWidth) {
-        let svgTsObj = this.root.vueObj.$refs.svgTextSize
-        let t1W = this.root.aSVG.getTextWidth(this.getTokenString(val, 't'), svgTsObj, this.svgTwCache)
-        let t2W = this.root.aSVG.getTextWidth(this.getTokenString(val, 'o', 't'), svgTsObj, this.svgTwCache)
-        val.svgWidth = ((t1W > t2W) ? t1W : t2W) + 2
-        if (val.svgWidth < 3) {
-          val.svgWidth = 3
+      let svgTsObj = this.root.vueObj.$refs.svgTextSize
+      let aw = 1
+      this.root.aSVG.shownTracks.forEach(aSpur => {
+        let aSpurW = this.root.aSVG.getTextWidth(this.getTokenStringArray(val, aSpur.field), svgTsObj, this.svgTwCache)
+        if (aSpurW > aw) {
+          aw = aSpurW
         }
-        if (this.root.aEvents.eventsObj[val.e]) {
-          this.root.aEvents.eventsObj[val.e].svgUpdate = true
-        }
-        delete val.svgUpdate
+      })
+      val.svgWidth = aw + 2
+      if (this.root.aEvents.eventsObj[val.e]) {
+        this.root.aEvents.eventsObj[val.e].svgUpdate = true
       }
+      delete val.svgUpdate
     }, this)
   },
   updateTokensLists () {

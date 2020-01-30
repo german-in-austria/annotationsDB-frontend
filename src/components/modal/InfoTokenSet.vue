@@ -38,7 +38,7 @@
               v-for="(sv, svKey) in satzView"
               :key="'sv' + svKey"
               :title="sv.ellipsis ? sv.ellipsis.toLocaleString() + ' Tokens ausgeblendet!' : ''"
-            >{{ sv.ellipsis ? '...' : transcript.aTokens.getTokenString(sv.token, 't') }}</span>
+            >{{ sv.ellipsis ? '...' : transcript.aTokens.getTokenStringArray(sv.token, ['t', 'o']) }}</span>
           </div>
         </template>
         <template v-if="aTokenSet.aId && !aTokenSet.delAntwort">

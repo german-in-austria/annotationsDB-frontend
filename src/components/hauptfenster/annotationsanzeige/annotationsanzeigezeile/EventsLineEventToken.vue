@@ -11,8 +11,12 @@
     ">
     <rect x="1" y="0" :width="width" :height="height" class="bg" />
     <rect x="1" y="0" :width="width - 3" :height="height" class="fx" v-if="hasTags"/>
-    <text x="1" y="2" :text-decoration="(hasTags ? 'underline' : '')">{{ transcript.aTokens.getTokenString(aToken, 't') }}</text>
-    <text x="1" y="26" :text-decoration="(hasTags ? 'underline' : '')">{{ transcript.aTokens.getTokenString(aToken, 'o', 't') }}</text>
+    <text x="1" :y="3 + 22 * aKey"
+      :text-decoration="(hasTags ? 'underline' : '')"
+       v-for="(aSpur, aKey) in transcript.aSVG.shownTracks" :key="'aazelet-t' + aKey"
+    >
+    {{ transcript.aTokens.getTokenStringArray(aToken, aSpur.field) }}
+    </text>
     <line x1="2" :y1="height + 7" :x2="width - 5" :y2="height + 7" class="visit" />
     <line x2="3" :y1="height + 0.5" :x1="width - 3" :y2="height + 1" class="blue" marker-end="url(#arrow-blue)" v-if="aToken.fo" />
     <line x1="0" :y1="height + 0.5" :x2="width - 5" :y2="height + 1" class="green" marker-end="url(#arrow-green)" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]" />

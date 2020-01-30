@@ -4,8 +4,13 @@
     <line x1="0" y1="0" :x2="transcript.aSVG.infWidth" y2="0" />
     <line x1="0" :y1="transcript.aSVG.infHeight" :x2="transcript.aSVG.infWidth" :y2="transcript.aSVG.infHeight" />
     <text class="zInfI" x="5" :y="transcript.aSVG.infHeight / 2">{{ aInf.k }}</text>
-    <text class="zInfLI" :x="transcript.aSVG.infWidth - 5" y="6">t</text>
-    <text class="zInfLI" :x="transcript.aSVG.infWidth - 5" y="28">o</text>
+    <text class="zInfLI"
+      :x="transcript.aSVG.infWidth - 5"
+      :y="6 + 22 * aKey"
+       v-for="(aSpur, aKey) in transcript.aSVG.shownTracks" :key="'aazeli-t' + aKey"
+    >
+    {{ aSpur.field[0] }}
+    </text>
   </g>
 </template>
 

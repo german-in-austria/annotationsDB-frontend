@@ -69,7 +69,7 @@
             :class="sv.class + ' tt' + sv.token.tt"
             v-for="(sv, svKey) in satzView"
             :key="'sv' + svKey"
-          >{{ transcript.aTokens.getTokenString(sv.token, 't') }}</span>
+          >{{ transcript.aTokens.getTokenStringArray(sv.token, ['t', 'o']) }}</span>
         </div>
       </template>
       <template v-if="aToken.aId && !aToken.delAntwort">

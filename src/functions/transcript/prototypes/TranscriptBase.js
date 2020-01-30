@@ -1,3 +1,4 @@
+/* global _ */
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 
 const localFunctions = {
@@ -5,21 +6,6 @@ const localFunctions = {
     console.log('init TranscriptBase', this.pk)
     console.log(this)
     this.timer = performance.now()
-    this.allTracks = [
-      { title: 'text', field: ['t'] },
-      { title: 'ortho', field: ['o', 't'] },
-      { title: 'text_in_ortho', field: ['to'] },
-      { title: 'phon', field: ['ph'] },
-      { title: 'ttpos', field: ['ttp'] },
-      { title: 'ttlemma', field: ['ttl'] },
-      { title: 'ttcheckword', field: ['ttcw'] },
-      { title: 'sppos', field: ['spp'] },
-      { title: 'sptag', field: ['spt'] },
-      { title: 'splemma', field: ['spl'] },
-      { title: 'spdep', field: ['spd'] },
-      { title: 'sphead', field: ['sph'] },
-      { title: 'spenttype', field: ['spet'] }
-    ]
     return this.getTranscript()
   },
   // Transkript Daten laden
@@ -38,7 +24,6 @@ const localFunctions = {
             let t1 = performance.now()
             let tmpLSet = this.lSet
             this.loading = false
-            // ToDo: Spurenzuordnung laden
             if (this.lSet === response.data['nNr']) {
               this.lSet = response.data['nNr']
               this.loaded = true
@@ -50,6 +35,8 @@ const localFunctions = {
               // console.log(response)
               this.lMaxSet = response.data['aTmNr']
               this.aTranskript = response.data['aTranskript']
+              this.allTracks = _.cloneDeep(this.aTranskript.allTracks)
+              this.aSVG.updateShownTracks()
               this.aEinzelErhebung = response.data['aEinzelErhebung']
               this.aTokens.setTokenTypes(response.data['aTokenTypes'])
               this.aSaetze = response.data['aSaetze']

@@ -14,6 +14,7 @@ const localFunctions = {
     this.svgPadding = 10                // Breite des Abstands im SVG Elements
     this.frmPadding = 5                 // Breite des Abstandes der Zeilen Rahmen
     this.timerHeight = 15               // Höhe der Zeitleiste
+    this.shownTracks = []               // Sichtbare Spuren
     this.infTop = 8                     // Oberer Abstand über infZeile
     this.infHeight = 50                 // Höhe pro Informanten Zeile
     this.infWidth = 100                 // Breite der Informanten Spalte
@@ -36,5 +37,6 @@ localFunctions.SvgBase.prototype.scrollToToken = prototypeSvgBase.scrollToToken
 localFunctions.SvgBase.prototype.getTextWidth = prototypeSvgFunktionen.getTextWidth
 localFunctions.SvgBase.prototype.updateZeilen = prototypeSvgBase.updateZeilen
 localFunctions.SvgBase.prototype.getTEventOfAEvent = prototypeSvgBase.getTEventOfAEvent
+localFunctions.SvgBase.prototype.updateShownTracks = prototypeSvgBase.updateShownTracks
 
 export default localFunctions
