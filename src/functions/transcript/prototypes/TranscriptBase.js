@@ -5,6 +5,20 @@ const localFunctions = {
     console.log('init TranscriptBase', this.pk)
     console.log(this)
     this.timer = performance.now()
+    this.allTracks = [
+      { title: 'text', field: ['t'] },
+      { title: 'ortho', field: ['o', 't'] },
+      { title: 'text_in_ortho', field: ['to'] },
+      { title: 'ttpos', field: ['ttp'] },
+      { title: 'ttlemma', field: ['ttl'] },
+      { title: 'ttcheckword', field: ['ttcw'] },
+      { title: 'sppos', field: ['spp'] },
+      { title: 'sptag', field: ['spt'] },
+      { title: 'splemma', field: ['spl'] },
+      { title: 'spdep', field: ['spd'] },
+      { title: 'sphead', field: ['sph'] },
+      { title: 'spenttype', field: ['spet'] }
+    ]
     return this.getTranscript()
   },
   // Transkript Daten laden
@@ -23,6 +37,7 @@ const localFunctions = {
             let t1 = performance.now()
             let tmpLSet = this.lSet
             this.loading = false
+            // ToDo: Spurenzuordnung laden
             if (this.lSet === response.data['nNr']) {
               this.lSet = response.data['nNr']
               this.loaded = true
@@ -117,9 +132,13 @@ const localFunctions = {
       deletedAntworten: []
     }
     // Tokens
+    let aTokenPropertiesFilter = ['pk', 'a', 'tt', 'tr', 'e', 'i', 's', 'sr', 'fo', 'le']
+    this.allTracks.forEach(aTrack => {
+      aTokenPropertiesFilter.push(aTrack.field[0])
+    })
     this.aTokens.tokenLists.all.forEach(function (val) {
       if (val.changed) {
-        cData.changedTokens[val.pk] = AllgemeineFunktionen.filterProperties(val, ['pk', 'a', 't', 'tt', 'tr', 'e', 'to', 'i', 'o', 's', 'sr', 'fo', 'le'])
+        cData.changedTokens[val.pk] = AllgemeineFunktionen.filterProperties(val, aTokenPropertiesFilter)
       }
     })
     // TokenSets

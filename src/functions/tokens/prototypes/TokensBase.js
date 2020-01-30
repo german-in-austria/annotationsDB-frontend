@@ -110,11 +110,11 @@ const localFunctions = {
     nAntwort = _.cloneDeep(nAntwort)
     let aTPK = nToken.pk
     this.tokensObj[aTPK].svgUpdate = true
-    this.tokensObj[aTPK].t = nToken.t
+    this.root.allTracks.forEach(aTrack => {
+      this.tokensObj[aTPK][aTrack.field[0]] = nToken[aTrack.field[0]]
+    })
     this.tokensObj[aTPK].tt = nToken.tt
-    this.tokensObj[aTPK].o = nToken.o
     this.tokensObj[aTPK].le = nToken.le
-    this.tokensObj[aTPK].to = nToken.to
     if (!nToken.delAntwort && nToken.aId) {
       nAntwort.it = aTPK
       nAntwort.vi = nToken.i

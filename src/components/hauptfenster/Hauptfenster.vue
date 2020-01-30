@@ -7,11 +7,11 @@
       <div id="svgscroller" class="h100 mcon vscroller" ref="viewElement" v-on:scroll="transcript.aSVG.scrolling()" @click="setFocus">
         <input ref="focusInput" @keyup="keyup" @keydown="keydown" id="focus-input" type="text" @focus="focus = true" @blur="focus = false" />
         <AnnotationsAnzeige :transcript="transcript" />
-        <div id="loadsym" v-if="transcript.loading">
-          <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
-          <div v-if="!transcript.loaded">{{ parseInt(99 / transcript.lMaxSet * transcript.lSet) }} %</div>
-        </div>
         <div id="mcon-focus" :class="focus ? 'focus' : ''" />
+      </div>
+      <div id="loadsym" v-if="transcript.loading">
+        <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
+        <div v-if="!transcript.loaded">{{ parseInt(99 / transcript.lMaxSet * transcript.lSet) }} %</div>
       </div>
       <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !(transcript && transcript.unsaved) || transcript.loading }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
     </template>
@@ -171,14 +171,14 @@ export default {
 <style scoped>
   #saveit {
     position: absolute;
-    right: 35px;
+    right: 25px;
     bottom: 160px;
   }
   #loadsym {
     position: absolute;
     text-align: center;
-    right: 25px;
-    top: 5px;
+    right: 30px;
+    top: 10px;
     color: #00f;
     font-size: 24px;
   }

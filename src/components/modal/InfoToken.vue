@@ -7,9 +7,9 @@
           <label for="aTokenID" class="col-sm-3 control-label">ID</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenID">{{ aToken.pk }}</p></div>
         </div>
-        <div class="form-group">
-          <label for="aTokenText" class="col-sm-3 control-label">text</label>
-          <div class="col-sm-9"><input type="text" class="form-control modal-focus" id="aTokenText" :spellcheck="globals.spellcheck" v-model="aToken.t"></div>
+        <div class="form-group" v-for="(aTrack, aKey) in transcript.allTracks" :key="'at' + aKey">
+          <label :for="'aToken-' + aKey" class="col-sm-3 control-label">{{ aTrack.title }}</label>
+          <div class="col-sm-9"><input type="text" :class="'form-control' + (aKey === 0 ? ' modal-focus' : '')" :id="'aToken-' + aKey" :spellcheck="globals.spellcheck" v-model="aToken[aTrack.field[0]]"></div>
         </div>
         <div class="form-group">
           <label for="aTokenType" class="col-sm-3 control-label">token_type</label>
@@ -18,10 +18,6 @@
               <option v-for="(aTokenTypeVal, aTokenTypeKey) in transcript.aTokens.aTokenTypes" :value="parseInt(aTokenTypeKey)" :key="'aToTy' + aTokenTypeKey">{{ aTokenTypeVal.n }}</option>
             </select>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="aTokenOrtho" class="col-sm-3 control-label">ortho</label>
-          <div class="col-sm-9"><input type="text" class="form-control" id="aTokenOrtho" :spellcheck="globals.spellcheck" v-model="aToken.o"></div>
         </div>
         <div class="form-group" v-if="aToken.iObj">
           <label for="aTokenIDInf" class="col-sm-3 control-label">ID_Inf</label>
@@ -50,10 +46,6 @@
         <div class="form-group" v-if="aToken.sr">
           <label for="aTokenSequenceInSentence" class="col-sm-3 control-label">sequence_in_sentence</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenSequenceInSentence">{{ aToken.sr }}</p></div>
-        </div>
-        <div class="form-group">
-          <label for="aTokenTextInOrtho" class="col-sm-3 control-label">text_in_ortho</label>
-          <div class="col-sm-9"><input type="text" class="form-control" id="aTokenTextInOrtho" :spellcheck="globals.spellcheck" v-model="aToken.to"></div>
         </div>
         <div class="form-group" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]"><label class="col-sm-3 control-label">Fragmente</label><div class="col-sm-9"><ul class="form-control-static hflist">
             <li v-for="aToFragKey in transcript.aTokens.aTokenFragmenteObj[aToken.pk]" :key="'aTFO' + aToFragKey">{{ transcript.aTokens.tokensObj[aToFragKey].t }} ({{ aToFragKey }})</li>
@@ -118,10 +110,10 @@ export default {
     this.transcript.aTokens.tokensObj[this.modalData.data.aToken.pk].viewed = true
     this.transcript.aTokens.svgLastView = this.modalData.data.aToken.pk
     this.aToken = _.cloneDeep(this.modalData.data.aToken)
-    this.$set(this.aToken, 't', this.aToken.t || '')
+    this.transcript.allTracks.forEach(aTrack => {
+      this.$set(this.aToken, aTrack.field[0], this.aToken[aTrack.field[0]] || '')
+    })
     this.$set(this.aToken, 'le', this.aToken.le || false)
-    this.$set(this.aToken, 'o', this.aToken.o || '')
-    this.$set(this.aToken, 'to', this.aToken.to || '')
     this.oToken = _.cloneDeep(this.aToken)
     if (this.aToken.aId) {
       this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.aToken.aId])
@@ -148,10 +140,13 @@ export default {
   },
   computed: {
     changed () {
-      let ieToken = _.isEqual(
-        [this.aToken.t, this.aToken.tt, this.aToken.o, this.aToken.le, this.aToken.to, this.aToken.delAntwort],
-        [this.oToken.t, this.oToken.tt, this.oToken.o, this.oToken.le, this.oToken.to, this.oToken.delAntwort]
-      )
+      let aIeToken = [this.aToken.tt, this.aToken.le, this.aToken.delAntwort]
+      let oIeToken = [this.oToken.tt, this.oToken.le, this.oToken.delAntwort]
+      this.transcript.allTracks.forEach(aTrack => {
+        aIeToken.push(this.aToken[aTrack.field[0]])
+        oIeToken.push(this.oToken[aTrack.field[0]])
+      })
+      let ieToken = _.isEqual(aIeToken, oIeToken)
       let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
       return !(ieToken && ieAntort)
     },

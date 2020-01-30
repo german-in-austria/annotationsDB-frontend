@@ -16,6 +16,7 @@ const localFunctions = {
     this.timer = 0                      // Zeit der Initialisierung der TranscriptBase
     this.unsaved = false                // Gibt es ungespeicherte Änderungen?
     // Transkript Daten
+    this.allTracks = []                 // Alle Spuren
     this.aTranskript = {}               // Model des Transkripts
     this.aEinzelErhebung = {}           // Model der EinzelErhebung
     this.aSaetze = {}                   // Model der Saetze
