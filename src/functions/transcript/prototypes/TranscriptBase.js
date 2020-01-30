@@ -9,6 +9,7 @@ const localFunctions = {
       { title: 'text', field: ['t'] },
       { title: 'ortho', field: ['o', 't'] },
       { title: 'text_in_ortho', field: ['to'] },
+      { title: 'phon', field: ['ph'] },
       { title: 'ttpos', field: ['ttp'] },
       { title: 'ttlemma', field: ['ttl'] },
       { title: 'ttcheckword', field: ['ttcw'] },
