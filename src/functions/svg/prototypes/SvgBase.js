@@ -88,7 +88,11 @@ const localFunctions = {
           tEvent.svgLeft = teLeft
           teLeft += tEvent.svgWidth
           // Tokens der Zeile ermitteln.
+          tEvent.hasEventTiers = false
           tEvent.events.forEach(function (aEvent) {
+            if (aEvent.et && aEvent.et.length > 0) {
+              tEvent.hasEventTiers = true
+            }
             if (aEvent.tidObj) {
               Object.keys(aEvent.tidObj).forEach(function (aInfPk) {
                 if (!aZeile.tokenListByInf[aInfPk]) {

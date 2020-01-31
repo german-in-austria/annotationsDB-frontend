@@ -68,6 +68,10 @@ const localFunctions = {
         aEvent.tidObj = {}
         aEvent.iPks = []
         aEvent.iObjs = []
+        aEvent.et.forEach(function (aEventTier) {
+          aEventTier.iObj = this.root.aInformanten.informantenObj[aEventTier.i]
+          aEventTier.tiObj = this.root.aTranskript.tiersObj[aEventTier.ti]
+        }, this)
         Object.keys(aEvent.tid).map(function (aInfKey) {
           if (aEvent.iPks.indexOf(aInfKey) < 0) {
             aEvent.iPks.push(aInfKey)

@@ -7,6 +7,9 @@
       <div><b>Informanten:</b> <span v-for="(aInf, aInfKey) in transcript.aInformanten.informantenList" :key="aInfKey" :title="'Anonym: '+aInf.ka+' - ID: '+aInfKey">{{ ((aInf.i)?', ':'')+aInf.k }}</span></div>
       <div><b>Events:</b> {{ transcript.aEvents.length.toLocaleString() }}</div>
       <div><b>Tokens:</b> <span :title="tokenCountByInf">{{ transcript.aTokens.length.toLocaleString() }}</span></div>
+      <div><b>Tiers:</b>
+        <span v-for="(aTier, aKey) in transcript.aTranskript.tiers" :key="'it-t' + aKey" :title="'ID: ' + aTier.pk">{{ (aKey > 0 ? ', ' : '') + aTier.tier_name }}</span>
+      </div>
     </div>
   </div>
 </template>

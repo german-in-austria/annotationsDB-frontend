@@ -6,6 +6,7 @@
         v-if="globals.audioPosition > tEvent.aS && globals.audioPosition < tEvent.aE" />
       <line x1="0" y1="0" x2="0" :y2="tmrHeight" />
       <text x="4" :y="tmrHeight / 2 + 1">{{ startTime(tEvent) }}</text>
+      <line x1="0" :y1="tmrHeight + 0.5" x2="10" :y2="tmrHeight + 0.5" v-if="tEvent.hasEventTiers" />
     </g>
   </g>
 </template>

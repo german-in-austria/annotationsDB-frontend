@@ -37,6 +37,12 @@ const localFunctions = {
               this.aTranskript = response.data['aTranskript']
               this.allTracks = _.cloneDeep(this.aTranskript.allTracks)
               this.aSVG.updateShownTracks()
+              if (this.aTranskript.tiers && this.aTranskript.tiers.length > 0) {
+                this.aTranskript.tiersObj = {}
+                this.aTranskript.tiers.forEach(aTier => {
+                  this.aTranskript.tiersObj[aTier.pk] = aTier
+                })
+              }
               this.aEinzelErhebung = response.data['aEinzelErhebung']
               this.aTokens.setTokenTypes(response.data['aTokenTypes'])
               this.aSaetze = response.data['aSaetze']
