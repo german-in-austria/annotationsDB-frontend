@@ -63,7 +63,16 @@ export default {
   },
   methods: {
     loadTranscript (lTranscript) {
-      this.selTranscriptPk = lTranscript
+      if (this.selTranscriptPk < 1 || !this.selTranscript.unsaved || confirm('Es gibt noch ungespeicherte Veränderungen! Sollen diese wirklich verworfen werden?')) {
+        if (this.selTranscriptPk === lTranscript) {
+          this.selTranscriptPk = 0
+          this.$nextTick(() => {
+            this.selTranscriptPk = lTranscript
+          })
+        } else {
+          this.selTranscriptPk = lTranscript
+        }
+      }
     },
     showSuchenUndFiltern () {
       if (this.selTranscriptPk > 0 && this.selTranscript && this.selTranscript.ready) {

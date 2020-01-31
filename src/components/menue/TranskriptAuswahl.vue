@@ -90,4 +90,20 @@ export default {
     -o-animation: spin 2s infinite linear;
     animation: spin 2s infinite linear;
   }
+  .lmfabc {
+    position: relative;
+  }
+  .lmfabc.open {
+    background: #555;
+    color: #eee;
+  }
+  .lmfabc.open::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    width: 2px;
+    height: 100%;
+    background: #999;
+  }
 </style>

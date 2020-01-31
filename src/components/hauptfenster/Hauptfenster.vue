@@ -139,16 +139,16 @@ export default {
         if (this.transcript && this.transcript.aSVG) {
           this.transcript.aSVG.setViewElement(this.transcript.ready ? this.$refs.viewElement : null)
         }
-        if (this.transcript.ready) {
+        if (this.transcript && this.transcript.ready) {
           this.setFocus()
         }
       })
     },
     'transcript.selectedTokenBereich.v' () {
-      this.transcript.selectedTokenBereichUpdate()
+      if (this.transcript) this.transcript.selectedTokenBereichUpdate()
     },
     'transcript.selectedTokenBereich.b' () {
-      this.transcript.selectedTokenBereichUpdate()
+      if (this.transcript) this.transcript.selectedTokenBereichUpdate()
     },
     selectedTokenPk (nVal) {
       if (nVal) {
