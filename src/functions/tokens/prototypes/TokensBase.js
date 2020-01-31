@@ -196,23 +196,32 @@ const localFunctions = {
     var t0 = performance.now()
     Object.keys(this.tokenLists.byInf).forEach(function (aInfKey) {
       if (!this.aTokenTextInf[aInfKey]) {
-        this.aTokenTextInf[aInfKey] = {'text': '', 'ortho': '', 'text_in_ortho': '', 'tokens': {}}
+        this.aTokenTextInf[aInfKey] = {'tokens': {}}
+        this.root.aTranskript.allTracks.forEach(function (aTrack) {
+          if (aTrack.show) {
+            this.aTokenTextInf[aInfKey][aTrack.title] = ''
+          }
+        }, this)
       }
       let aInfTokens = this.tokenLists.byInf[aInfKey]
       aInfTokens.forEach(function (aToken) {
-        [{'prop': 'text', 'o1': 't', 'o2': false}, {'prop': 'ortho', 'o1': 'o', 'o2': 't'}, {'prop': 'text_in_ortho', 'o1': 'to', 'o2': false}].forEach(function (aField) {
-          let vPos = this.aTokenTextInf[aInfKey][aField.prop].length
-          let aTxt = this.getTokenString(aToken, aField.o1, aField.o2).replace(String.fromCharCode(160), ' ')
-          let bPos = vPos + aTxt.length - 1
-          this.aTokenTextInf[aInfKey][aField.prop] += aTxt
-          if (!this.aTokenTextInf[aInfKey].tokens[aToken.pk]) {
-            this.aTokenTextInf[aInfKey].tokens[aToken.pk] = {}
-          }
-          this.aTokenTextInf[aInfKey].tokens[aToken.pk][aField.prop] = {'v': vPos, 'b': bPos}
-        }, this)
+        if (this.root.aTranskript) {
+          this.root.aTranskript.allTracks.forEach(function (aTrack) {
+            if (aTrack.show) {
+              let vPos = this.aTokenTextInf[aInfKey][aTrack.title].length
+              let aTxt = this.getTokenStringArray(aToken, aTrack.field).replace(String.fromCharCode(160), ' ')
+              let bPos = vPos + aTxt.length - 1
+              this.aTokenTextInf[aInfKey][aTrack.title] += aTxt
+              if (!this.aTokenTextInf[aInfKey].tokens[aToken.pk]) {
+                this.aTokenTextInf[aInfKey].tokens[aToken.pk] = {}
+              }
+              this.aTokenTextInf[aInfKey].tokens[aToken.pk][aTrack.title] = {'v': vPos, 'b': bPos}
+            }
+          }, this)
+        }
       }, this)
     }, this)
-    console.log('updateATokenTextInf: ' + Math.ceil(performance.now() - t0) + ' ms')
+    console.log('updateATokenTextInf: ' + Math.ceil(performance.now() - t0) + ' ms', this.aTokenTextInf)
     // console.log(this.aTokenTextInf)
   },
   naechsterSuchToken (next = true) {

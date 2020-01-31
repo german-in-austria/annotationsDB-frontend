@@ -8,9 +8,11 @@
         </div>
       </div>
       <div>
-        <label><input type="checkbox" v-model="suchOptText" @change="suche()">&nbsp;Text</label>
-        <label><input type="checkbox" v-model="suchOptOrtho" @change="suche()">&nbsp;Ortho</label>
-        <label><input type="checkbox" v-model="suchOptTextInOrtho" @change="suche()">&nbsp;Text in Ortho</label>
+        <label
+          v-for="(aTrack, aKey) in availableTracks" :key="'sufs-f' + aKey"
+        >
+          <input type="checkbox" v-model="suchOpt[aTrack.title]" @change="suche()">&nbsp;{{ aTrack.title }}&nbsp;
+        </label>
       </div>
       <div>
         <b>Art:</b>&nbsp;
@@ -41,9 +43,7 @@ export default {
   data () {
     return {
       suchText: '',
-      suchOptText: true,
-      suchOptOrtho: true,
-      suchOptTextInOrtho: false,
+      suchOpt: {},
       suchModus: 'token',
       suchModusWild: false,
       suchInf: 0,
@@ -53,6 +53,9 @@ export default {
   mounted () {
     console.log(this.transcript, this.transcript.aTokens)
     this.$nextTick(() => { this.$refs.suchtext.focus() })
+    this.availableTracks.forEach(aTrack => {
+      this.suchOpt[aTrack.title] = true
+    })
   },
   methods: {
     sucheZuAuswahlListe () {
@@ -67,11 +70,13 @@ export default {
           if (this.suchModus === 'token') {
             this.transcript.aTokens.tokenLists.all.forEach(aToken => {
               if (parseInt(this.suchInf) === 0 || aToken.i === parseInt(this.suchInf)) {
-                let addToken = (
-                  (this.suchOptText && aToken.t && aToken.t.toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0) ||
-                  (this.suchOptOrtho && aToken.o && aToken.o.toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0) ||
-                  (this.suchOptTextInOrtho && aToken.to && aToken.to.toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0)
-                )
+                let addToken = false
+                this.availableTracks.some(aTrack => {
+                  if (this.suchOpt[aTrack.title] && aToken[aTrack.field[0]] && aToken[aTrack.field[0]].toLowerCase().indexOf(this.suchText.toLowerCase()) >= 0) {
+                    addToken = true
+                    return true
+                  }
+                })
                 if (addToken) {
                   this.transcript.aTokens.foundTokensList.push(aToken)
                 }
@@ -85,10 +90,10 @@ export default {
             }
             Object.keys(this.transcript.aTokens.aTokenTextInf).forEach(function (aInfKey) {
               if (parseInt(this.suchInf) === 0 || parseInt(this.suchInf) === parseInt(aInfKey)) {
-                [{'prop': 'text', 'opt': 'suchOptText'}, {'prop': 'ortho', 'opt': 'suchOptOrtho'}, {'prop': 'text_in_ortho', 'opt': 'suchOptTextInOrtho'}].forEach(function (aField) {
-                  if (this[aField.opt]) {
+                this.availableTracks.forEach(function (aTrack) {
+                  if (this.suchOpt[aTrack.title]) {
                     let fPos = []
-                    let aTxt = this.transcript.aTokens.aTokenTextInf[aInfKey][aField.prop].toLowerCase()
+                    let aTxt = this.transcript.aTokens.aTokenTextInf[aInfKey][aTrack.title].toLowerCase()
                     if (this.suchModusWild) {
                       let aMatch
                       while ((aMatch = sTxt.exec(aTxt)) !== null) {
@@ -105,7 +110,7 @@ export default {
                       Object.keys(this.transcript.aTokens.aTokenTextInf[aInfKey].tokens).forEach(function (aTokenId) {
                         let aToken = this.transcript.aTokens.tokensObj[aTokenId]
                         if (this.transcript.aTokens.foundTokensList.indexOf(aToken) === -1) {
-                          let aTokenTxtInfo = this.transcript.aTokens.aTokenTextInf[aInfKey].tokens[aTokenId][aField.prop]
+                          let aTokenTxtInfo = this.transcript.aTokens.aTokenTextInf[aInfKey].tokens[aTokenId][aTrack.title]
                           fPos.forEach(function (aPos) {
                             if ((aPos.v <= aTokenTxtInfo.b && aPos.b >= aTokenTxtInfo.v)) {
                               this.transcript.aTokens.foundTokensList.push(aToken)
@@ -153,6 +158,15 @@ export default {
     this.resetSuche()
   },
   computed: {
+    availableTracks () {
+      let availableTracks = []
+      this.transcript.aTranskript.allTracks.forEach(aTrack => {
+        if (aTrack.show) {
+          availableTracks.push(aTrack)
+        }
+      })
+      return availableTracks
+    }
   },
   watch: {
     suchText: function (nVal, oVal) {
