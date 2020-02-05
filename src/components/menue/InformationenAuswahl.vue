@@ -21,7 +21,7 @@
             :title="sTL.t + ' - ID: ' + sTL.pk"
             v-for="(sTL, i) in transcript.selectedTokenListe"
             :key="'aispT' + i"
-          >{{ sTL.t }}</a>
+          >{{ sTL.t || sTL.o }}</a>
         </div>
       </div>
     </div>

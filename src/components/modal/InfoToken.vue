@@ -7,7 +7,11 @@
           <label for="aTokenID" class="col-sm-3 control-label">ID</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenID">{{ aToken.pk }}</p></div>
         </div>
-        <div class="form-group" v-for="(aTrack, aKey) in transcript.allTracks" :key="'at' + aKey">
+        <div class="form-group">
+          <label for="aTokenLikelyError" class="col-sm-3 control-label">Spuren</label>
+          <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenLikelyError" v-model="showAllTracks"> Alle Anzeigen</label></div>
+        </div>
+        <div class="form-group" v-for="(aTrack, aKey) in aShownTracks" :key="'at' + aKey">
           <label :for="'aToken-' + aKey" class="col-sm-3 control-label">{{ aTrack.title }}</label>
           <div class="col-sm-9"><input type="text" :class="'form-control' + (aKey === 0 ? ' modal-focus' : '')" :id="'aToken-' + aKey" :spellcheck="globals.spellcheck" v-model="aToken[aTrack.field[0]]"></div>
         </div>
@@ -101,7 +105,8 @@ export default {
       aToken: {},
       oToken: {},
       aAntwort: {},
-      oAntwort: {}
+      oAntwort: {},
+      showAllTracks: false
     }
   },
   watch: {
@@ -149,6 +154,19 @@ export default {
       let ieToken = _.isEqual(aIeToken, oIeToken)
       let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
       return !(ieToken && ieAntort)
+    },
+    aShownTracks () {
+      if (!this.showAllTracks) {
+        let ast = []
+        this.transcript.allTracks.forEach(aTrack => {
+          console.log(aTrack)
+          if (aTrack.show) {
+            ast.push(aTrack)
+          }
+        })
+        return ast
+      }
+      return this.transcript.allTracks
     },
     satzView () {
       // Liste der Tokens um den aktuellen Token. Für Satzvorschau.

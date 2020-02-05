@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <audio><source :src="audiodirC + audiofileC + '.ogg'" type="audio/ogg" v-if="audiofile"></audio>
+      <audio><source :src="audiodirC + audiofileC" type="audio/ogg" v-if="audiofile"></audio>
     </div>
   </div>
 </template>
@@ -48,7 +48,11 @@ export default {
   },
   computed: {
     audiofileC () {
-      return AllgemeineFunktionen.cleanFilePart(this.audiofile)
+      let aFile = AllgemeineFunktionen.cleanFilePart(this.audiofile)
+      if (aFile.indexOf('.') < 0) {
+        aFile = aFile + '.ogg'
+      }
+      return aFile
     },
     audiodirC () {
       return AllgemeineFunktionen.cleanDirPart(this.audiodir)
