@@ -2,7 +2,7 @@
   <div class="hauptfenster h100">
     <div class="container" v-if="!transcript">
       <div class="alert alert-warning mt-5">Kein Transkript ausgewählt!</div>
-        Test: <div><input type="text" v-rt-ipa :class="'form-control'" :spellcheck="globals.spellcheck"></div>
+        <!-- Test: <div><input type="text" v-rt-ipa :class="'form-control'" :spellcheck="globals.spellcheck" v-model="test"></div> -->
       </div>
     <div class="container" v-else-if="transcript.error"><div class="alert alert-danger mt-5">Fehler beim Laden des Transcripts: {{ transcript.pk }}!</div></div>
     <div class="container" v-else-if="!transcript.ready"><div class="alert alert-info mt-5">Transkript({{ transcript.pk }}) wird geladen!</div></div>
@@ -32,7 +32,8 @@ export default {
   data () {
     return {
       globals: Globals,
-      focus: false
+      focus: false,
+      test: ''
     }
   },
   mounted () {

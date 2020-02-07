@@ -64,6 +64,8 @@ function applyElIpa (el, bindings, vNode) {
   if (!el[elIpa]) {
     el[elIpa] = new ExtIpa().$mount()
     el[elIpa].aElement = el
+    el[elIpa].vNode = vNode
+    el[elIpa].bindings = bindings
     // console.log(uIpaKeys)
   } else {
     el.parentNode.style.position = 'relative'
@@ -96,13 +98,16 @@ var ExtIpa = Vue.extend({
     return {
       aKeys: [],
       aElement: null,
+      bindings: null,
+      vNode: null,
       ready: false,
       lastPosition: null,
+      inputEvent: new Event('input', { bubbles: true }),
       aTop: 0
     }
   },
   mounted () {
-    // console.log('ExtIpa', this)
+    console.log('ExtIpa', this)
   },
   watch: {
     aKeys () {
@@ -147,6 +152,7 @@ var ExtIpa = Vue.extend({
     },
     setKey (aKey, nKey) {
       this.aElement.value = this.aElement.value.substring(0, this.lastPosition - aKey.length) + nKey + this.aElement.value.substring(this.lastPosition, this.aElement.value.length)
+      this.aElement.dispatchEvent(this.inputEvent)
       this.lastPosition = this.lastPosition - aKey.length + nKey.length
       this.unsetKeys()
     },
