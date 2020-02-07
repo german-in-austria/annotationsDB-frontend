@@ -13,7 +13,7 @@
         </div>
         <div class="form-group" v-for="(aTrack, aKey) in aShownTracks" :key="'at' + aKey">
           <label :for="'aToken-' + aKey" class="col-sm-3 control-label">{{ aTrack.title }}</label>
-          <div class="col-sm-9"><input type="text" :class="'form-control' + (aKey === 0 ? ' modal-focus' : '')" :id="'aToken-' + aKey" :spellcheck="globals.spellcheck" v-model="aToken[aTrack.field[0]]"></div>
+          <div class="col-sm-9"><input type="text" v-rt-ipa :class="'form-control' + (aKey === 0 ? ' modal-focus' : '')" :id="'aToken-' + aKey" :spellcheck="globals.spellcheck" v-model="aToken[aTrack.field[0]]"></div>
         </div>
         <div class="form-group">
           <label for="aTokenType" class="col-sm-3 control-label">token_type</label>
@@ -159,7 +159,6 @@ export default {
       if (!this.showAllTracks) {
         let ast = []
         this.transcript.allTracks.forEach(aTrack => {
-          console.log(aTrack)
           if (aTrack.show) {
             ast.push(aTrack)
           }

@@ -6,9 +6,13 @@
 // import VueResource from 'vue-resource'
 import App from './App'
 
+import ipaDirectives from './directives/Ipa'
+
 Vue.config.productionTip = false
 
 Vue.use(VueResource)
+
+Vue.directive('rt-ipa', ipaDirectives)
 
 /* eslint-disable no-new */
 new Vue({
