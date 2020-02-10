@@ -9,7 +9,7 @@
       :y="6 + 22 * aKey"
        v-for="(aSpur, aKey) in transcript.aSVG.shownTracks" :key="'aazeli-t' + aKey"
     >
-    {{ aSpur.field[0] }}
+    {{ aSpur.displayShort || aSpur.field[0] }}
     </text>
   </g>
 </template>
