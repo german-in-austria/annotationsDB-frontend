@@ -70,7 +70,7 @@ function applyElIpa (el, bindings, vNode) {
   } else {
     el.parentNode.style.position = 'relative'
     insertAfter(el.parentNode, el[elIpa].$el, el)
-    el.style.fontFamily = 'arial'
+    el.style.fontFamily = 'HKGrotesk,sans-serif'
     el.style.fontSize = '17px'
   }
 }
@@ -88,7 +88,7 @@ function removeElIpa (el) {
 }
 
 var ExtIpa = Vue.extend({
-  template: '<div :style="\'position: fixed; z-index: 10000; margin-top: \' + aTop + \'px; max-height: 130px; overflow-y: auto; background: #fff; padding: 10px; padding-bottom: 5px; border: 1px solid #eee; border-radius: 5px; min-width: 250px; font-family: arial; font-size: 20px;\'" v-if="ready && aKeys.length > 0">' +
+  template: '<div :style="\'position: fixed; z-index: 10000; margin-top: \' + aTop + \'px; max-height: 130px; overflow-y: auto; background: #fff; padding: 10px; padding-bottom: 5px; border: 1px solid #eee; border-radius: 5px; min-width: 250px; font-family: HKGrotesk,sans-serif; font-size: 20px;\'" v-if="ready && aKeys.length > 0">' +
             '  <div style="margin-bottom: 5px; white-space: nowrap;" v-for="(aKey, aI) in aKeys" :key="\'ipa\' + aI">' +
             '    <span style="display: inline-block; width: 31px; text-align: center;">{{ aKey.k }}</span>' +
             '    <button @click="setKey(aKey.k, pKey)" @keyup.esc="unsetKeys()" @blur="blur" ref="aBtns" class="btn btn-grey btn-sm" style="display: inline-block; margin-right: 5px; min-width: 35px;" v-for="pKey in aKey.a">{{ pKey }}</button>' +

@@ -3,7 +3,13 @@
       <h4>Suchen:<a href="#" v-on:click.prevent="$emit('closeSuche')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
       <div class="lmfasff">
         <div class="iwdbtn">
-          <input v-on:keyup="sucheCatchKeyUp" v-rt-ipa v-on:keydown="sucheCatchKeyDown" ref="suchtext" type="text" size="20" class="lmfasf" placeholder="Suchen ..." v-model="suchText">
+          <input ref="suchtext" type="text" size="20" placeholder="Suchen ..."
+            v-on:keyup="sucheCatchKeyUp"
+            v-rt-ipa
+            v-on:keydown="sucheCatchKeyDown"
+            :class="'lmfasf' + (suchRegExError ? ' error' : '')"
+            v-model="suchText"
+          />
           <button class="idbtn" title="Eingabe loeschen!" @click="suchText=''"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>
         </div>
       </div>
@@ -15,12 +21,19 @@
         </label>
       </div>
       <div>
-        <b>Art:</b>&nbsp;
+        <b>Bereich:</b>&nbsp;
         <input type="radio" id="suchetoken" value="token" v-model="suchModus" @change="suche()">
         <label for="suchetoken">Token</label>&nbsp;
         <input type="radio" id="suchevolltext" value="volltext" v-model="suchModus" @change="suche()">
         <label for="suchevolltext">Volltext</label>&nbsp;
-        <label><input type="checkbox" v-model="suchModusWild" @change="suche()" :disabled="suchModus !== 'volltext'">&nbsp;Wild</label>
+        <br>
+        <b>Art:</b>&nbsp;
+        <input type="radio" id="st-e" :value="1" v-model="suchModusArt" @change="suche()">
+        <label for="st-e">Einfach</label>&nbsp;
+        <input type="radio" id="st-w" :value="2" v-model="suchModusArt" @change="suche()" :disabled="suchModus !== 'volltext'">
+        <label for="st-w">Wild</label>&nbsp;
+        <input type="radio" id="st-r" :value="3" v-model="suchModusArt" @change="suche()" :disabled="suchModus !== 'volltext'">
+        <label for="st-r">RegEx</label>&nbsp;
       </div>
       <select size="1" class="form-control" v-model="suchInf" @change="suche()">
         <option value="0">Alle Informanten</option>
@@ -45,9 +58,10 @@ export default {
       suchText: '',
       suchOpt: {},
       suchModus: 'token',
-      suchModusWild: false,
+      suchModusArt: 1,
       suchInf: 0,
-      suchen: false
+      suchen: false,
+      suchRegExError: false
     }
   },
   mounted () {
@@ -88,41 +102,56 @@ export default {
             if (this.suchModusWild) {
               sTxt = new RegExp('\\b' + sTxt.replace(/[|\\{}()[\]^$+?.]/g, '\\$&').split(/\*+/).join('[a-zäöüß]*') + '\\b', 'ig')
             }
-            Object.keys(this.transcript.aTokens.aTokenTextInf).forEach(function (aInfKey) {
-              if (parseInt(this.suchInf) === 0 || parseInt(this.suchInf) === parseInt(aInfKey)) {
-                this.availableTracks.forEach(function (aTrack) {
-                  if (this.suchOpt[aTrack.title]) {
-                    let fPos = []
-                    let aTxt = this.transcript.aTokens.aTokenTextInf[aInfKey][aTrack.title].toLowerCase()
-                    if (this.suchModusWild) {
-                      let aMatch
-                      while ((aMatch = sTxt.exec(aTxt)) !== null) {
-                        fPos.push({'v': aMatch.index, 'b': aMatch.index + aMatch[0].length - 1})
-                      }
-                    } else {
-                      let sTxtPos = aTxt.indexOf(sTxt, 0)
-                      while (sTxtPos > -1) {
-                        fPos.push({'v': sTxtPos, 'b': sTxtPos + sTxtLen - 1})
-                        sTxtPos = aTxt.indexOf(sTxt, sTxtPos + sTxtLen - 1)
-                      }
-                    }
-                    if (fPos.length > 0) {
-                      Object.keys(this.transcript.aTokens.aTokenTextInf[aInfKey].tokens).forEach(function (aTokenId) {
-                        let aToken = this.transcript.aTokens.tokensObj[aTokenId]
-                        if (this.transcript.aTokens.foundTokensList.indexOf(aToken) === -1) {
-                          let aTokenTxtInfo = this.transcript.aTokens.aTokenTextInf[aInfKey].tokens[aTokenId][aTrack.title]
-                          fPos.forEach(function (aPos) {
-                            if ((aPos.v <= aTokenTxtInfo.b && aPos.b >= aTokenTxtInfo.v)) {
-                              this.transcript.aTokens.foundTokensList.push(aToken)
-                            }
-                          }, this)
-                        }
-                      }, this)
-                    }
-                  }
-                }, this)
+            if (this.suchModusRegEx) {
+              try {
+                sTxt = new RegExp('' + this.suchText.replace(String.fromCharCode(160), ' ').trim() + '', 'ig')
+                this.suchRegExError = false
+              } catch (e) {
+                console.log('suchModusRegEx', this.suchText.replace(String.fromCharCode(160)), e)
+                sTxt = null
+                this.suchRegExError = true
               }
-            }, this)
+            }
+            console.log('sTxt', sTxt)
+            if (sTxt) {
+              Object.keys(this.transcript.aTokens.aTokenTextInf).forEach(function (aInfKey) {
+                if (parseInt(this.suchInf) === 0 || parseInt(this.suchInf) === parseInt(aInfKey)) {
+                  this.availableTracks.forEach(function (aTrack) {
+                    if (this.suchOpt[aTrack.title]) {
+                      let fPos = []
+                      let aTxt = this.transcript.aTokens.aTokenTextInf[aInfKey][aTrack.title].toLowerCase()
+                      if (this.suchModusWild || this.suchModusRegEx) {
+                        let aMatch
+                        let dg = 0
+                        while ((aMatch = sTxt.exec(aTxt)) !== null && dg < 10000) {
+                          fPos.push({'v': aMatch.index, 'b': aMatch.index + aMatch[0].length - 1})
+                          dg += 1
+                        }
+                      } else {
+                        let sTxtPos = aTxt.indexOf(sTxt, 0)
+                        while (sTxtPos > -1) {
+                          fPos.push({'v': sTxtPos, 'b': sTxtPos + sTxtLen - 1})
+                          sTxtPos = aTxt.indexOf(sTxt, sTxtPos + sTxtLen - 1)
+                        }
+                      }
+                      if (fPos.length > 0) {
+                        Object.keys(this.transcript.aTokens.aTokenTextInf[aInfKey].tokens).forEach(function (aTokenId) {
+                          let aToken = this.transcript.aTokens.tokensObj[aTokenId]
+                          if (this.transcript.aTokens.foundTokensList.indexOf(aToken) === -1) {
+                            let aTokenTxtInfo = this.transcript.aTokens.aTokenTextInf[aInfKey].tokens[aTokenId][aTrack.title]
+                            fPos.forEach(function (aPos) {
+                              if ((aPos.v <= aTokenTxtInfo.b && aPos.b >= aTokenTxtInfo.v)) {
+                                this.transcript.aTokens.foundTokensList.push(aToken)
+                              }
+                            }, this)
+                          }
+                        }, this)
+                      }
+                    }
+                  }, this)
+                }
+              }, this)
+            }
           }
           console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', this.transcript.aTokens.foundTokensList)
         }
@@ -158,6 +187,12 @@ export default {
     this.resetSuche()
   },
   computed: {
+    suchModusWild () {
+      return this.suchModusArt === 2
+    },
+    suchModusRegEx () {
+      return this.suchModusArt === 3
+    },
     availableTracks () {
       let availableTracks = []
       this.transcript.aTranskript.allTracks.forEach(aTrack => {
@@ -169,6 +204,14 @@ export default {
     }
   },
   watch: {
+    suchModusArt () {
+      this.suchRegExError = false
+    },
+    suchModus: function (nVal) {
+      if (nVal === 'token') {
+        this.suchModusArt = 1
+      }
+    },
     suchText: function (nVal, oVal) {
       if (nVal.length > 0) {
         this.debouncedSuche()
@@ -181,4 +224,7 @@ export default {
 </script>
 
 <style scoped>
+.lmfasf.error, .lmfasf-nf.error {
+  background-color: #fee;
+}
 </style>

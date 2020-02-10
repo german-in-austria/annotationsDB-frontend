@@ -91,6 +91,7 @@ export default {
   }
   #annotationsvg >>> text {
     dominant-baseline: text-before-edge;
+    font-family: HKGrotesk,sans-serif;
   }
   #svg-g-events rect.ebg {
     fill: #eee;
