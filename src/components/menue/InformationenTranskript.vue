@@ -2,7 +2,7 @@
   <div :class="{'infpanel': true, 'open': show}" v-if="transcript && transcript.ready">
     <a href="#" v-on:click.prevent="show=!show"><b>Transkript</b> (ID: {{ transcript.pk }})<span :class="'glyphicon glyphicon-' + ((show)?'eye-open':'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
     <div v-if="show">
-      <div><b>Name:</b> {{ transcript.aTranskript.n }}</div>
+      <div class="wb-all"><b>Name:</b> {{ transcript.aTranskript.n }}</div>
       <div><b>Update Zeit:</b> {{ transcript.aTranskript.ut }}</div>
       <div><b>Informanten:</b> <span v-for="(aInf, aInfKey) in transcript.aInformanten.informantenList" :key="aInfKey" :title="'Anonym: '+aInf.ka+' - ID: '+aInfKey">{{ ((aInf.i)?', ':'')+aInf.k }}</span></div>
       <div><b>Events:</b> {{ transcript.aEvents.length.toLocaleString() }}</div>

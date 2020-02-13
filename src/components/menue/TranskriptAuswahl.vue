@@ -16,7 +16,7 @@
       <li v-for="aTranskriptPk in transcripts.infTransObj[aInformant].transcriptsPKs" :key="'t' + aTranskriptPk">
         <a href="#"
           @click.prevent="getTranskript(transcripts.transcriptsObj[aTranskriptPk].pk)"
-          :class="{ 'lmfabc': true, 'open': (selectedTranscriptPk === transcripts.transcriptsObj[aTranskriptPk].pk) }"
+          :class="'wb-all lmfabc' + ((selectedTranscriptPk === transcripts.transcriptsObj[aTranskriptPk].pk) ? ' open' : '')"
           :title="'PK: ' + transcripts.transcriptsObj[aTranskriptPk].pk + '\nUpdate: ' + transcripts.transcriptsObj[aTranskriptPk].updateTime + ' Uhr'"
         >{{ transcripts.transcriptsObj[aTranskriptPk].name }}<span>{{ transcripts.transcriptsObj[aTranskriptPk].tokenCount.toLocaleString() }}</span></a>
       </li>

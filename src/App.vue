@@ -27,6 +27,10 @@ export default {
     display: none;
   }
 
+  .wb-all {
+    word-break: break-all;
+  }
+
   .mt-1 {
     margin-top: 5px;
   }
