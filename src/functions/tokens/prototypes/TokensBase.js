@@ -70,7 +70,7 @@ const localFunctions = {
       return aToken[aField]
     })
     let atTxt = aToken[sField]
-    if (this.aTokenFragmenteObj[aToken.pk] && this.aTokenFragmenteObj[aToken.pk].length === 1) {
+    if (atTxt && this.aTokenFragmenteObj[aToken.pk] && this.aTokenFragmenteObj[aToken.pk].length === 1) {
       this.aTokenFragmenteObj[aToken.pk].forEach(function (val) {
         let xField = null
         fields.some(aField => {
