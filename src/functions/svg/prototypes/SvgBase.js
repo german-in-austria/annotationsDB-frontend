@@ -174,20 +174,24 @@ const localFunctions = {
                     tokenSetsSvgData[aTokenSet.pk]['startX'] = (
                       (atSetStart < aZteStart)
                         ? undefined
-                        : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft))
+                        : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft)
+                    )
                     tokenSetsSvgData[aTokenSet.pk]['endX'] = (
                       (atSetEnde > aZteEnde)
                         ? undefined
-                        : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth)
+                        : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth
+                    )
                   } else {
                     tokenSetsSvgData[aTokenSet.pk]['startX'] = (
                       (atSetStart < aZteStart)
                         ? undefined
-                        : this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft + (aSetT[0].svgWidth / 2))
+                        : this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft + (aSetT[0].svgWidth / 2)
+                    )
                     tokenSetsSvgData[aTokenSet.pk]['endX'] = (
                       (atSetEnde > aZteEnde)
                         ? undefined
-                        : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + (aSetT[aSetT.length - 1].svgWidth / 2))
+                        : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + (aSetT[aSetT.length - 1].svgWidth / 2)
+                    )
                     tokenSetsSvgData[aTokenSet.pk]['tokensX'] = []
                     aSetT.forEach(function (aToken) {
                       let aTEvent = this.getTEventOfAEvent(aToken.eObj, aZeile.teObjs)

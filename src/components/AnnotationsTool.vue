@@ -2,9 +2,12 @@
   <div id="annotationsTool" v-bind:class="{ loading: loading, bgloading: false, unsaved: selTranscript && selTranscript.unsaved }">
     <div class="row h100">
       <div class="col-md-2 h100 mh200px vscroller lmfa">
-        <SuchenUndFiltern ref="suchenUndFiltern" :transcript="selTranscript" v-if="selTranscriptPk > 0" />
-        <Informationen :transcript="selTranscript" v-if="selTranscriptPk > 0" />
-        <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @loadTranscript="loadTranscript" />
+        <div class="lmfa-frm">
+          <SuchenUndFiltern ref="suchenUndFiltern" :transcript="selTranscript" v-if="selTranscriptPk > 0" />
+          <Informationen :transcript="selTranscript" v-if="selTranscriptPk > 0" />
+          <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @loadTranscript="loadTranscript" />
+          <div class="at-version">AnnotationsTool v{{ version }}</div>
+        </div>
       </div>
       <div class="col-md-10 h100 mh600px" style="border-right:1px solid #eee;padding:0px;padding-bottom:150px;">
         <Hauptfenster ref="hauptfenster" :transcript="selTranscript" />
@@ -51,10 +54,12 @@ export default {
       selTranscriptPk: null,
       selTranscript: null,
       modalData: { type: null, data: null },
-      globals: Globals
+      globals: Globals,
+      version: ''
     }
   },
   mounted () {
+    this.version = require('../../package.json').version
     this.audiodir = audiodir
     this.transcripts = new TranscriptsInfListObject.TranscriptsInfListBase(this)
     this.globals.tagsData.data = new tagsystem.TagsystemObject.TagsystemBase(this.$http)
@@ -133,5 +138,22 @@ export default {
     z-index: 9999999;
     color: #fff;
     font-size: 4rem;
+  }
+  .lmfa {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .lmfa-frm {
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 75px;
+    min-height: 100%;
+  }
+  .at-version {
+    position: absolute;
+    left: 10px;
+    bottom: 5px;
+    font-size: 12px;
+    color: #888;
   }
 </style>
