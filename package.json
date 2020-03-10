@@ -1,6 +1,6 @@
 {
   "name": "annotationsdb-frontend",
-  "version": "0.41",
+  "version": "v0.41.0",
   "description": "A Vue.js project",
   "author": "dioe",
   "private": true,
