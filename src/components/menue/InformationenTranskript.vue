@@ -6,7 +6,11 @@
       <div><b>Update Zeit:</b> {{ transcript.aTranskript.ut }}</div>
       <div><b>Informanten:</b> <span v-for="(aInf, aInfKey) in transcript.aInformanten.informantenList" :key="aInfKey" :title="'Anonym: '+aInf.ka+' - ID: '+aInfKey">{{ ((aInf.i)?', ':'')+aInf.k }}</span></div>
       <div><b>Events:</b> {{ transcript.aEvents.length.toLocaleString() }}</div>
-      <div><b>Tokens:</b> <span :title="tokenCountByInf">{{ transcript.aTokens.length.toLocaleString() }}</span></div>
+      <div>
+        <b>Tokens:</b>
+        <span :title="tokenCountByInf">{{ transcript.aTokens.length.toLocaleString() }}</span>
+        <span v-if="transcript.aTokens.length < transcript.aTranskript.tokenCount">/ {{ transcript.aTranskript.tokenCount.toLocaleString() }}</span>
+      </div>
       <div><b>Default Spur:</b> {{ transcript.aTranskript.dt }}</div>
       <div><b>Tiers:</b>
         <span v-for="(aTier, aKey) in transcript.aTranskript.tiers" :key="'it-t' + aKey" :title="'ID: ' + aTier.pk">{{ (aKey > 0 ? ', ' : '') + aTier.tier_name }}</span>

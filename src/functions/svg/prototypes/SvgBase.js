@@ -171,16 +171,32 @@ const localFunctions = {
                       ? undefined
                       : aSetT[aSetT.length - 1])
                   if (aTokenSet.tx) {
-                    tokenSetsSvgData[aTokenSet.pk]['startX'] = (
-                      (atSetStart < aZteStart)
-                        ? undefined
-                        : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft)
-                    )
-                    tokenSetsSvgData[aTokenSet.pk]['endX'] = (
-                      (atSetEnde > aZteEnde)
-                        ? undefined
-                        : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth
-                    )
+                    // console.log(aTokenSet, aSetT[0].eObj, aZeile.teObjs, this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs), aSetT[0])
+                    try {
+                      tokenSetsSvgData[aTokenSet.pk]['startX'] = (
+                        (atSetStart < aZteStart)
+                          ? undefined
+                          : (this.getTEventOfAEvent(aSetT[0].eObj, aZeile.teObjs).svgLeft + aSetT[0].svgLeft)
+                      )
+                      tokenSetsSvgData[aTokenSet.pk]['endX'] = (
+                        (atSetEnde > aZteEnde)
+                          ? undefined
+                          : this.getTEventOfAEvent(aSetT[aSetT.length - 1].eObj, aZeile.teObjs).svgLeft + aSetT[aSetT.length - 1].svgLeft + aSetT[aSetT.length - 1].svgWidth
+                      )
+                    } catch (err) {
+                      let aError = 'Fehler beim verarbeiten des Tokensets! id: ' + aTokenSet.pk
+                      console.log('---- Fehler beim verarbeiten des Tokensets! ----', aTokenSet.pk, aTokenSet.tx[0].o + '/' + aTokenSet.tx[0].t, aTokenSet.tx[aTokenSet.tx.length - 1].o + '/' + aTokenSet.tx[aTokenSet.tx.length - 1].t)
+                      console.log({
+                        'aError': aError,
+                        'aTokenSet': aTokenSet,
+                        'aSetT[0]': aSetT[0],
+                        'aSetT[aSetT.length - 1]': aSetT[aSetT.length - 1],
+                        'error': err
+                      })
+                      if (this.errors.indexOf(aError) < 0) {
+                        this.errors.push(aError)
+                      }
+                    }
                   } else {
                     tokenSetsSvgData[aTokenSet.pk]['startX'] = (
                       (atSetStart < aZteStart)

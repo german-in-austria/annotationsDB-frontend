@@ -16,6 +16,15 @@
         <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
         <div v-if="!transcript.loaded">{{ parseInt(99 / transcript.lMaxSet * transcript.lSet) }} %</div>
       </div>
+      <div class="svgerror" v-if="transcript && transcript.aSVG && transcript.aSVG.errors && transcript.aSVG.errors.length > 0">
+        Fehler beim verarbeiten der Daten für die Anzeige (SVG)! - Transkript id: <b>{{ transcript.pk }}</b>
+        <hr>
+        <ul>
+          <li v-for="aError in transcript.aSVG.errors" :key="'svgError-' + aError">
+            {{ aError }}
+          </li>
+        </ul>
+      </div>
       <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !(transcript && transcript.unsaved) || transcript.loading }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
     </template>
   </div>
@@ -222,5 +231,22 @@ export default {
     position: fixed;
     right: 1px;
     bottom: 1px;
+  }
+  .svgerror {
+    position: absolute;
+    left: 25px;
+    top: 25px;
+    right: 100px;
+    background: #a00;
+    color: #fff;
+    padding: 10px 20px;
+    max-height: 33vh;
+    overflow: auto;
+  }
+  .svgerror hr {
+    margin: 5px 0;
+  }
+  .svgerror ul {
+    padding-left: 20px;
   }
 </style>

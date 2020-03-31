@@ -25,6 +25,7 @@ const localFunctions = {
     this.renderZeilen = []              // Zu rendernde Zeilen
     this.selectedTokenList = []         // Liste der ausgewählten Tokens für Token Liste und Bereich
     this.update = false                 // Neu rendern
+    this.errors = []                    // Fehler beim verarbeiten der Daten
   }
 }
 
