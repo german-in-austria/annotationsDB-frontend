@@ -16,14 +16,25 @@
         <span class="glyphicon glyphicon-refresh gly-spin" aria-hidden="true"></span>
         <div v-if="!transcript.loaded">{{ parseInt(99 / transcript.lMaxSet * transcript.lSet) }} %</div>
       </div>
-      <div class="svgerror" v-if="transcript && transcript.aSVG && transcript.aSVG.errors && transcript.aSVG.errors.length > 0">
-        Fehler beim verarbeiten der Daten für die Anzeige (SVG)! - Transkript id: <b>{{ transcript.pk }}</b>
-        <hr>
-        <ul>
-          <li v-for="aError in transcript.aSVG.errors" :key="'svgError-' + aError">
-            {{ aError }}
-          </li>
-        </ul>
+      <div class="svgerror" v-if="transcript && ((transcript.errors && transcript.errors.length > 0) || (transcript.aSVG && transcript.aSVG.errors && transcript.aSVG.errors.length > 0))">
+        <div class="svgerror-frm" v-if="transcript.errors && transcript.errors.length > 0">
+         <b>Fehler beim verarbeiten der Transkript Daten! - Transkript id: {{ transcript.pk }}</b>
+          <hr>
+          <ul>
+            <li v-for="aError in transcript.errors" :key="'transError-' + aError">
+              {{ aError }}
+            </li>
+          </ul>
+        </div>
+        <div class="svgerror-frm" v-if="transcript.aSVG && transcript.aSVG.errors && transcript.aSVG.errors.length > 0">
+          <b>Fehler beim verarbeiten der Daten für die Anzeige (SVG)! - Transkript id: {{ transcript.pk }}</b>
+          <hr>
+          <ul>
+            <li v-for="aError in transcript.aSVG.errors" :key="'svgError-' + aError">
+              {{ aError }}
+            </li>
+          </ul>
+        </div>
       </div>
       <button @click="speichern()" id="saveit" v-bind:class="{ btn: true, 'btn-success': true, disabled: !(transcript && transcript.unsaved) || transcript.loading }"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Speichern</button>
     </template>
@@ -232,6 +243,9 @@ export default {
     right: 1px;
     bottom: 1px;
   }
+  .svgerror-frm {
+    padding-top: 10px;
+  }
   .svgerror {
     position: absolute;
     left: 25px;
@@ -239,7 +253,7 @@ export default {
     right: 100px;
     background: #a00;
     color: #fff;
-    padding: 10px 20px;
+    padding: 10px 25px;
     max-height: 33vh;
     overflow: auto;
   }

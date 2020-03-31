@@ -59,6 +59,22 @@ const localFunctions = {
               this.update()
               console.log('Alle Datensätze geladen.', this.pk, '-', (performance.now() - this.timer).toFixed(2), 'ms', this)
             }
+            // Überprüfen ob die Reihungen stimmen:
+            Object.keys(this.aTokens.tokenLists.byInf).forEach(aInfId => {
+              let aInf = this.aTokens.tokenLists.byInf[aInfId]
+              let lToken = null
+              aInf.forEach(aToken => {
+                if (lToken !== null) {
+                  if (lToken.tr + 1 !== aToken.tr) {
+                    let aError = 'Tokenreihung stimmt nicht! - token 1 id:' + lToken.pk + ', Reihung: ' + lToken.tr + ' - token 2 id: ' + aToken.pk + ', Reihung: ' + aToken.tr
+                    if (this.errors.indexOf(aError) < 0) {
+                      this.errors.push(aError)
+                    }
+                  }
+                }
+                lToken = aToken
+              })
+            })
           } else {
             console.log('Ladevorgang für', this.pk, 'abgebrochen!')
           }
