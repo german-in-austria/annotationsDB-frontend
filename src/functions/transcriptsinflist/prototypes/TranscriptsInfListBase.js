@@ -10,10 +10,11 @@ const localFunctions = {
     this.loading = true
     this.vueObj.$http.post('', { getTranscriptsInfList: 1 })
       .then((response) => {
+        // console.log('TranscriptInfListBase', 'update', response.data)
         this.infTransList = response.data['informanten']
         this.infTransObj = {}
         for (let aInfKey in this.infTransList) {
-          this.infTransList[aInfKey].transcriptsPKs = this.infTransList[aInfKey].transcriptsPKs.filter(function (el) { return el != null })   // Null Werte filtern!
+          this.infTransList[aInfKey].transcriptsPKs = []
           // Objekt mit PK als Property erstellen
           if (this.infTransList.hasOwnProperty(aInfKey)) {
             let aInf = this.infTransList[aInfKey]
@@ -27,6 +28,11 @@ const localFunctions = {
           if (this.transcripts.hasOwnProperty(aTransKey)) {
             let aTrans = this.transcripts[aTransKey]
             this.transcriptsObj[aTrans.pk] = aTrans
+            aTrans.infPKs.forEach(aInfPk => {
+              if (aInfPk != null && this.infTransObj[aInfPk]) {
+                this.infTransObj[aInfPk].transcriptsPKs.push(aTrans.pk)
+              }
+            })
           }
         }
         this.time = new Date()
