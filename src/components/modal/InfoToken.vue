@@ -185,19 +185,19 @@ export default {
         let aSec = AllgemeineFunktionen.durationToSeconds(this.aToken.stp)
         return aSec === 0 || aSec < AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.s) || aSec >= AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.e)
       } else {
-        return this.aToken.etp && this.aToken.etp.length > 0
+        return (this.aToken.etp && this.aToken.etp.length > 0) || false
       }
     },
     error_etp () {
       if (this.aToken.etp && this.aToken.etp.length > 0) {
-          let aSec = AllgemeineFunktionen.durationToSeconds(this.aToken.etp)
+        let aSec = AllgemeineFunktionen.durationToSeconds(this.aToken.etp)
         if (aSec === 0) {
           return true
         } else {
           return aSec <= AllgemeineFunktionen.durationToSeconds(this.aToken.stp) || aSec <= AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.s) || aSec > AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.e)
         }
       } else {
-        return (this.aToken.stp && this.aToken.stp.length > 0)
+        return (this.aToken.stp && this.aToken.stp.length > 0) || false
       }
     },
     aShownTracks () {
