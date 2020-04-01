@@ -51,6 +51,7 @@ export default {
   methods: {
     showaTokenInfos (direkt = false, e) {
       if (e.ctrlKey) {
+        e.preventDefault()
         this.transcript.toggleSelectedTokenListe(this.aToken)
         this.transcript.selectedToken = this.aToken
         this.globals.ctrlUsed = true

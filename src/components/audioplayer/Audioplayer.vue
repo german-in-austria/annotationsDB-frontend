@@ -125,6 +125,7 @@ export default {
         52: null                    // ctrl+4 (N/A, Step Forward)
       }
       if (e.ctrlKey && keyCodes.hasOwnProperty(e.keyCode)) {
+        e.preventDefault()
         if (keyCodes[e.keyCode]) keyCodes[e.keyCode]()
         this.$emit('ctrlkey')
       }

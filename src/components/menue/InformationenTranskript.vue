@@ -15,7 +15,7 @@
       <div><b>Tiers:</b>
         <span v-for="(aTier, aKey) in transcript.aTranskript.tiers" :key="'it-t' + aKey" :title="'ID: ' + aTier.pk">{{ (aKey > 0 ? ', ' : '') + aTier.tier_name }}</span>
       </div>
-      <button @click="resetTranskriptTokenReihung" v-if="resetTranskriptTokenReihungDone !== transcript.pk && (transcript && ((transcript.errors && transcript.errors.length > 0) || (transcript.aSVG && transcript.aSVG.errors && transcript.aSVG.errors.length > 0)))" :disabled="resetTranskriptTokenReihungLoading">Reihung aktuallisieren</button>
+      <button @click="resetTranskriptTokenReihung" v-if="resetTranskriptTokenReihungDone !== transcript.pk && (transcript && ((transcript.errors && transcript.errors.length > 0) || (transcript.aSVG && transcript.aSVG.errors && transcript.aSVG.errors.length > 0)))" :disabled="resetTranskriptTokenReihungLoading">Reihung aktualisieren</button>
     </div>
   </div>
 </template>

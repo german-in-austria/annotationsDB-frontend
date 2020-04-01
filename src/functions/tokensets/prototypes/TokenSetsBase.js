@@ -58,7 +58,7 @@ const localFunctions = {
         }
       }
     }, this)
-    // TokenSets aktuallisieren/berechnen
+    // TokenSets aktualisieren/berechnen
     this.tokenSetsLists.all.forEach(function (aTokSet) {
       if (!aTokSet.ok) {
         // Tokens aus Bereich laden ...

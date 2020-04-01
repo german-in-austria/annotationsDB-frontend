@@ -33,6 +33,7 @@ export default {
   methods: {
     showTEventInfos (e, tEvent) {
       if (e.ctrlKey) {
+        e.preventDefault()
         let rect = e.target.getBoundingClientRect()
         let nZeit = tEvent.aS + ((tEvent.aE - tEvent.aS) / rect.width * (e.clientX - rect.left))
         if (nZeit === Infinity) { nZeit = tEvent.aS }

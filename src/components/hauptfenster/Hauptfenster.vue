@@ -97,6 +97,7 @@ export default {
             this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
           }
           if (e.ctrlKey && !this.globals.ctrlUsed) {
+            e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
           this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken)
@@ -106,6 +107,7 @@ export default {
             this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
           if (e.ctrlKey) {
+            e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
             this.globals.ctrlUsed = true
           }
@@ -115,6 +117,7 @@ export default {
             this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
           }
           if (e.ctrlKey && !this.globals.ctrlUsed) {
+            e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
           this.transcript.selectedToken = this.transcript.aTokens.getNextPrev(this.transcript.selectedToken, false)
@@ -124,6 +127,7 @@ export default {
             this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
           if (e.ctrlKey) {
+            e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
             this.globals.ctrlUsed = true
           }
@@ -136,6 +140,7 @@ export default {
           this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           // this.selectPrevInf()
         } else if (e.ctrlKey && e.keyCode === 13) { // Strg. + Enter
+          e.preventDefault()
           if (this.transcript.selectedTokenSet) {
             this.transcript.vueObj.modalData = { type: 'tokenSet', data: {aTokenSet: _.cloneDeep(this.transcript.selectedTokenSet)} }
           }

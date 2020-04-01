@@ -94,6 +94,7 @@ export default {
   methods: {
     showaTokenSetInfos (eTokSet, direkt = false, e = undefined) {
       if (e.ctrlKey) {
+        e.preventDefault()
         // ToDo: TokenSet select
         // ToDo: ctrlKey
       } else {
