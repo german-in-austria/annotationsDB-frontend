@@ -142,7 +142,7 @@ const localFunctions = {
       deletedAntworten: []
     }
     // Tokens
-    let aTokenPropertiesFilter = ['pk', 'a', 'tt', 'tr', 'e', 'i', 's', 'sr', 'fo', 'le']
+    let aTokenPropertiesFilter = ['pk', 'a', 'tt', 'tr', 'e', 'i', 's', 'sr', 'fo', 'le', 'stp', 'etp']
     this.allTracks.forEach(aTrack => {
       aTokenPropertiesFilter.push(aTrack.field[0])
     })

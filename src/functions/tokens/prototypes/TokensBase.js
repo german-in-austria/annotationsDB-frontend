@@ -151,6 +151,8 @@ const localFunctions = {
     })
     this.tokensObj[aTPK].tt = nToken.tt
     this.tokensObj[aTPK].le = nToken.le
+    this.tokensObj[aTPK].stp = nToken.stp
+    this.tokensObj[aTPK].etp = nToken.etp
     if (!nToken.delAntwort && nToken.aId) {
       nAntwort.it = aTPK
       nAntwort.vi = nToken.i

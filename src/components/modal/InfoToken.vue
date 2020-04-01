@@ -23,6 +23,14 @@
             </select>
           </div>
         </div>
+        <div :class="'form-group' + (error_stp ? ' has-error' : '')">
+          <label for="aTokenStartTimepoint" class="col-sm-3 control-label">start_timepoint</label>
+          <div class="col-sm-9"><input @change="updateDuration('stp')" type="text" class="form-control" id="aTokenStartTimepoint" :spellcheck="globals.spellcheck" v-model="aToken.stp"></div>
+        </div>
+        <div :class="'form-group' + (error_etp ? ' has-error' : '')">
+          <label for="aTokenEndTimepoint" class="col-sm-3 control-label">end_timepoint</label>
+          <div class="col-sm-9"><input @change="updateDuration('etp')" type="text" class="form-control" id="aTokenEndTimepoint" :spellcheck="globals.spellcheck" v-model="aToken.etp"></div>
+        </div>
         <div class="form-group" v-if="aToken.iObj">
           <label for="aTokenIDInf" class="col-sm-3 control-label">ID_Inf</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenIDInf">{{ aToken.iObj.k }} ({{ aToken.iObj.ka }} - ID: {{ aToken.i }})</p></div>
@@ -81,7 +89,7 @@
         <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http" mode="edit"/>
       </template>
       <template v-slot:addButtons>
-        <button type="button" class="btn btn-primary" :disabled="!changed" @click="updateTokenData">Ändern</button>
+        <button type="button" :class="'btn' + (error ? ' btn-danger' : ' btn-primary')" :disabled="!changed || error" @click="updateTokenData">Ändern</button>
       </template>
       <template v-slot:closeButtonsText>{{ ((changed) ? 'Verwerfen' : 'Schließen') }}</template>
     </Modal>
@@ -91,6 +99,7 @@
 <script>
 /* global _ tagsystem */
 
+import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 import Modal from './Modal'
 // import Tagsystem from '../tagsystem/Tagsystem'
 import Globals from '@/functions/globals'
@@ -119,6 +128,8 @@ export default {
       this.$set(this.aToken, aTrack.field[0], this.aToken[aTrack.field[0]] || '')
     })
     this.$set(this.aToken, 'le', this.aToken.le || false)
+    this.$set(this.aToken, 'stp', this.aToken.stp || '')
+    this.$set(this.aToken, 'etp', this.aToken.etp || '')
     this.oToken = _.cloneDeep(this.aToken)
     if (this.aToken.aId) {
       this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.aToken.aId])
@@ -130,6 +141,17 @@ export default {
     console.log('InfoToken', this)
   },
   methods: {
+    updateDuration (atp) {
+      console.log(atp, this.aToken[atp])
+      if (this.aToken[atp] && this.aToken[atp].length > 0) {
+        let aSec = AllgemeineFunktionen.durationToSeconds(this.aToken[atp])
+        if (aSec > 0) {
+          this.aToken[atp] = AllgemeineFunktionen.secondsToDuration(aSec)
+        } else {
+          this.aToken[atp] = ''
+        }
+      }
+    },
     newAntwort () {
       // Neue Antwort erstellen.
       this.$set(this.aToken, 'aId', '? - Neu')
@@ -145,8 +167,8 @@ export default {
   },
   computed: {
     changed () {
-      let aIeToken = [this.aToken.tt, this.aToken.le, this.aToken.delAntwort]
-      let oIeToken = [this.oToken.tt, this.oToken.le, this.oToken.delAntwort]
+      let aIeToken = [this.aToken.tt, this.aToken.le, this.aToken.delAntwort, this.aToken.stp, this.aToken.etp]
+      let oIeToken = [this.oToken.tt, this.oToken.le, this.oToken.delAntwort, this.oToken.stp, this.oToken.etp]
       this.transcript.allTracks.forEach(aTrack => {
         aIeToken.push(this.aToken[aTrack.field[0]])
         oIeToken.push(this.oToken[aTrack.field[0]])
@@ -154,6 +176,29 @@ export default {
       let ieToken = _.isEqual(aIeToken, oIeToken)
       let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
       return !(ieToken && ieAntort)
+    },
+    error () {
+      return this.error_stp || this.error_etp
+    },
+    error_stp () {
+      if (this.aToken.stp && this.aToken.stp.length > 0) {
+        let aSec = AllgemeineFunktionen.durationToSeconds(this.aToken.stp)
+        return aSec === 0 || aSec < AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.s) || aSec >= AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.e)
+      } else {
+        return this.aToken.etp && this.aToken.etp.length > 0
+      }
+    },
+    error_etp () {
+      if (this.aToken.etp && this.aToken.etp.length > 0) {
+          let aSec = AllgemeineFunktionen.durationToSeconds(this.aToken.etp)
+        if (aSec === 0) {
+          return true
+        } else {
+          return aSec <= AllgemeineFunktionen.durationToSeconds(this.aToken.stp) || aSec <= AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.s) || aSec > AllgemeineFunktionen.durationToSeconds(this.aToken.eObj.e)
+        }
+      } else {
+        return (this.aToken.stp && this.aToken.stp.length > 0)
+      }
     },
     aShownTracks () {
       if (!this.showAllTracks) {
