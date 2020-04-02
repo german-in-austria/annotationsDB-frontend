@@ -89,6 +89,9 @@
         <Tagsystem :tagsData="globals.tagsData" :tags="aAntwort.tags" :http="transcript.vueObj.$http" mode="edit"/>
       </template>
       <template v-slot:addButtons>
+        <div class="token-audioplayer">
+          <InfoTokenAudioplayer :transcript="transcript" :token="aToken" />
+        </div>
         <button type="button" :class="'btn' + (error ? ' btn-danger' : ' btn-primary')" :disabled="!changed || error" @click="updateTokenData">Ändern</button>
       </template>
       <template v-slot:closeButtonsText>{{ ((changed) ? 'Verwerfen' : 'Schließen') }}</template>
@@ -101,6 +104,7 @@
 
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 import Modal from './Modal'
+import InfoTokenAudioplayer from './InfoTokenAudioplayer'
 // import Tagsystem from '../tagsystem/Tagsystem'
 import Globals from '@/functions/globals'
 // var _ = require('lodash')
@@ -265,6 +269,7 @@ export default {
   },
   components: {
     Modal,
+    InfoTokenAudioplayer,
     Tagsystem: tagsystem.TagsystemVue
   }
 }
@@ -292,5 +297,12 @@ export default {
 
   .satzview > span.tt3 {
     font-style: italic;
+  }
+  .token-audioplayer {
+    display: block;
+    float: left;
+    width: calc(100% - 210px);
+    height: 34px;
+    text-align: left;
   }
 </style>

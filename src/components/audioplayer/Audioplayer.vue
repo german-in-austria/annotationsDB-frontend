@@ -114,20 +114,22 @@ export default {
     },
     /* Tastatur */
     keyUp (e) {
-      // console.log(e.keyCode)
-      let keyCodes = {
-        32: this.togglePlayPause,   // ctrl+space
-        89: this.fastBackward,      // ctrl+y
-        88: this.fastForward,       // ctrl+x
-        50: this.backward,          // ctrl+2
-        51: this.forward,           // ctrl+3
-        49: null,                   // ctrl+1 (N/A, Step Backward)
-        52: null                    // ctrl+4 (N/A, Step Forward)
-      }
-      if (e.ctrlKey && keyCodes.hasOwnProperty(e.keyCode)) {
-        e.preventDefault()
-        if (keyCodes[e.keyCode]) keyCodes[e.keyCode]()
-        this.$emit('ctrlkey')
+      if (!this.globals.audioAltPlayer) {
+        // console.log(e.keyCode)
+        let keyCodes = {
+          32: this.togglePlayPause,   // ctrl+space
+          89: this.fastBackward,      // ctrl+y
+          88: this.fastForward,       // ctrl+x
+          50: this.backward,          // ctrl+2
+          51: this.forward,           // ctrl+3
+          49: null,                   // ctrl+1 (N/A, Step Backward)
+          52: null                    // ctrl+4 (N/A, Step Forward)
+        }
+        if (e.ctrlKey && keyCodes.hasOwnProperty(e.keyCode)) {
+          e.preventDefault()
+          if (keyCodes[e.keyCode]) keyCodes[e.keyCode]()
+          this.globals.ctrlUsed = true
+        }
       }
     },
     /* Funktionen */
@@ -156,6 +158,13 @@ export default {
         this.paused = true
         this.loaded = false
         throw new Error('Audiodatei konnte nicht geladen werden!')
+      }
+    }
+  },
+  watch: {
+    'globals.audioAltPlayer' (nVal) {
+      if (nVal) {
+        this.pause()
       }
     }
   },
