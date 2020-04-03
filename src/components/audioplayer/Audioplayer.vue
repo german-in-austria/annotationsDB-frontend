@@ -125,7 +125,7 @@ export default {
           49: null,                   // ctrl+1 (N/A, Step Backward)
           52: null                    // ctrl+4 (N/A, Step Forward)
         }
-        if (e.ctrlKey && keyCodes.hasOwnProperty(e.keyCode)) {
+        if ((e.ctrlKey || e.metaKey) && keyCodes.hasOwnProperty(e.keyCode)) {
           e.preventDefault()
           if (keyCodes[e.keyCode]) keyCodes[e.keyCode]()
           this.globals.ctrlUsed = true

@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     showTEventInfos (e, tEvent) {
-      if (e.ctrlKey) {
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault()
         let rect = e.target.getBoundingClientRect()
         let nZeit = tEvent.aS + ((tEvent.aE - tEvent.aS) / rect.width * (e.clientX - rect.left))

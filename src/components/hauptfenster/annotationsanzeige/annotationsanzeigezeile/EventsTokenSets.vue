@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     showaTokenSetInfos (eTokSet, direkt = false, e = undefined) {
-      if (e.ctrlKey) {
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault()
         // ToDo: TokenSet select
         // ToDo: ctrlKey

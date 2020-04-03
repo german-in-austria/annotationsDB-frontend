@@ -35,6 +35,10 @@
         <dt>Strg + 4</dt><dd>na</dd>
         <dt>Strg + Links Klick</dt><dd>Zu Position springen</dd>
       </dl>
+      <b>Allgemein:</b><br>
+      <dl>
+        <dt>⌘ Command / ⊞ Windows</dt><dd>Können als Alternative zur Strg-Taste verwendet werden!</dd>
+      </dl>
     </div>
   </div>
 </template>

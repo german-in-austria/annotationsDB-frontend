@@ -82,7 +82,7 @@ export default {
       if (e.keyCode === 114) { // F3
         e.preventDefault()
         this.transcript.aTokens.naechsterSuchToken(!e.shiftKey)
-      } else if (e.ctrlKey && e.keyCode === 70) { // Strg + F
+      } else if ((e.ctrlKey || e.metaKey) && e.keyCode === 70) { // Strg + F
         e.preventDefault()
         this.$root.$children[0].$refs.annotationstool.showSuchenUndFiltern()
         this.globals.ctrlUsed = true
@@ -96,7 +96,7 @@ export default {
           if (e.shiftKey && !this.transcript.selectedTokenBereich.v) {
             this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
           }
-          if (e.ctrlKey && !this.globals.ctrlUsed) {
+          if ((e.ctrlKey || e.metaKey) && !this.globals.ctrlUsed) {
             e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
@@ -106,7 +106,7 @@ export default {
           } else {
             this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
-          if (e.ctrlKey) {
+          if (e.ctrlKey || e.metaKey) {
             e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
             this.globals.ctrlUsed = true
@@ -116,7 +116,7 @@ export default {
           if (e.shiftKey && !this.transcript.selectedTokenBereich.v) {
             this.transcript.selectedTokenBereich.v = this.transcript.selectedToken
           }
-          if (e.ctrlKey && !this.globals.ctrlUsed) {
+          if ((e.ctrlKey || e.metaKey) && !this.globals.ctrlUsed) {
             e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }
@@ -126,7 +126,7 @@ export default {
           } else {
             this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           }
-          if (e.ctrlKey) {
+          if (e.ctrlKey || e.metaKey) {
             e.preventDefault()
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
             this.globals.ctrlUsed = true
@@ -139,7 +139,7 @@ export default {
           e.preventDefault()
           this.transcript.selectedTokenBereich = {'v': null, 'b': null}
           // this.selectPrevInf()
-        } else if (e.ctrlKey && e.keyCode === 13) { // Strg. + Enter
+        } else if ((e.ctrlKey || e.metaKey) && e.keyCode === 13) { // Strg. + Enter
           e.preventDefault()
           if (this.transcript.selectedTokenSet) {
             this.transcript.vueObj.modalData = { type: 'tokenSet', data: {aTokenSet: _.cloneDeep(this.transcript.selectedTokenSet)} }
@@ -151,6 +151,7 @@ export default {
             this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.transcript.selectedToken)} }
           }
         } else if (e.keyCode === 17) { // Strg
+          e.preventDefault()
           if (!this.globals.ctrlUsed) {
             this.transcript.toggleSelectedTokenListe(this.transcript.selectedToken)
           }

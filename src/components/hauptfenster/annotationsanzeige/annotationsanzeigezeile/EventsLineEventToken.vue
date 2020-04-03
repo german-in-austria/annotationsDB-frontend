@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     showaTokenInfos (direkt = false, e) {
-      if (e.ctrlKey) {
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault()
         this.transcript.toggleSelectedTokenListe(this.aToken)
         this.transcript.selectedToken = this.aToken
