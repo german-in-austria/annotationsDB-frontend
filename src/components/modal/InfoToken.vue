@@ -1,6 +1,6 @@
 <template>
   <div v-if="modalData.type">
-    <Modal ref="modal" :modalData="modalData" :blocked="changed">
+    <Modal ref="modal" :modalData="modalData" :blocked="changed" class="token-modal">
       <template v-slot:title>Token</template>
       <div class="form-horizontal">
         <div class="form-group">
@@ -8,20 +8,24 @@
           <div class="col-sm-9"><p class="form-control-static" id="aTokenID">{{ aToken.pk }}</p></div>
         </div>
         <div class="form-group">
-          <label for="aTokenLikelyError" class="col-sm-3 control-label">Spuren</label>
-          <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenLikelyError" v-model="showAllTracks"> Alle Anzeigen</label></div>
+          <label for="aTokenShowAllTracks" class="col-sm-3 control-label">Spuren</label>
+          <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenShowAllTracks" v-model="showAllTracks"> Alle Anzeigen</label></div>
         </div>
         <div class="form-group" v-for="(aTrack, aKey) in aShownTracks" :key="'at' + aKey">
           <label :for="'aToken-' + aKey" class="col-sm-3 control-label">{{ aTrack.title }}</label>
           <div class="col-sm-9"><input type="text" v-rt-ipa :class="'form-control' + (aKey === 0 ? ' modal-focus' : '')" :id="'aToken-' + aKey" :spellcheck="globals.spellcheck" v-model="aToken[aTrack.field[0]]"></div>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="globals.tokenShowAllFields">
           <label for="aTokenType" class="col-sm-3 control-label">token_type</label>
           <div class="col-sm-9">
             <select class="form-control" id="aTokenType" v-model="aToken.tt">
               <option v-for="(aTokenTypeVal, aTokenTypeKey) in transcript.aTokens.aTokenTypes" :value="parseInt(aTokenTypeKey)" :key="'aToTy' + aTokenTypeKey">{{ aTokenTypeVal.n }}</option>
             </select>
           </div>
+        </div>
+        <div class="form-group" v-if="aToken.eObj">
+          <label for="aTokenEventID" class="col-sm-3 control-label">event</label>
+          <div class="col-sm-9"><p class="form-control-static" id="aTokenEventID">{{ aToken.eObj.s }} - {{ aToken.eObj.e }} - ID: {{ aToken.e }}</p></div>
         </div>
         <div :class="'form-group' + (error_stp ? ' has-error' : '')">
           <label for="aTokenStartTimepoint" class="col-sm-3 control-label">start_timepoint</label>
@@ -39,29 +43,29 @@
           <label for="aTokenfragmentof" class="col-sm-3 control-label">fragment_of</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenfragmentof">{{ transcript.aTokens.tokensObj[aToken.fo].t }} - ID:  {{ aToken.fo }}</p></div>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="globals.tokenShowAllFields">
           <label for="aTokenReihung" class="col-sm-3 control-label">token_reihung</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenReihung">{{ aToken.tr }}</p></div>
         </div>
-        <div class="form-group" v-if="aToken.eObj">
-          <label for="aTokenEventID" class="col-sm-3 control-label">event_id</label>
-          <div class="col-sm-9"><p class="form-control-static" id="aTokenEventID">{{ aToken.eObj.s }} - {{ aToken.eObj.e }} - ID: {{ aToken.e }}</p></div>
-        </div>
-        <div class="form-group">
+        <div class="form-group" v-if="globals.tokenShowAllFields">
           <label for="aTokenLikelyError" class="col-sm-3 control-label">likely_error</label>
           <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenLikelyError" value="1" v-model="aToken.le"> Ja</label></div>
         </div>
-        <div class="form-group" v-if="aToken.s">
+        <div class="form-group" v-if="globals.tokenShowAllFields && aToken.s">
           <label for="aTokenSentenceID" class="col-sm-3 control-label">sentence_id</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenSentenceID">{{ transcript.aSaetze[aToken.s].t }} - ID: {{ aToken.s }}</p></div>
         </div>
-        <div class="form-group" v-if="aToken.sr">
+        <div class="form-group" v-if="globals.tokenShowAllFields && aToken.sr">
           <label for="aTokenSequenceInSentence" class="col-sm-3 control-label">sequence_in_sentence</label>
           <div class="col-sm-9"><p class="form-control-static" id="aTokenSequenceInSentence">{{ aToken.sr }}</p></div>
         </div>
         <div class="form-group" v-if="transcript.aTokens.aTokenFragmenteObj[aToken.pk]"><label class="col-sm-3 control-label">Fragmente</label><div class="col-sm-9"><ul class="form-control-static hflist">
             <li v-for="aToFragKey in transcript.aTokens.aTokenFragmenteObj[aToken.pk]" :key="'aTFO' + aToFragKey">{{ transcript.aTokens.tokensObj[aToFragKey].t }} ({{ aToFragKey }})</li>
         </ul></div></div>
+        <div class="form-group">
+          <label for="aTokenShowAllFields" class="col-sm-3 control-label">Felder</label>
+          <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenShowAllFields" v-model="globals.tokenShowAllFields"> Alle Anzeigen</label></div>
+        </div>
         <div class="form-group"><label class="col-sm-3 control-label">Antwort</label>
           <div class="col-sm-9">
             <p class="form-control-static" v-if="aToken.aId">{{ aToken.aId + (0 > aToken.aId ? ' - Neu' : '') + (aToken.delAntwort ? ' - Wird gelöscht !!!' : '') }}
@@ -304,5 +308,9 @@ export default {
     width: calc(100% - 210px);
     height: 34px;
     text-align: left;
+  }
+  .token-modal >>> .modal-footer {
+    position: relative;
+    z-index: 10;
   }
 </style>

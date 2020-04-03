@@ -4,7 +4,8 @@ const localFunctions = {
   audioAltPlayer: false,        // Wird ein anderer Player benutzt?
   spellcheck: false,            // Rechtschreibprüfung in Eingabefelder
   tagsData: {data: null},       // Tag Datenspeicher
-  ctrlUsed: false               // Wurde die Strg-Taste verwendet?
+  ctrlUsed: false,              // Wurde die Strg-Taste verwendet?
+  tokenShowAllFields: false     // Sollen alle Felder angezeigt werden?
 }
 
 export default localFunctions
