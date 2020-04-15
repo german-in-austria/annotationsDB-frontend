@@ -29,11 +29,15 @@ export default {
     var aModalThis = this
     $(this.$refs.modal).on('shown.bs.modal', function (e) {
       $(aModalThis.$refs.modal).find('.modal-focus').focus()
+      aModalThis.$emit('shown')
     })
     $(this.$refs.modal).on('hidden.bs.modal', function (e) {
-      aModalThis.modalData.type = null
-      aModalThis.modalData.data = null
+      if (aModalThis.modalData) {
+        aModalThis.modalData.type = null
+        aModalThis.modalData.data = null
+      }
       aModalThis.$root.$children[0].$refs.annotationstool.$refs.hauptfenster.setFocus()
+      aModalThis.$emit('close')
     })
     $(this.$refs.modal).on('hide.bs.modal', function (e) {
       return !aModalThis.blocked || document.activeElement === aModalThis.$refs.closeButton || aModalThis.forceClose

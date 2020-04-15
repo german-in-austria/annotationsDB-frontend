@@ -154,27 +154,6 @@ export default {
   .btngroup {
     margin-top: 5px;
   }
-  .tfxbtn {
-    background: #fff;
-    margin: 5px 0px 0px 0px;
-    color: #2B5A84;
-    border: none;
-  }
-  .tfxbtnt {
-    margin-top: 0px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    background: #eee;
-  }
-  .tfxbtn.open {
-    background: #ddd;
-    color: #272C31;
-  }
-  .tfxbtn:hover, .tfxbtn:focus {
-    background: #555;
-    color: #ddd;
-    text-decoration: none;
-  }
 
   .mw-20 {
     position: relative
