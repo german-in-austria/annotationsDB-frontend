@@ -96,7 +96,11 @@
         <div class="token-audioplayer">
           <InfoTokenAudioplayer :transcript="transcript" :token="aToken" />
         </div>
-        <button type="button" :class="'btn' + (error ? ' btn-danger' : ' btn-primary')" :disabled="!changed || error" @click="updateTokenData">Ändern</button>
+        <div class="btn-group" style="margin-right: 5px;">
+          <button @click="prevNextToken(-1)" type="button" :class="'btn ' + (changed ? (error ? ' btn-danger' : ' btn-primary') : 'btn-default')" :disabled="error"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
+          <button @click="updateTokenData" type="button" :class="'btn' + (error ? ' btn-danger' : ' btn-primary')" :disabled="!changed || error">Ändern</button>
+          <button @click="prevNextToken(1)" type="button" :class="'btn ' + (changed ? (error ? ' btn-danger' : ' btn-primary') : 'btn-default')" :disabled="error"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
+        </div>
       </template>
       <template v-slot:closeButtonsText>{{ ((changed) ? 'Verwerfen' : 'Schließen') }}</template>
     </Modal>
@@ -171,6 +175,14 @@ export default {
       this.$refs.modal.close()
       this.transcript.aTokens.updateTokenData(this.aToken, this.aAntwort)
       this.transcript.unsaved = true
+    },
+    prevNextToken (way) {
+      this.$emit('prevNextToken', this.aToken.pk, way)
+      if (this.changed) {
+        this.updateTokenData()
+      } else {
+        this.$refs.modal.close()
+      }
     }
   },
   computed: {
@@ -305,7 +317,7 @@ export default {
   .token-audioplayer {
     display: block;
     float: left;
-    width: calc(100% - 210px);
+    width: calc(100% - 260px);
     height: 34px;
     text-align: left;
   }

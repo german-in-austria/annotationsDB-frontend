@@ -14,7 +14,7 @@
         <Audioplayer :audiofile="selTranscript.aEinzelErhebung.dp + '/' + selTranscript.aEinzelErhebung.af" :audiodir="audiodir" ref="audioplayer" v-if ="selTranscript && selTranscript.ready" />
       </div>
     </div>
-    <Modale :transcript="selTranscript" :modalData="modalData" />
+    <Modale :transcript="selTranscript" :modalData="modalData" @prevNextToken="prevNextToken" />
     <div id="loading" v-if="loading">Lade ...</div>
     <svg style="position:absolute;right:0px;bottom:0px;width:1px;height:1px;font-family:HKGrotesk,sans-serif;"><text ref="svgTextSize" x="-100" y="-100"></text></svg>
     <div class="saving" v-if="selTranscript && selTranscript.saving">
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-/* global csrf audiodir tagsystem */
+/* global _ csrf audiodir tagsystem */
 import SuchenUndFiltern from './menue/SuchenUndFiltern'
 import Informationen from './menue/Informationen'
 import TranskriptAuswahl from './menue/TranskriptAuswahl'
@@ -54,6 +54,7 @@ export default {
       selTranscriptPk: null,
       selTranscript: null,
       modalData: { type: null, data: null },
+      modalInfoTokenReOpen: null,
       globals: Globals,
       version: ''
     }
@@ -83,9 +84,22 @@ export default {
       if (this.selTranscriptPk > 0 && this.selTranscript && this.selTranscript.ready) {
         this.$refs.suchenUndFiltern.focusSuche()
       }
+    },
+    prevNextToken (tId, way) {
+      this.modalInfoTokenReOpen = [tId, way]
     }
   },
   watch: {
+    'modalData.type' (nType, oType) {
+      if (oType === 'token' && nType === null && this.modalInfoTokenReOpen && this.modalInfoTokenReOpen[0] > 0) {
+        // console.log(this.modalInfoTokenReOpen[0], (this.modalInfoTokenReOpen[1] < 0 ? 'prev' : 'next'))
+        this.selTranscript.selectedToken = this.selTranscript.aTokens.getNextPrev(this.selTranscript.selectedToken, this.modalInfoTokenReOpen[1] > 0)
+        this.modalInfoTokenReOpen = null
+        this.$nextTick(() => {
+          this.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.selTranscript.selectedToken)} }
+        })
+      }
+    },
     'selTranscriptPk' (nPk, oPk) {
       if (nPk > 0) {
         this.selTranscript = new TranscriptObject.TranscriptBase(nPk, this)
