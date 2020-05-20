@@ -2,7 +2,7 @@
   <div class="tokensets">
     <div :class="{'infpanel': true, 'open': showTokenSetInfo}" v-if="selTokenSet">
       <a href="#" class="mw-20" v-on:click.prevent="showTokenSetInfo = !showTokenSetInfo">
-        <span class="mw-20-el" :title="'Akutelles Token Set ID: ' + selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '')"><b>Akutelles Token Set</b> (ID: {{ selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '') }})</span>
+        <span class="mw-20-el" :title="'Aktuelles Token Set ID: ' + selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '')"><b>Aktuelles Token Set</b> (ID: {{ selTokenSet.pk + ((0 > selTokenSet.pk) ? ' (Neu)' : '') }})</span>
         <span :class="'mw-20-icon glyphicon glyphicon-' + ((showTokenSetInfo) ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span>
       </a>
       <div v-if="showTokenSetInfo">
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div :class="{'infpanel': true, 'open': showTokenSetInfos}" v-if="selToken && selToken.tokenSetsList">
-      <a href="#" v-on:click.prevent="showTokenSetInfos=!showTokenSetInfos"><b>Akutelle Token Sets</b> ({{ selToken.tokenSetsList.length }})<span :class="'glyphicon glyphicon-' + ((showTokenSetInfos)?'eye-open':'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
+      <a href="#" v-on:click.prevent="showTokenSetInfos=!showTokenSetInfos"><b>Aktuelle Token Sets</b> ({{ selToken.tokenSetsList.length }})<span :class="'glyphicon glyphicon-' + ((showTokenSetInfos)?'eye-open':'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
       <div v-if="showTokenSetInfos">
         <div
           :class="{'tokensets': true, 'selected': (selTokenSet === aTokenSet)}"
