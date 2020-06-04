@@ -3,18 +3,12 @@
     <div class="btngroup" v-if="transcript && transcript.ready">
       <button @click="showSuche=!showSuche" :class="{tfxbtn: true, open: showSuche}" title="Suche"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
       <button @click="showFilter=!showFilter" :class="{tfxbtn: true, open: showFilter}" title="Filter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span></button>
-      <!-- <button @click="showTagEbene=!showTagEbene" :class="{tfxbtn: true, open: showTagEbene}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button> -->
+      <button @click="showTagEbene=!showTagEbene" :class="{tfxbtn: true, open: showTagEbene}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button>
       <button @click="showStatisticModal=true" class="tfxbtn" style="float: right;" title="Statistik"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
     </div>
     <SuchenUndFilternSuche ref="suchenUndFilternSuche" :transcript="transcript" @closeSuche="showSuche=false" v-if="transcript && transcript.ready && showSuche"/>
-    <SuchenUndFilternFilter ref="suchenUndFilternSuche" :transcript="transcript" @closeFilter="showFilter=false" v-if="transcript && transcript.ready && showFilter"/>
-    <!-- <div class="taggroup" v-if="transcript && transcript.ready && showTagEbene">
-      <h4>Tagebene anzeigen:<a href="#" v-on:click.prevent="showTagEbene=false" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
-      <select size="1" class="form-control" v-model="previewTagEbene" v-if="!tagCache.loadingBase">
-        <option v-for="(aEbene, aEbeneKey) in tagCache.baseCache.tagebenen" :value="aEbene.pk">${ aEbene.t }</option>
-      </select>
-      <hr>
-    </div> -->
+    <SuchenUndFilternFilter ref="suchenUndFilternFilter" :transcript="transcript" @closeFilter="showFilter=false" v-if="transcript && transcript.ready && showFilter"/>
+    <SuchenUndFilternTagebene ref="suchenUndFilternTagebene" :transcript="transcript" @closeTagebene="showTagEbene=false" v-if="transcript && transcript.ready && showTagEbene"/>
     <Modal ref="modal" @close="showStatisticModal=false;showStatisticModalReady=false" @shown="showStatisticModalReady=true" v-if="showStatisticModal && transcript && transcript.ready">
       <template v-slot:title>Transkript Statistik</template>
       <div v-if="transcript.loading"><b>Transkript läd noch!</b></div>
@@ -54,6 +48,7 @@
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
 import SuchenUndFilternSuche from './SuchenUndFilternSuche'
 import SuchenUndFilternFilter from './SuchenUndFilternFilter'
+import SuchenUndFilternTagebene from './SuchenUndFilternTagebene'
 import Modal from '../modal/Modal'
 
 export default {
@@ -141,6 +136,7 @@ export default {
   components: {
     SuchenUndFilternSuche,
     SuchenUndFilternFilter,
+    SuchenUndFilternTagebene,
     Modal
   }
 }

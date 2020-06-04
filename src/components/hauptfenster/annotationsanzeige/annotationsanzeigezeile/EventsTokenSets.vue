@@ -33,15 +33,20 @@
           </g>
           <text :x="(((tokenSetsSvgData[aTokenSet.pk].endX) ? tokenSetsSvgData[aTokenSet.pk].endX : svgWidth) + ((tokenSetsSvgData[aTokenSet.pk].startX) ? tokenSetsSvgData[aTokenSet.pk].startX : 0)) / 2"
                 :y="0"
-                style="text-anchor:middle;"  filter="url(#solid)"
+                style="text-anchor:middle;" filter="url(#solid)"
                 :class="(getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'hasTags' : ''"
           >&nbsp;
-            {{ aTokenSet.pk }}
-                  <!-- {{
-                    + ((showTagEbene && previewTagEbene > 0 && (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene))) ?
-                      ': ' + tagCache.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene).tags)
-                    : '')
-                  }} -->
+            {{
+              aTokenSet.pk
+              + (
+                transcript.previewTagEbene > 0 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
+                && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene)
+              ? ': ' + globals.tagsData.data.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene).tags)
+              : (
+                transcript.previewTagEbene == -2 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
+                ? ': ' + getUsedTagEbenen(aAntworten[aTokenSet.aId].tags)
+                : ''))
+            }}
           &nbsp;</text>
         </g>
         <g class="zTsTs" v-else>
@@ -62,12 +67,17 @@
                 :class="(getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'hasTags' : ''"
                 style="text-anchor:middle;"  filter="url(#solid)"
           >&nbsp;
-            {{ aTokenSet.pk }}
-                  <!-- {{
-                    + ((showTagEbene && previewTagEbene > 0 && (getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene))) ?
-                      ': ' + tagCache.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', previewTagEbene).tags)
-                    : '')
-                  }} -->
+            {{
+              aTokenSet.pk
+              + (
+                transcript.previewTagEbene > 0 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
+                && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene)
+              ? ': ' + globals.tagsData.data.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene).tags)
+              : (
+                transcript.previewTagEbene == -2 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
+                ? ': ' + getUsedTagEbenen(aAntworten[aTokenSet.aId].tags)
+                : ''))
+            }}
           &nbsp;</text>
         </g>
       </g>
@@ -78,12 +88,14 @@
 <script>
 /* global _ */
 import AllgemeineFunktionen from '@/functions/allgemein/Allgemein'
+import Globals from '@/functions/globals'
 
 export default {
   name: 'AnnotationsAnzeigeZeileEventsTokenSets',
   props: ['transcript', 'aInf', 'zeileData', 'aSvgInfLine'],
   data () {
     return {
+      globals: Globals
     }
   },
   mounted () {
@@ -108,7 +120,16 @@ export default {
     },
     objectKeyFilter: AllgemeineFunktionen.objectKeyFilter,
     objectSubValueFilter: AllgemeineFunktionen.objectSubValueFilter,
-    getValOfSubProp: AllgemeineFunktionen.getValOfSubProp
+    getValOfSubProp: AllgemeineFunktionen.getValOfSubProp,
+    getFirstObjectOfValueInPropertyOfArray: AllgemeineFunktionen.getFirstObjectOfValueInPropertyOfArray,
+    getUsedTagEbenen (aTags) {
+      console.log('aTags', aTags)
+      let out = []
+      aTags.forEach(aTag => {
+        out.push(this.globals.tagsData.data.baseCache.tagebenenObj[aTag.e].t)
+      })
+      return out.join(', ')
+    }
   },
   computed: {
     aAntworten () {

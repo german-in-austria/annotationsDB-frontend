@@ -49,7 +49,4 @@ export default {
 </script>
 
 <style scoped>
-label.normal {
-  font-weight: normal;
-}
 </style>

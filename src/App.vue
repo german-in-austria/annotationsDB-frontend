@@ -47,6 +47,10 @@ export default {
     margin-top: 25px;
   }
 
+  label.normal {
+    font-weight: normal;
+  }
+
   .input-group-addon.np {
     padding: 0px;
   }
