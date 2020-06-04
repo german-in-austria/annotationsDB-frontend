@@ -1,6 +1,6 @@
 <template>
   <div :class="{'infpanel': true, 'open': show}" v-if="selToken">
-    <a href="#" v-on:click.prevent="show=!show"><b>Akutelles Token</b> (ID: {{ selToken.pk }})<span :class="'glyphicon glyphicon-' + (show ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
+    <a href="#" v-on:click.prevent="show=!show"><b>Aktuelles Token</b> (ID: {{ selToken.pk }})<span :class="'glyphicon glyphicon-' + (show ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
     <div v-if="show">
       <div><b>Text:</b> {{ selToken.t }} <a href="#" @click.prevent="showaTokenInfos()" class="pull-right"><span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span></a></div>
       <div><b>Ortho:</b> {{ selToken.o }}</div>
