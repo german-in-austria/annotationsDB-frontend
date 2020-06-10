@@ -123,7 +123,7 @@ export default {
     getValOfSubProp: AllgemeineFunktionen.getValOfSubProp,
     getFirstObjectOfValueInPropertyOfArray: AllgemeineFunktionen.getFirstObjectOfValueInPropertyOfArray,
     getUsedTagEbenen (aTags) {
-      console.log('aTags', aTags)
+      // console.log('aTags', aTags)
       let out = []
       aTags.forEach(aTag => {
         out.push(this.globals.tagsData.data.baseCache.tagebenenObj[aTag.e].t)

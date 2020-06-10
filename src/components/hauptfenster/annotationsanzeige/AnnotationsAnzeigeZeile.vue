@@ -3,19 +3,25 @@
     <rect x="0" y="0" :width="width" :height="height" />
     <text :transform="'translate(' + (width - 2) + ',-1)'">{{ zeile }}</text>
     <AnnotationsAnzeigeZeileEventsTimer
-      :transcript="transcript" :zeileData="zeileData" :selectedZeile="svgZeileSelected"
+      :transcript="transcript" :zeileData="zeileData"
     />
+    <!-- EventSpan -->
     <AnnotationsAnzeigeZeileEventsLine
       :transcript="transcript" :zeileData="zeileData" :aInf="aInf" :selectedZeile="svgZeileSelected"
       v-for="aInf in availableInfs"
       :key="'tei' + aInf.pk"
     />
+    <AnnotationsAnzeigeZeileEventsTiers
+      :transcript="transcript" :zeileData="zeileData"
+      v-if="transcript.showEventTiers && zeileData.eventTiers > 0"
+    />
   </g>
 </template>
 
 <script>
-import AnnotationsAnzeigeZeileEventsLine from './annotationsanzeigezeile/EventsLine'
 import AnnotationsAnzeigeZeileEventsTimer from './annotationsanzeigezeile/EventsTimer'
+import AnnotationsAnzeigeZeileEventsLine from './annotationsanzeigezeile/EventsLine'
+import AnnotationsAnzeigeZeileEventsTiers from './annotationsanzeigezeile/EventsTiers'
 
 export default {
   name: 'AnnotationsAnzeigeZeile',
@@ -66,8 +72,9 @@ export default {
   watch: {
   },
   components: {
+    AnnotationsAnzeigeZeileEventsTimer,
     AnnotationsAnzeigeZeileEventsLine,
-    AnnotationsAnzeigeZeileEventsTimer
+    AnnotationsAnzeigeZeileEventsTiers
   }
 }
 </script>

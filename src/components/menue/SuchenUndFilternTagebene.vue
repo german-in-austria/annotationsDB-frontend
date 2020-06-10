@@ -1,6 +1,8 @@
 <template>
   <div class="taggroup">
-    <h4>Tagebene anzeigen:<a href="#" v-on:click.prevent="$emit('closeTagebene')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
+    <h4>Anzeige:<a href="#" v-on:click.prevent="$emit('closeTagebene')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
+    <label>&nbsp;<input type="checkbox" @change="changeSVG" v-model="transcript.showEventTiers">&nbsp;Event Tiers anzeigen</label>
+    <h5>Tagebene anzeigen:</h5>
     <select size="1" class="form-control" v-model="transcript.previewTagEbene" v-if="!globals.tagsData.data.loadingBase">
       <option value="-1">Keine</option>
       <option value="-2">Benutzte Tagebenen anzeigen</option>
@@ -25,6 +27,11 @@ export default {
     console.log(this.transcript, this.globals.tagsData.data)
   },
   methods: {
+    changeSVG () {
+      this.$nextTick(() => {
+        this.transcript.aSVG.updateZeilen()
+      })
+    }
   },
   beforeDestroy () {
   },

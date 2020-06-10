@@ -83,15 +83,23 @@ const localFunctions = {
       // SVG Koordinaten Berechnungen
       this.zeilen.all.forEach(function (aZeile) {
         // Horizontal
+        aZeile.eventTiers = 0
         let teLeft = 0
         aZeile.teObjs.forEach(function (tEvent) {
           tEvent.svgLeft = teLeft
+          tEvent.eventTiers = []
           teLeft += tEvent.svgWidth
           // Tokens der Zeile ermitteln.
           tEvent.hasEventTiers = false
           tEvent.events.forEach(function (aEvent) {
             if (aEvent.et && aEvent.et.length > 0) {
               tEvent.hasEventTiers = true
+              if (aZeile.eventTiers < aEvent.et.length) {
+                aZeile.eventTiers = aEvent.et.length
+              }
+              aEvent.et.forEach((aEt) => {
+                tEvent.eventTiers.push(aEt.tiObj.tier_name + ': ' + aEt.txt)
+              })
             }
             if (aEvent.tidObj) {
               Object.keys(aEvent.tidObj).forEach(function (aInfPk) {
@@ -254,6 +262,9 @@ const localFunctions = {
         }, this)
         aZeile.svgTop = this.height
         aZeile.svgHeight = zHeight + this.zeilenAbstand + this.timerHeight + this.frmPadding * 2
+        if (this.root.showEventTiers) {
+          aZeile.svgHeight += (this.eventTierHeight * aZeile.eventTiers) + (aZeile.eventTiers > 0 ? this.frmPadding : 0)
+        }
         this.height += aZeile.svgHeight
       }, this)
       this.scrolling()

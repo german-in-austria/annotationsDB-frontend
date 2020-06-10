@@ -38,7 +38,6 @@ export default {
   props: ['transcript'],
   data () {
     return {
-      // renderZeilen: this.transcript.aSVG.renderZeilen
     }
   },
   mounted () {
