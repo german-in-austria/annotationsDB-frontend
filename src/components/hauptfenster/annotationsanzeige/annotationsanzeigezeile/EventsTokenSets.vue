@@ -37,15 +37,13 @@
                 :class="(getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0) ? 'hasTags' : ''"
           >&nbsp;
             {{
-              aTokenSet.pk
-              + (
                 transcript.previewTagEbene > 0 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
                 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene)
-              ? ': ' + globals.tagsData.data.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene).tags)
+              ? (transcript.showTokenSetIds ? aTokenSet.pk + ': ' : '') + globals.tagsData.data.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene).tags)
               : (
                 transcript.previewTagEbene == -2 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
-                ? ': ' + getUsedTagEbenen(aAntworten[aTokenSet.aId].tags)
-                : ''))
+                ? (transcript.showTokenSetIds ? aTokenSet.pk + ': ' : '') + getUsedTagEbenen(aAntworten[aTokenSet.aId].tags)
+                : (transcript.showTokenSetIds ? aTokenSet.pk : ''))
             }}
           &nbsp;</text>
         </g>
@@ -68,15 +66,13 @@
                 style="text-anchor:middle;"  filter="url(#solid)"
           >&nbsp;
             {{
-              aTokenSet.pk
-              + (
                 transcript.previewTagEbene > 0 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
                 && getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene)
-              ? ': ' + globals.tagsData.data.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene).tags)
+              ? (transcript.showTokenSetIds ? aTokenSet.pk + ': ' : '') + globals.tagsData.data.tagsText(getFirstObjectOfValueInPropertyOfArray(aAntworten[aTokenSet.aId].tags, 'e', transcript.previewTagEbene).tags)
               : (
                 transcript.previewTagEbene == -2 && getValOfSubProp(aTokenSet, 'aId') && getValOfSubProp(aAntworten[aTokenSet.aId], 'tags.length') > 0
-                ? ': ' + getUsedTagEbenen(aAntworten[aTokenSet.aId].tags)
-                : ''))
+                ? (transcript.showTokenSetIds ? aTokenSet.pk + ': ' : '') + getUsedTagEbenen(aAntworten[aTokenSet.aId].tags)
+                : (transcript.showTokenSetIds ? aTokenSet.pk : ''))
             }}
           &nbsp;</text>
         </g>
