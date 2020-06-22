@@ -148,6 +148,16 @@ const localFunctions = {
     nAntwort = _.cloneDeep(nAntwort)
     let aTSPK = nTokenSet.pk
     if (!nTokenSet.delAntwort && nTokenSet.aId) {
+      if (nAntwort.it > 0) {
+        delete this.root.aTokens.tokensObj[nAntwort.it].aId
+        this.root.aTokens.tokensObj[nAntwort.it].changed = true
+        this.root.vueObj.$set(this.root.aAntworten, 'moveAntwortId', null)
+        delete nAntwort.it
+      } else if (nAntwort.its > 0 && nAntwort.its !== aTSPK) {
+        delete this.root.aTokenSets.tokenSetsObj[nAntwort.its].aId
+        this.root.aTokenSets.tokenSetsObj[nAntwort.its].changed = true
+        this.root.vueObj.$set(this.root.aAntworten, 'moveAntwortId', null)
+      }
       nAntwort.its = aTSPK
       this.tokenSetsObj[aTSPK].aId = this.root.aAntworten.set(parseInt(nTokenSet.aId), nAntwort)
       this.root.aAntworten.antwortenObj[this.tokenSetsObj[aTSPK].aId].changed = true

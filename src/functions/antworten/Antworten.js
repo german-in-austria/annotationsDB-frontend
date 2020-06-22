@@ -7,6 +7,7 @@ const localFunctions = {
     this.antwortenObj = {}              // Antwort Objekte
     this.antwortLists = {}              // Antwort Listen (all)
     this.delAntworten = {}              // Liste der zu löschenden Antworten
+    this.moveAntwortId = null           // Vorgemerkte Antwort für verschieben.
     this.length = 0                     // Anzahl der Antworten
   }
 }

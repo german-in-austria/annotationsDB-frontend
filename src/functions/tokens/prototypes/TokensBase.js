@@ -154,6 +154,16 @@ const localFunctions = {
     this.tokensObj[aTPK].stp = nToken.stp
     this.tokensObj[aTPK].etp = nToken.etp
     if (!nToken.delAntwort && nToken.aId) {
+      if (nAntwort.it > 0 && nAntwort.it !== aTPK) {
+        delete this.root.aTokens.tokensObj[nAntwort.it].aId
+        this.root.aTokens.tokensObj[nAntwort.it].changed = true
+        this.root.vueObj.$set(this.root.aAntworten, 'moveAntwortId', null)
+      } else if (nAntwort.its > 0) {
+        delete this.root.aTokenSets.tokenSetsObj[nAntwort.its].aId
+        this.root.aTokenSets.tokenSetsObj[nAntwort.its].changed = true
+        delete nAntwort.its
+        this.root.vueObj.$set(this.root.aAntworten, 'moveAntwortId', null)
+      }
       nAntwort.it = aTPK
       nAntwort.vi = nToken.i
       this.tokensObj[aTPK].aId = this.root.aAntworten.set(parseInt(nToken.aId), nAntwort)

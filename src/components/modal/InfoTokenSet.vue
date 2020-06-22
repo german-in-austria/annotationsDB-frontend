@@ -22,11 +22,15 @@
             <div class="col-sm-9">
               <p class="form-control-static" v-if="aTokenSet.aId">{{ aTokenSet.aId+((0 > aTokenSet.aId) ? ' - Neu' : '') + ((aTokenSet.delAntwort) ? ' - Wird gelöscht !!!' : '') }}
                 <template v-if="!(aAntwort.tags && aAntwort.tags.length > 0) && (aTokenSet.aId !== 0)">
-                  <button type="button" @click="$set(aTokenSet, 'delAntwort', true);" class="btn btn-danger" v-if="!aTokenSet.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-                  <button type="button" @click="$set(aTokenSet, 'delAntwort', false);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                  <button type="button" @click="$set(aTokenSet, 'delAntwort', true)" class="btn btn-danger" v-if="!aTokenSet.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                  <button type="button" @click="$set(aTokenSet, 'delAntwort', false)" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                 </template>
+                <button type="button" @click="selectAntwort" :class="'btn ' + (transcript.aAntworten.moveAntwortId === aAntwort.pk ? ' btn-success' : ' btn-primary')" style="margin-left: 10px;" title="Ausschneiden" v-if="aTokenSet.aId > 0 && !aTokenSet.delAntwort" :disabled="error"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
               </p>
-              <button type="button" @click="newAntwort()" class="btn btn-primary" v-else>Antwort erstellen</button>
+              <template v-else>
+                <button type="button" @click="newAntwort()" class="btn btn-primary">Antwort erstellen</button>
+                <button type="button" @click="moveAntwort()" class="btn btn-primary" v-if="transcript.aAntworten.moveAntwortId > 0">Antwort "{{ transcript.aAntworten.moveAntwortId }}" verschieben</button>
+              </template>
             </div>
           </div>
         </div>
@@ -110,6 +114,26 @@ export default {
       let aTokensInTokenSet = this.aTokenSet.tObj || this.aTokenSet.tx
       this.$set(this.aAntwort, 'vi', aTokensInTokenSet && aTokensInTokenSet[0] ? aTokensInTokenSet[0].i : this.allTokensObj[this.aTokenSet.ivt].i)
       console.log(this.aAntwort)
+    },
+    moveAntwort () {
+      if (this.transcript.aAntworten.moveAntwortId > 0) {
+        this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.transcript.aAntworten.moveAntwortId])
+        if (!this.aAntwort.tags) {
+          this.$set(this.aAntwort, 'tags', [])
+        }
+        this.$set(this.aTokenSet, 'aId', this.transcript.aAntworten.moveAntwortId)
+        let aTokensInTokenSet = this.aTokenSet.tObj || this.aTokenSet.tx
+        this.$set(this.aAntwort, 'vi', aTokensInTokenSet && aTokensInTokenSet[0] ? aTokensInTokenSet[0].i : this.allTokensObj[this.aTokenSet.ivt].i)
+        console.log('moveAntwort', this.transcript.aAntworten.antwortenObj[this.transcript.aAntworten.moveAntwortId], this.aAntwort)
+      }
+    },
+    selectAntwort () {
+      console.log(this.transcript.aAntworten.moveAntwortId)
+      if (this.transcript.aAntworten.moveAntwortId === this.aAntwort.pk) {
+        this.$set(this.transcript.aAntworten, 'moveAntwortId', null)
+      } else {
+        this.$set(this.transcript.aAntworten, 'moveAntwortId', this.aAntwort.pk)
+      }
     }
   },
   computed: {
@@ -121,8 +145,8 @@ export default {
         [this.aTokenSet.delAntwort, this.aTokenSet.aId],
         [this.oTokenSet.delAntwort, this.oTokenSet.aId]
       )
-      let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
-      return !(ieToken && ieAntort)
+      let ieAntwort = _.isEqual(this.aAntwort, this.oAntwort)
+      return !(ieToken && ieAntwort)
     },
     satzView () {
       // Liste der Tokens um das aktuelle TokenSet. Für Satzvorschau.

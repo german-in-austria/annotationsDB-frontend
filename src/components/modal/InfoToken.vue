@@ -70,11 +70,15 @@
           <div class="col-sm-9">
             <p class="form-control-static" v-if="aToken.aId">{{ aToken.aId + (0 > aToken.aId ? ' - Neu' : '') + (aToken.delAntwort ? ' - Wird gelöscht !!!' : '') }}
               <template v-if="!(aAntwort.tags && aAntwort.tags.length > 0) && (aToken.aId !== 0)">
-                <button type="button" @click="$set(aToken, 'delAntwort', true);" class="btn btn-danger" v-if="!aToken.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-                <button type="button" @click="$set(aToken, 'delAntwort', false);" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                <button type="button" @click="$set(aToken, 'delAntwort', true)" class="btn btn-danger" v-if="!aToken.delAntwort"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                <button type="button" @click="$set(aToken, 'delAntwort', false)" class="btn btn-danger" v-else><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
               </template>
+              <button type="button" @click="selectAntwort" :class="'btn ' + (transcript.aAntworten.moveAntwortId === aAntwort.pk ? ' btn-success' : ' btn-primary')" style="margin-left: 10px;" title="Ausschneiden" v-if="aToken.aId > 0 && !aToken.delAntwort && oToken.aId > 0" :disabled="error"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
             </p>
-            <button type="button" @click="newAntwort()" class="btn btn-primary" v-else>Antwort erstellen</button>
+            <template v-else>
+              <button type="button" @click="newAntwort()" class="btn btn-primary">Antwort erstellen</button>
+              <button type="button" @click="moveAntwort()" class="btn btn-primary" v-if="transcript.aAntworten.moveAntwortId > 0">Antwort "{{ transcript.aAntworten.moveAntwortId }}" verschieben</button>
+            </template>
           </div>
         </div>
       </div>
@@ -170,6 +174,17 @@ export default {
       this.$set(this.aAntwort, 'tags', [])
       this.$set(this.aAntwort, 'vi', this.aToken.i)
     },
+    moveAntwort () {
+      if (this.transcript.aAntworten.moveAntwortId > 0) {
+        this.aAntwort = _.cloneDeep(this.transcript.aAntworten.antwortenObj[this.transcript.aAntworten.moveAntwortId])
+        if (!this.aAntwort.tags) {
+          this.$set(this.aAntwort, 'tags', [])
+        }
+        this.$set(this.aToken, 'aId', this.transcript.aAntworten.moveAntwortId)
+        this.$set(this.aAntwort, 'vi', this.aToken.i)
+        console.log('moveAntwort', this.transcript.aAntworten.antwortenObj[this.transcript.aAntworten.moveAntwortId], this.aAntwort)
+      }
+    },
     updateTokenData () {
       // Änderungen am Token anwenden.
       this.$refs.modal.close()
@@ -183,6 +198,14 @@ export default {
       } else {
         this.$refs.modal.close()
       }
+    },
+    selectAntwort () {
+      console.log(this.transcript.aAntworten.moveAntwortId)
+      if (this.transcript.aAntworten.moveAntwortId === this.aAntwort.pk) {
+        this.$set(this.transcript.aAntworten, 'moveAntwortId', null)
+      } else {
+        this.$set(this.transcript.aAntworten, 'moveAntwortId', this.aAntwort.pk)
+      }
     }
   },
   computed: {
@@ -194,8 +217,8 @@ export default {
         oIeToken.push(this.oToken[aTrack.field[0]])
       })
       let ieToken = _.isEqual(aIeToken, oIeToken)
-      let ieAntort = _.isEqual(this.aAntwort, this.oAntwort)
-      return !(ieToken && ieAntort)
+      let ieAntwort = _.isEqual(this.aAntwort, this.oAntwort)
+      return !(ieToken && ieAntwort)
     },
     error () {
       return this.error_stp || this.error_etp
