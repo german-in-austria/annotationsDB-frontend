@@ -66,6 +66,10 @@
           <label for="aTokenShowAllFields" class="col-sm-3 control-label">Felder</label>
           <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="aTokenShowAllFields" v-model="globals.tokenShowAllFields"> Alle Anzeigen</label></div>
         </div>
+        <div class="form-group">
+          <label for="aTokenShowAllFields" class="col-sm-3 control-label">Event Tiers</label>
+          <div class="col-sm-9"><label class="checkbox-inline"><input type="checkbox" id="tokenShowEventTiers" v-model="globals.tokenShowEventTiers"> Anzeigen</label></div>
+        </div>
         <div class="form-group"><label class="col-sm-3 control-label">Antwort</label>
           <div class="col-sm-9">
             <p class="form-control-static" v-if="aToken.aId">{{ aToken.aId + (0 > aToken.aId ? ' - Neu' : '') + (aToken.delAntwort ? ' - Wird gelöscht !!!' : '') }}
@@ -90,6 +94,14 @@
             v-for="(sv, svKey) in satzView"
             :key="'sv' + svKey"
           >{{ transcript.aTokens.getTokenStringArray(sv.token, ['t', 'o']) }}</span>
+        </div>
+      </template>
+      <template v-if="globals.tokenShowEventTiers && aToken.eObj && aToken.eObj.et && aToken.eObj.et.length > 0">
+        <hr/>
+        <div class="eventtiersview">
+          <div v-for="(aTier, aKey) in aToken.eObj.et" :key="'mt' + aToken.eObj.et.pk + 'inftok' + aKey">
+            <b :title="'Transkript Tier ID: ' + aTier.tiObj.pk">{{ aTier.tiObj.tier_name }}:</b> <span :title="'Event Tier ID: ' + aTier.pk">{{ aTier.txt }}</span><br>
+          </div>
         </div>
       </template>
       <template v-if="aToken.aId && !aToken.delAntwort">
@@ -315,7 +327,7 @@ export default {
 </script>
 
 <style scoped>
-  .satzview {
+  .satzview, .eventtiersview {
     padding-left: 50px;
     padding-right: 50px;
   }

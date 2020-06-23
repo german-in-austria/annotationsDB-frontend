@@ -5,7 +5,8 @@ const localFunctions = {
   spellcheck: false,            // Rechtschreibprüfung in Eingabefelder
   tagsData: {data: null},       // Tag Datenspeicher
   ctrlUsed: false,              // Wurde die Strg-Taste verwendet?
-  tokenShowAllFields: false     // Sollen alle Felder angezeigt werden?
+  tokenShowAllFields: false,    // Token Modal: Sollen alle Felder angezeigt werden?
+  tokenShowEventTiers: false    // Token Modal: Sollen Event Tiers angezeigt werden?
 }
 
 export default localFunctions
