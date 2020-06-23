@@ -18,6 +18,7 @@ localFunctions.AntwortenBase.prototype.set = prototypeAntwortenBase.set
 localFunctions.AntwortenBase.prototype.del = prototypeAntwortenBase.del
 localFunctions.AntwortenBase.prototype.addMultiple = prototypeAntwortenBase.addMultiple
 localFunctions.AntwortenBase.prototype.update = prototypeAntwortenBase.update
+localFunctions.AntwortenBase.prototype.updateAntwortenData = prototypeAntwortenBase.updateAntwortenData
 localFunctions.AntwortenBase.prototype.updateAntwortenLists = prototypeAntwortenBase.updateAntwortenLists
 localFunctions.AntwortenBase.prototype.updateLength = prototypeAntwortenBase.updateLength
 

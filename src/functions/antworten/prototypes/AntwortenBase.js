@@ -69,8 +69,19 @@ const localFunctions = {
     // Diverse Updates für weiterführende Daten durchführen
     let t1 = performance.now()
     this.updateAntwortenLists()
+    this.updateAntwortenData()
     this.updateLength()
     console.log('Antworten Data updated', (performance.now() - t1).toFixed(2), 'ms')
+  },
+  updateAntwortenData () {
+    this.antwortLists.all.map(function (aAntwort) {
+      if (aAntwort.its && this.root.aTokenSets.tokenSetsObj[aAntwort.its]) {
+        this.root.aTokenSets.tokenSetsObj[aAntwort.its].aId = aAntwort.pk
+      }
+      if (aAntwort.it && this.root.aTokens.tokensObj[aAntwort.it]) {
+        this.root.aTokens.tokensObj[aAntwort.it].aId = aAntwort.pk
+      }
+    }, this)
   },
   updateAntwortenLists () {
     this.antwortLists = {}
