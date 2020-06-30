@@ -142,10 +142,7 @@ const localFunctions = {
       deletedAntworten: []
     }
     // Tokens
-    let aTokenPropertiesFilter = ['pk', 'a', 'tt', 'tr', 'e', 'i', 's', 'sr', 'fo', 'le', 'stp', 'etp']
-    this.allTracks.forEach(aTrack => {
-      aTokenPropertiesFilter.push(aTrack.field[0])
-    })
+    let aTokenPropertiesFilter = ['pk', 'a', 'tt', 'tr', 'e', 'i', 's', 'sr', 'fo', 'le', 'stp', 'etp', ...this.allTracks.map(aTrack => aTrack.field[0])]
     this.aTokens.tokenLists.all.forEach(function (val) {
       if (val.changed) {
         cData.changedTokens[val.pk] = AllgemeineFunktionen.filterProperties(val, aTokenPropertiesFilter)
@@ -174,11 +171,7 @@ const localFunctions = {
         }
       }
     })
-    Object.keys(this.aAntworten.delAntworten).forEach(function (val) {
-      if (val > 0) {
-        cData.deletedAntworten.push(parseInt(val))
-      }
-    })
+    cData.deletedAntworten = Object.keys(this.aAntworten.delAntworten).filter(val => val > 0).map(val => parseInt(val))
     return cData
   },
   save () {
@@ -193,11 +186,7 @@ const localFunctions = {
       .then((response) => {
         console.log('Transcript gespeichert', response.data)
         if (response.data.gespeichert.errors.length > 0) {
-          let errTxt = ''
-          response.data.gespeichert.errors.forEach(aErr => {
-            errTxt += JSON.stringify(aErr) + ' \n'
-          })
-          alert('Fehler!\nEs kam beim speichern zu Fehlern!\n-----\n' + errTxt)
+          alert(response.data.gespeichert.errors.reduce((errTxt, aErr) => errTxt + JSON.stringify(aErr) + ' \n', 'Fehler!\nEs kam beim speichern zu Fehlern!\n-----\n'))
         }
         // changedTokens
         Object.keys(response.data.gespeichert.changedTokens).forEach(changedTokenId => {
@@ -271,12 +260,9 @@ const localFunctions = {
 }
 
 function getFlatTags (aTags) {
-  var fTags = []
-  aTags.forEach(function (val) {
-    fTags.push({'e': val.e, 't': getFlatTagsX(val.tags)})
-  })
-  return fTags
+  return aTags.map(val => { return {'e': val.e, 't': getFlatTagsX(val.tags)} })
 }
+
 function getFlatTagsX (aTags) {
   var fTags = []
   aTags.forEach(function (val) {

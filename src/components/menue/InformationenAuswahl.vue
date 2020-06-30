@@ -42,10 +42,7 @@ export default {
     },
     sel2TokenSet () {
       if (this.transcript.selectedTokenListe && this.transcript.selectedTokenListe.length > 0) {
-        let selectedTokenPkListe = []
-        this.transcript.selectedTokenListe.forEach(stl => {
-          selectedTokenPkListe.push(stl.pk)
-        })
+        let selectedTokenPkListe = this.transcript.selectedTokenListe.map(stl => stl.pk)
         this.transcript.aTokenSets.add('new', { t: selectedTokenPkListe }, false, true)
         console.log('sel2TokenSet - Liste', selectedTokenPkListe)
         this.transcript.selectedTokenListe = []

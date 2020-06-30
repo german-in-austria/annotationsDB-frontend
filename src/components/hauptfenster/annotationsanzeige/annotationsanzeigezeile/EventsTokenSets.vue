@@ -119,12 +119,7 @@ export default {
     getValOfSubProp: AllgemeineFunktionen.getValOfSubProp,
     getFirstObjectOfValueInPropertyOfArray: AllgemeineFunktionen.getFirstObjectOfValueInPropertyOfArray,
     getUsedTagEbenen (aTags) {
-      // console.log('aTags', aTags)
-      let out = []
-      aTags.forEach(aTag => {
-        out.push(this.globals.tagsData.data.baseCache.tagebenenObj[aTag.e].t)
-      })
-      return out.join(', ')
+      return aTags.map(aTag => this.globals.tagsData.data.baseCache.tagebenenObj[aTag.e].t).join(', ')
     }
   },
   computed: {

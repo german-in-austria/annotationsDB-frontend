@@ -195,13 +195,7 @@ const localFunctions = {
     return nToken
   },
   sortTokenIdListe (aEListe) {
-    var nEListe = []
-    this.tokenLists.all.forEach(function (val) {
-      if (aEListe.indexOf(val.pk) >= 0) {
-        nEListe.push(val.pk)
-      }
-    }, this)
-    return nEListe
+    return this.tokenLists.all.filter(val => aEListe.indexOf(val.pk) >= 0).map(val => val.pk)
   },
   updateATokenTextInf () {
     this.aTokenTextInf = {}

@@ -11,10 +11,7 @@ const localFunctions = {
   add (nPk, nAntwort, dontUpdate = false) {
     // Antwort setzen
     if (nAntwort.pt) {
-      nAntwort.tags = []
-      nAntwort.pt.forEach(function (val) {
-        nAntwort.tags.push({'e': val.e, 'tags': AllgemeineFunktionen.processTags(val.t).tags})
-      }, this)
+      nAntwort.tags = nAntwort.pt.map(val => { return {'e': val.e, 'tags': AllgemeineFunktionen.processTags(val.t).tags} })
       delete nAntwort.pt
     }
     if (!nAntwort.pk) {

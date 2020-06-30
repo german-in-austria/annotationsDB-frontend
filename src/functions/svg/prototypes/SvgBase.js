@@ -22,12 +22,7 @@ const localFunctions = {
     this.updateZeilen()
   },
   updateShownTracks () {
-    this.shownTracks = []
-    this.root.allTracks.forEach(aSpur => {
-      if (aSpur.show) {
-        this.shownTracks.push(aSpur)
-      }
-    })
+    this.shownTracks = this.root.allTracks.filter(aSpur => aSpur.show)
   },
   updateZeilen () {
     // Alle Zeilen neu berechnen

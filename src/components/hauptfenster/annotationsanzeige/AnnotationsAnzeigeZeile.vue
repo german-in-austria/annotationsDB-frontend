@@ -34,13 +34,7 @@ export default {
   },
   computed: {
     availableInfs () {
-      let availableInfs = []
-      this.transcript.aInformanten.informantenList.forEach(aInf => {
-        if (this.zeileData.iPks.indexOf(aInf.pk) > -1 && aInf.show) {
-          availableInfs.push(aInf)
-        }
-      }, this)
-      return availableInfs
+      return this.transcript.aInformanten.informantenList.filter(aInf => this.zeileData.iPks.indexOf(aInf.pk) > -1 && aInf.show)
     },
     zeileData () {
       return this.transcript.aSVG.zeilen.all[this.zeile]

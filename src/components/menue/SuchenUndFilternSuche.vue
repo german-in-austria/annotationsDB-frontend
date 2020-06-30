@@ -82,7 +82,7 @@ export default {
     console.log(this.transcript, this.transcript.aTokens)
     this.$nextTick(() => { this.$refs.suchtext.focus() })
     this.availableTracks.forEach(aTrack => {
-      this.suchOpt[aTrack.title] = true
+      this.$set(this.suchOpt, aTrack.title, true)
     })
   },
   methods: {
@@ -215,13 +215,7 @@ export default {
       return this.suchModusArt === 3
     },
     availableTracks () {
-      let availableTracks = []
-      this.transcript.aTranskript.allTracks.forEach(aTrack => {
-        if (aTrack.show) {
-          availableTracks.push(aTrack)
-        }
-      })
-      return availableTracks
+      return this.transcript.aTranskript.allTracks.filter(aTrack => aTrack.show)
     }
   },
   watch: {
