@@ -258,13 +258,6 @@ export default {
     aShownTracks () {
       if (!this.showAllTracks) {
         return this.transcript.allTracks.filter(aTrack => aTrack.show)
-        // let ast = []
-        // this.transcript.allTracks.forEach(aTrack => {
-        //   if (aTrack.show) {
-        //     ast.push(aTrack)
-        //   }
-        // })
-        // return ast
       }
       return this.transcript.allTracks
     },
