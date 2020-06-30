@@ -40,8 +40,21 @@
         <option v-for="aInf in transcript.aInformanten.informantenList" :key="'stis' + aInf.pk" :value="aInf.pk">{{ aInf.k }}</option>
       </select>
       <div v-if="transcript.aTokens.foundTokensList.length" class="mit10">
-        Gefunden: <b>{{ transcript.aTokens.foundTokensList.length }}</b> Token{{ ((transcript.aTokens.foundTokensList.length>1)?'s':'') }}<br>
+        Gefunden: <b>{{ transcript.aTokens.foundTokensList.length }}</b> Token{{ ((transcript.aTokens.foundTokensList.length>1)?'s':'') }}
+        <a href="#" v-on:click.prevent="showSuchergebnisse=!showSuchergebnisse"><span :class="'glyphicon glyphicon-' + (showSuchergebnisse ? 'eye-open' : 'eye-close') + ' pull-right'" aria-hidden="true"></span></a>
+        <br>
         <!-- <a href="#" v-on:click.prevent="sucheZuAuswahlListe" v-if="suchInf > 0" class="lmfabc text-center">Alle Funde {{ selTokenListe.length > 0 ? 'in' : 'als' }} Auswahl Liste</a> -->
+        <div v-if="showSuchergebnisse">
+          <div class="listtokens mit10">
+            <a href="#"
+              v-on:click.prevent="tokenClick(sTL)"
+              :class="{selected: transcript.selectedToken === sTL}"
+              :title="sTL.t + ' - ID: ' + sTL.pk"
+              v-for="(sTL, i) in transcript.aTokens.foundTokensList"
+              :key="'aispT' + i"
+            >{{ sTL.t || sTL.o }}</a>
+          </div>
+        </div>
       </div>
       <hr>
     </div>
@@ -61,7 +74,8 @@ export default {
       suchModusArt: 1,
       suchInf: 0,
       suchen: false,
-      suchRegExError: false
+      suchRegExError: false,
+      showSuchergebnisse: false
     }
   },
   mounted () {
@@ -74,6 +88,13 @@ export default {
   methods: {
     sucheZuAuswahlListe () {
       // ToDo ...
+    },
+    tokenClick (cToken) {
+      if (this.transcript.selectedToken === cToken) {
+        this.transcript.vueObj.modalData = { type: 'token', data: {aToken: _.cloneDeep(cToken)} }
+      } else {
+        this.transcript.selectedToken = cToken
+      }
     },
     suche () {
       if (!this.suchen) {
@@ -226,5 +247,10 @@ export default {
 <style scoped>
 .lmfasf.error, .lmfasf-nf.error {
   background-color: #fee;
+}
+.listtokens {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 5px;
 }
 </style>

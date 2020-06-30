@@ -26,8 +26,8 @@ export default {
   watch: {
   },
   methods: {
-    prevNextToken (tId, way) {
-      this.$emit('prevNextToken', tId, way)
+    prevNextToken (tId, way, s) {
+      this.$emit('prevNextToken', tId, way, s)
     }
   },
   computed: {

@@ -113,9 +113,9 @@
           <InfoTokenAudioplayer :transcript="transcript" :token="aToken" />
         </div>
         <div class="btn-group" style="margin-right: 5px;">
-          <button @click="prevNextToken(-1)" type="button" :class="'btn ' + (changed ? (error ? ' btn-danger' : ' btn-primary') : 'btn-default')" :disabled="error"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
+          <button @click="prevNextToken(-1, $event)" type="button" :class="'btn ' + (changed ? (error ? ' btn-danger' : ' btn-primary') : 'btn-default')" :title="transcript.aTokens.foundTokensList.length ? 'Vorheriger Treffer (Strg - Vorheriges Token)' : 'Vorheriges Token'" :disabled="error"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
           <button @click="updateTokenData" type="button" :class="'btn' + (error ? ' btn-danger' : ' btn-primary')" :disabled="!changed || error">Ändern</button>
-          <button @click="prevNextToken(1)" type="button" :class="'btn ' + (changed ? (error ? ' btn-danger' : ' btn-primary') : 'btn-default')" :disabled="error"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
+          <button @click="prevNextToken(1, $event)" type="button" :class="'btn ' + (changed ? (error ? ' btn-danger' : ' btn-primary') : 'btn-default')" :title="transcript.aTokens.foundTokensList.length ? 'Nächster Treffer (Strg - Nächstes Token)' : 'Nächstes Token'" :disabled="error"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
         </div>
       </template>
       <template v-slot:closeButtonsText>{{ ((changed) ? 'Verwerfen' : 'Schließen') }}</template>
@@ -203,8 +203,8 @@ export default {
       this.transcript.aTokens.updateTokenData(this.aToken, this.aAntwort)
       this.transcript.unsaved = true
     },
-    prevNextToken (way) {
-      this.$emit('prevNextToken', this.aToken.pk, way)
+    prevNextToken (way, e) {
+      this.$emit('prevNextToken', this.aToken.pk, way, this.transcript.aTokens.foundTokensList.length > 0 && (!e.ctrlKey && !e.metaKey))
       if (this.changed) {
         this.updateTokenData()
       } else {

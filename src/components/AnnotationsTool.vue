@@ -85,15 +85,19 @@ export default {
         this.$refs.suchenUndFiltern.focusSuche()
       }
     },
-    prevNextToken (tId, way) {
-      this.modalInfoTokenReOpen = [tId, way]
+    prevNextToken (tId, way, s) {
+      this.modalInfoTokenReOpen = [tId, way, s]
     }
   },
   watch: {
     'modalData.type' (nType, oType) {
       if (oType === 'token' && nType === null && this.modalInfoTokenReOpen && this.modalInfoTokenReOpen[0] > 0) {
         // console.log(this.modalInfoTokenReOpen[0], (this.modalInfoTokenReOpen[1] < 0 ? 'prev' : 'next'))
-        this.selTranscript.selectedToken = this.selTranscript.aTokens.getNextPrev(this.selTranscript.selectedToken, this.modalInfoTokenReOpen[1] > 0)
+        if (this.modalInfoTokenReOpen[2]) {
+          this.selTranscript.aTokens.naechsterSuchToken(this.modalInfoTokenReOpen[1] > 0)
+        } else {
+          this.selTranscript.selectedToken = this.selTranscript.aTokens.getNextPrev(this.selTranscript.selectedToken, this.modalInfoTokenReOpen[1] > 0)
+        }
         this.modalInfoTokenReOpen = null
         this.$nextTick(() => {
           this.modalData = { type: 'token', data: {aToken: _.cloneDeep(this.selTranscript.selectedToken)} }
