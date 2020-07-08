@@ -5,6 +5,9 @@
     <AnnotationsAnzeigeZeileEventsTimer
       :transcript="transcript" :zeileData="zeileData"
     />
+    <AnnotationsAnzeigeZeileEventsEventSets
+      :transcript="transcript" :zeileData="zeileData"
+    />
     <!-- EventSpan -->
     <AnnotationsAnzeigeZeileEventsLine
       :transcript="transcript" :zeileData="zeileData" :aInf="aInf" :selectedZeile="svgZeileSelected"
@@ -22,6 +25,7 @@
 import AnnotationsAnzeigeZeileEventsTimer from './annotationsanzeigezeile/EventsTimer'
 import AnnotationsAnzeigeZeileEventsLine from './annotationsanzeigezeile/EventsLine'
 import AnnotationsAnzeigeZeileEventsTiers from './annotationsanzeigezeile/EventsTiers'
+import AnnotationsAnzeigeZeileEventsEventSets from './annotationsanzeigezeile/EventsEventSets'
 
 export default {
   name: 'AnnotationsAnzeigeZeile',
@@ -68,7 +72,8 @@ export default {
   components: {
     AnnotationsAnzeigeZeileEventsTimer,
     AnnotationsAnzeigeZeileEventsLine,
-    AnnotationsAnzeigeZeileEventsTiers
+    AnnotationsAnzeigeZeileEventsTiers,
+    AnnotationsAnzeigeZeileEventsEventSets
   }
 }
 </script>
