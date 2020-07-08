@@ -21,6 +21,7 @@ const localFunctions = {
     this.selHeight = 10                 // Höhe des Auswahlbereichs
     this.zeilenAbstand = 15             // Abstand zwischen den Zeilen
     this.tokenSetsHeight = 20           // Höhe eines Tokensets
+    this.eventSetsHeight = 20           // Höhe eines Tokensets
     this.eventTierHeight = 13           // Höhe von EventTiers
     this.zeilen = {}                    // Zeilen mit Events
     this.renderZeilen = []              // Zu rendernde Zeilen

@@ -108,6 +108,116 @@ const localFunctions = {
         }, this)
         // Vertikal
         let zHeight = 0
+        // EventSets
+        let aEventSetsList = []
+        aZeile.teObjs.forEach(function (tEvent) {
+          tEvent.events.forEach(function (aEvent) {
+            if (aEvent.eventSetsList && aEvent.eventSetsList.length > 0) {
+              aEvent.eventSetsList.forEach(function (aEventSet) {
+                if (aEventSetsList.indexOf(aEventSet) < 0) {
+                  aEventSetsList.push(aEventSet)
+                }
+              }, this)
+            }
+          }, this)
+        }, this)
+        let aEventSetsDeepList = []
+        let eventSetsSvgData = {}
+        if (aEventSetsList.length > 0) {
+          let aZeStart = this.root.aEvents.eventLists.all.indexOf(aZeile.teObjs[0].events[0])
+          let aZeEnde = this.root.aEvents.eventLists.all.indexOf(aZeile.teObjs[aZeile.teObjs.length - 1].events[aZeile.teObjs[aZeile.teObjs.length - 1].events.length - 1])
+          // EventSets in Zeilen laden:
+          aEventSetsList.some(function (aEventSet) {
+            // EventSets sortieren:
+            let aSetE = aEventSet.ex
+            let aeSetStart = this.root.aEvents.eventLists.all.indexOf(aSetE[0])
+            let aeSetEnde = this.root.aEvents.eventLists.all.indexOf(aSetE[aSetE.length - 1])
+            // Aktuelle Tiefe ermitteln
+            let aDeep = aEventSetsDeepList.length
+            aEventSetsDeepList.some(function (adEventSets, i) {
+              let aOk = true
+              adEventSets.forEach(function (adEventSet) {
+                let eSet = adEventSet.ex
+                if (aeSetStart <= this.root.aEvents.eventLists.all.indexOf(eSet[eSet.length - 1]) && aeSetEnde >= this.root.aEvents.eventLists.all.indexOf(eSet[0])) {
+                  aOk = false
+                  return true
+                }
+              }, this)
+              if (aOk) {
+                aDeep = i
+                return true
+              }
+            }, this)
+            if (!aEventSetsDeepList[aDeep]) {
+              aEventSetsDeepList[aDeep] = []
+            }
+            aEventSetsDeepList[aDeep].push(aEventSet)
+            // Zusätzliche Daten für SVG Darstellung der Event Sets hinzufügen:
+            eventSetsSvgData[aEventSet.id] = {}
+            eventSetsSvgData[aEventSet.id]['startEvent'] = (
+              (aeSetStart < aZeStart)
+                ? undefined
+                : aSetE[0])
+            eventSetsSvgData[aEventSet.id]['endEvent'] = (
+              (aeSetEnde > aZeEnde)
+                ? undefined
+                : aSetE[aSetE.length - 1])
+            // console.log(aEventSet, aSetE[0], aZeile.teObjs, this.getTEventOfAEvent(aSetE[0], aZeile.teObjs), aSetE[0])
+            try {
+              eventSetsSvgData[aEventSet.id]['startX'] = (
+                (aeSetStart < aZeStart)
+                  ? undefined
+                  : (this.getTEventOfAEvent(aSetE[0], aZeile.teObjs).svgLeft)
+              )
+              eventSetsSvgData[aEventSet.id]['endX'] = (
+                (aeSetEnde > aZeEnde)
+                  ? undefined
+                  : this.getTEventOfAEvent(aSetE[aSetE.length - 1], aZeile.teObjs).svgLeft + this.getTEventOfAEvent(aSetE[aSetE.length - 1], aZeile.teObjs).svgWidth
+              )
+            } catch (err) {
+              let aError = 'Fehler beim verarbeiten des Eventsets! id: ' + aEventSet.id
+              console.log('---- Fehler beim verarbeiten des Eventsets! ----', aEventSet.id, aEventSet.ex[0].s + '-' + aEventSet.ex[0].e, aEventSet.ex[aEventSet.ex.length - 1].s + '-' + aEventSet.ex[aEventSet.ex.length - 1].e)
+              console.log({
+                'aError': aError,
+                'aEventSet': aEventSet,
+                'aSetE[0]': aSetE[0],
+                'aSetE[aSetE.length - 1]': aSetE[aSetE.length - 1],
+                'error': err
+              })
+              if (this.errors.indexOf(aError) < 0) {
+                this.errors.push(aError)
+              }
+            }
+            // // ToDo: Sortierung optimieren: (Vertikal spiegeln!)
+            // let dChange = true
+            // for (let m = 0; (m < 10 && dChange); m++) {
+            //   dChange = false
+            //   for (let i = aEventSetsDeepList.length - 2; i >= 0; i--) {
+            //     aEventSetsDeepList[i].forEach(function (aEventSets, aIndex) {
+            //       let aSetE = (aEventSets.tObj || aEventSets.tx)
+            //       let aeSetStart = this.root.aEvents.eventLists.all.indexOf(aSetE[0])
+            //       let aeSetEnde = this.root.aEvents.eventLists.all.indexOf(aSetE[aSetE.length - 1])
+            //       let aOk = true
+            //       aEventSetsDeepList[i + 1].some(function (bTokenSets) {
+            //         let nSetT = (bTokenSets.tObj || bTokenSets.tx)
+            //         if (aeSetStart <= this.root.aEvents.eventLists.all.indexOf(nSetT[nSetT.length - 1]) && aeSetEnde >= this.root.aEvents.eventLists.all.indexOf(nSetT[0])) {
+            //           aOk = false
+            //           return true
+            //         }
+            //       }, this)
+            //       if (aOk) {
+            //         dChange = true
+            //         aEventSetsDeepList[i + 1].push(aEventSetsDeepList[i].splice(aIndex, 1)[0])
+            //       }
+            //     }, this)
+            //   }
+            // }
+          }, this)
+        }
+        aZeile.eventSetsDeepList = aEventSetsDeepList
+        aZeile.eventSetsSvgData = eventSetsSvgData
+        zHeight += this.eventSetsHeight * aEventSetsDeepList.length
+        // Informantenbasierende Berechnungen
         this.root.aInformanten.informantenList.forEach(aInf => {
           // Verwendete TokenSets ermitteln
           if (aInf.show) {
