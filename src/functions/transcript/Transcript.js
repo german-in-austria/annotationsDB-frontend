@@ -39,6 +39,7 @@ const localFunctions = {
     this.selectedTokenBereich = {'v': null, 'b': null}  // Aktuell ausgewählter Token Bereich
     this.selectedTokenListe = []        // Liste der aktuell ausgewählten Tokens
     this.hoveredTokenSet = null         // TokenSet über dem der Mauszeiger ist
+    this.hoveredEventSet = null         // EventSet über dem der Mauszeiger ist
     this.previewTagEbene = -2           // Suchen und Filtern Tagebene anzeigen
     this.showEventTiers = false         // Event Tiers anzeigen
     this.showTokenSetIds = false        // Token Set Ids anzeigen
