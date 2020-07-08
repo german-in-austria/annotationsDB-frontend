@@ -51,9 +51,10 @@ const localFunctions = {
             this.aTokens.addMultiple(response.data['aTokens'])
             this.aEvents.addMultiple(response.data['aEvents'])
             this.aTokenSets.addMultiple(response.data['aTokenSets'])
+            this.aEventSets.addMultiple(response.data['aEventSets'])
             this.aAntworten.addMultiple(response.data['aAntworten'])
             this.aSVG.updateZeilen()
-            console.log('getTranscript', this.pk, tmpLSet, this.lMaxSet, '- Daten verarbeitet', (performance.now() - t1).toFixed(2), 'ms')
+            console.log('getTranscript', this.pk, tmpLSet, this.lMaxSet, '- Daten verarbeitet', (performance.now() - t1).toFixed(2), 'ms', response.data)
             this.ready = true
             if (tmpLSet === response.data['nNr']) {
               this.update()

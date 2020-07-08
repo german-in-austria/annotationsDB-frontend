@@ -40,59 +40,53 @@ const localFunctions = {
   updateEventSetsLists () {
     this.eventSetsLists = {}
     // Alle EventSets in Liste hinzufügen
-    this.eventSetsLists.all = []
-    Object.keys(this.eventSetsObj).map(function (key) {
-      this.eventSetsLists.all.push(this.eventSetsObj[key])
-    }, this)
+    this.eventSetsLists.all = Object.keys(this.eventSetsObj).map((key) => this.eventSetsObj[key])
   },
   updateEventSetsData () {
-    // ToDo: Verbindung bei Events zu EventSets überprüfen ob die Events noch verwendet werden
-    // Object.keys(this.root.aTokens.tokensObj).map(function (tId, iI) {
-    //   let aToken = this.root.aTokens.tokensObj[tId]
-    //   if (aToken.eventSetsList) {
-    //     _.remove(aToken.eventSetsList, (n) => {
-    //       return (!n || !n.ok)
-    //     })
-    //     if (aToken.eventSetsList.length < 1) {
-    //       delete aToken.eventSetsList
-    //     }
-    //   }
-    // }, this)
+    // Verbindung bei Events zu EventSets überprüfen ob die Events noch verwendet werden
+    Object.keys(this.root.aEvents.eventsObj).map(function (eId, iI) {
+      let aEvent = this.root.aEvents.eventsObj[eId]
+      if (aEvent.eventSetsList) {
+        _.remove(aEvent.eventSetsList, (n) => {
+          return (!n || !n.ok)
+        })
+        if (aEvent.eventSetsList.length < 1) {
+          delete aEvent.eventSetsList
+        }
+      }
+    }, this)
     // EventSets aktualisieren/berechnen
     this.eventSetsLists.all.forEach(function (aEveSet) {
       if (!aEveSet.ok) {
-        // ToDo: Events aus Bereich laden ...
-        // let aInf = this.root.aTokens.tokensObj[aEveSet.ivt].i
-        // let aTokListByInf = this.root.aTokens.tokenLists.byInf[aInf]
-        // let ivtIdx = AllgemeineFunktionen.searchByKey(aEveSet.ivt, 'pk', aTokListByInf)
-        // let ibtIdx = AllgemeineFunktionen.searchByKey(aEveSet.ibt, 'pk', aTokListByInf)
-        // if (ivtIdx > ibtIdx) {
-        //   console.log('EventSet Reihenfolge korrigieren', aEveSet)
-        //   let tmp = aEveSet.ivt
-        //   aEveSet.ivt = aEveSet.ibt
-        //   aEveSet.ibt = tmp
-        //   aEveSet.changed = true
-        //   this.root.changed = true
-        //   this.root.unsaved = true
-        // }
-        // // ;[ivtIdx, ibtIdx] = [ivtIdx, ibtIdx].sort()
-        // aEveSet.tx = aTokListByInf.slice(ivtIdx, ibtIdx + 1)
-        // aEveSet.ok = aEveSet.tx.length > 0
-        // ToDo: Verwendeten Events aktuelles EventSet zuweisen
-        // var xt = aEveSet.tx
-        // if (xt && aEveSet.ok) {
-        //   xt.forEach(function (tId) {
-        //     if (this.root.aTokens.tokensObj[tId.pk]) {
-        //       if (!this.root.aTokens.tokensObj[tId.pk].eventSetsList) {
-        //         this.root.aTokens.tokensObj[tId.pk].eventSetsList = []
-        //       }
-        //       if (this.root.aTokens.tokensObj[tId.pk].eventSetsList.indexOf(aEveSet) < 0) {
-        //         this.root.aTokens.tokensObj[tId.pk].eventSetsList.push(aEveSet)
-        //       }
-        //       this.root.aTokens.tokensObj[tId.pk].eventSetsList = this.sortEventSets(this.root.aTokens.tokensObj[tId.pk].eventSetsList)
-        //     }
-        //   }, this)
-        // }
+        // Events aus Bereich laden ...
+        let evtIdx = AllgemeineFunktionen.searchByKey(aEveSet.id_von_event_id, 'pk', this.root.aEvents.eventLists.all)
+        let ebtIdx = AllgemeineFunktionen.searchByKey(aEveSet.id_bis_event_id, 'pk', this.root.aEvents.eventLists.all)
+        if (evtIdx > ebtIdx) {
+          console.log('EventSet Reihenfolge korrigieren', aEveSet)
+          let tmp = aEveSet.id_von_event_id
+          aEveSet.id_von_event_id = aEveSet.id_bis_event_id
+          aEveSet.id_bis_event_id = tmp
+          aEveSet.changed = true
+          this.root.changed = true
+          this.root.unsaved = true
+        }
+        aEveSet.ex = this.root.aEvents.eventLists.all.slice(evtIdx, ebtIdx + 1)
+        aEveSet.ok = aEveSet.ex.length > 0
+        // Verwendeten Events aktuelles EventSet zuweisen
+        var xt = aEveSet.ex
+        if (xt && aEveSet.ok) {
+          xt.forEach(function (eId) {
+            if (this.root.aEvents.eventsObj[eId.pk]) {
+              if (!this.root.aEvents.eventsObj[eId.pk].eventSetsList) {
+                this.root.aEvents.eventsObj[eId.pk].eventSetsList = []
+              }
+              if (this.root.aEvents.eventsObj[eId.pk].eventSetsList.indexOf(aEveSet) < 0) {
+                this.root.aEvents.eventsObj[eId.pk].eventSetsList.push(aEveSet)
+              }
+              this.root.aEvents.eventsObj[eId.pk].eventSetsList = this.sortEventSets(this.root.aEvents.eventsObj[eId.pk].eventSetsList)
+            }
+          }, this)
+        }
       }
     }, this)
   },
@@ -104,19 +98,18 @@ const localFunctions = {
   sortEventSets: function (eveSets) {
     // EventSets sortieren
     return eveSets.slice().sort((a, b) => {
-      // ToDo: Sortierung
-      // var xa = this.root.aTokens.tokenLists.all.indexOf((a.tx)[0])
-      // var xb = this.root.aTokens.tokenLists.all.indexOf((b.tx)[0])
-      // if (xa > xb) { return 1 }
-      // if (xa < xb) { return -1 }
-      // var aTSa = a.tx
-      // var aTSb = b.tx
-      // xa = this.root.aTokens.tokenLists.all.indexOf(aTSa[aTSa.length - 1])
-      // xb = this.root.aTokens.tokenLists.all.indexOf(aTSb[aTSb.length - 1])
-      // if (xa < xb) { return 1 }
-      // if (xa > xb) { return -1 }
-      // if (a.t && b.tx) { return 1 }
-      // if (a.tx && b.t) { return -1 }
+      var xa = this.root.aEvents.eventLists.all.indexOf((a.ex)[0])
+      var xb = this.root.aEvents.eventLists.all.indexOf((b.ex)[0])
+      if (xa > xb) { return 1 }
+      if (xa < xb) { return -1 }
+      var aTSa = a.ex
+      var aTSb = b.ex
+      xa = this.root.aEvents.eventLists.all.indexOf(aTSa[aTSa.length - 1])
+      xb = this.root.aEvents.eventLists.all.indexOf(aTSb[aTSb.length - 1])
+      if (xa < xb) { return 1 }
+      if (xa > xb) { return -1 }
+      if (a.t && b.ex) { return 1 }
+      if (a.ex && b.t) { return -1 }
       return 0
     })
   },
@@ -124,36 +117,35 @@ const localFunctions = {
     // EventSet ändern
     nEventSet = _.cloneDeep(nEventSet)
     nAntwort = _.cloneDeep(nAntwort)
-    let aTSPK = nEventSet.pk
+    let aESPK = nEventSet.pk
     if (!nEventSet.delAntwort && nEventSet.aId) {
-      // ToDo:
-      // nAntwort.its = aTSPK
-      // this.eventSetsObj[aTSPK].aId = this.root.aAntworten.set(parseInt(nEventSet.aId), nAntwort)
-      // this.root.aAntworten.antwortenObj[this.eventSetsObj[aTSPK].aId].changed = true
+      nAntwort.ies = aESPK
+      this.eventSetsObj[aESPK].aId = this.root.aAntworten.set(parseInt(nEventSet.aId), nAntwort)
+      this.root.aAntworten.antwortenObj[this.eventSetsObj[aESPK].aId].changed = true
     }
     if (nEventSet.delAntwort && nEventSet.aId) {
       console.log('del', nEventSet.aId)
       this.root.aAntworten.del(nEventSet.aId)
       delete nEventSet.delAntwort
     }
-    this.eventSetsObj[aTSPK].ok = false
+    this.eventSetsObj[aESPK].ok = false
     this.root.changed = true
-    console.log('updateEventSetData', nEventSet, '->', this.eventSetsObj[aTSPK], '|', nAntwort, '->', this.root.aAntworten.antwortenObj[this.eventSetsObj[aTSPK].aId])
+    console.log('updateEventSetData', nEventSet, '->', this.eventSetsObj[aESPK], '|', nAntwort, '->', this.root.aAntworten.antwortenObj[this.eventSetsObj[aESPK].aId])
     this.root.update()
   },
   deleteAEventSet: function (delEventSet, direkt = false, aDirekt = false) {
     // EventSet löschen
-    let aTSPK = delEventSet.pk
-    if (direkt || confirm('Soll das EventSet ID ' + aTSPK + ' gelöscht werden?')) {
+    let aESPK = delEventSet.pk
+    if (direkt || confirm('Soll das EventSet ID ' + aESPK + ' gelöscht werden?')) {
       if ((delEventSet.aId && this.root.aAntworten.antwortenObj[delEventSet.aId]) && ((aDirekt) || confirm('Soll die dazugehörige Antwort auch gelöscht werden?'))) {
         this.root.aAntworten.set(delEventSet.aId)
       }
-      this.eventSetsObj[aTSPK].ok = false
-      this.delEventSetsObj[aTSPK] = delEventSet
-      delete this.eventSetsObj[aTSPK]
+      this.eventSetsObj[aESPK].ok = false
+      this.delEventSetsObj[aESPK] = delEventSet
+      delete this.eventSetsObj[aESPK]
       this.root.changed = true
       this.root.update()
-      console.log('EventSet ID ' + aTSPK + ' gelöscht!')
+      console.log('EventSet ID ' + aESPK + ' gelöscht!')
       return true
     }
   },
