@@ -5,6 +5,7 @@
     <InformationenAuswahl :transcript="transcript" />
     <InformationenAktuellesToken :transcript="transcript" />
     <InformationenAktuelleTokenSets :transcript="transcript" />
+    <InformationenAktuelleEventSets :transcript="transcript" />
     <InformationenHilfe />
     <hr>
   </div>
@@ -15,6 +16,7 @@ import InformationenTranskript from './InformationenTranskript'
 import InformationenAuswahl from './InformationenAuswahl'
 import InformationenAktuellesToken from './InformationenAktuellesToken'
 import InformationenAktuelleTokenSets from './InformationenAktuelleTokenSets'
+import InformationenAktuelleEventSets from './InformationenAktuelleEventSets'
 import InformationenHilfe from './InformationenHilfe'
 
 export default {
@@ -33,6 +35,7 @@ export default {
     InformationenAuswahl,
     InformationenAktuellesToken,
     InformationenAktuelleTokenSets,
+    InformationenAktuelleEventSets,
     InformationenHilfe
   }
 }

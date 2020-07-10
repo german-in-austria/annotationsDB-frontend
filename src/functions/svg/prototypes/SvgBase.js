@@ -188,30 +188,30 @@ const localFunctions = {
                 this.errors.push(aError)
               }
             }
-            // // ToDo: Sortierung optimieren: (Vertikal spiegeln!)
-            // let dChange = true
-            // for (let m = 0; (m < 10 && dChange); m++) {
-            //   dChange = false
-            //   for (let i = aEventSetsDeepList.length - 2; i >= 0; i--) {
-            //     aEventSetsDeepList[i].forEach(function (aEventSets, aIndex) {
-            //       let aSetE = (aEventSets.tObj || aEventSets.tx)
-            //       let aeSetStart = this.root.aEvents.eventLists.all.indexOf(aSetE[0])
-            //       let aeSetEnde = this.root.aEvents.eventLists.all.indexOf(aSetE[aSetE.length - 1])
-            //       let aOk = true
-            //       aEventSetsDeepList[i + 1].some(function (bTokenSets) {
-            //         let nSetT = (bTokenSets.tObj || bTokenSets.tx)
-            //         if (aeSetStart <= this.root.aEvents.eventLists.all.indexOf(nSetT[nSetT.length - 1]) && aeSetEnde >= this.root.aEvents.eventLists.all.indexOf(nSetT[0])) {
-            //           aOk = false
-            //           return true
-            //         }
-            //       }, this)
-            //       if (aOk) {
-            //         dChange = true
-            //         aEventSetsDeepList[i + 1].push(aEventSetsDeepList[i].splice(aIndex, 1)[0])
-            //       }
-            //     }, this)
-            //   }
-            // }
+            // ToDo: Sortierung optimieren: (Vertikal spiegeln!)
+            let dChange = true
+            for (let m = 0; (m < 10 && dChange); m++) {
+              dChange = false
+              for (let i = aEventSetsDeepList.length - 2; i >= 0; i--) {
+                aEventSetsDeepList[i].forEach(function (aEventSets, aIndex) {
+                  let aSetE = aEventSets.ex
+                  let aeSetStart = this.root.aEvents.eventLists.all.indexOf(aSetE[0])
+                  let aeSetEnde = this.root.aEvents.eventLists.all.indexOf(aSetE[aSetE.length - 1])
+                  let aOk = true
+                  aEventSetsDeepList[i + 1].some(function (bTokenSets) {
+                    let nSetT = bTokenSets.ex
+                    if (aeSetStart <= this.root.aEvents.eventLists.all.indexOf(nSetT[nSetT.length - 1]) && aeSetEnde >= this.root.aEvents.eventLists.all.indexOf(nSetT[0])) {
+                      aOk = false
+                      return true
+                    }
+                  }, this)
+                  if (aOk) {
+                    dChange = true
+                    aEventSetsDeepList[i + 1].push(aEventSetsDeepList[i].splice(aIndex, 1)[0])
+                  }
+                }, this)
+              }
+            }
           }, this)
         }
         aZeile.eventSetsDeepList = aEventSetsDeepList

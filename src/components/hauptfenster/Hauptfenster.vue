@@ -180,6 +180,12 @@ export default {
     'transcript.selectedTokenBereich.b' () {
       if (this.transcript) this.transcript.selectedTokenBereichUpdate()
     },
+    'transcript.selectedEventBereich.v' () {
+      if (this.transcript) this.transcript.selectedEventBereichUpdate()
+    },
+    'transcript.selectedEventBereich.b' () {
+      if (this.transcript) this.transcript.selectedEventBereichUpdate()
+    },
     selectedTokenPk (nVal) {
       if (nVal) {
         // Zu aktuell ausgewählten Token scrollen

@@ -1,12 +1,18 @@
 <template>
   <g class="eTimerLine" :transform="'translate(' + (transcript.aSVG.frmPadding + transcript.aSVG.infWidth) + ',' + transcript.aSVG.frmPadding + ')'">
-    <g class="eTimer" :transform="'translate(' + tEvent.svgLeft + ',0)'" v-for="(tEvent, teKey) in zeileData.teObjs" :key="'etmr' + teKey" @click="showTEventInfos($event, tEvent)">
+    <g @click="showTEventInfos($event, tEvent)"
+      :class="
+        'eTimer' +
+        (transcript.selectedEvent === tEvent.events[0] ? ' selected' : '') +
+        (transcript.aSVG.selectedEventList.indexOf(tEvent.events[0]) > -1 ? ' selectlist' : '')
+      " :transform="'translate(' + tEvent.svgLeft + ',0)'" v-for="(tEvent, teKey) in zeileData.teObjs" :key="'etmr' + teKey">
       <rect x="0" y="0" :width="tEvent.svgWidth + 1" :height="tmrHeight" :class="{ past: (globals.audioPosition >= tEvent.aE) }" />
       <rect x="0" y="0" :width="(tEvent.svgWidth + 1) / tEvent.aL * (globals.audioPosition - tEvent.aS)" :height="tmrHeight" class="akt"
         v-if="globals.audioPosition > tEvent.aS && globals.audioPosition < tEvent.aE" />
       <line x1="0" y1="0" x2="0" :y2="tmrHeight" />
       <text x="4" :y="tmrHeight / 2 + 1">{{ startTime(tEvent) }}</text>
       <line x1="0" :y1="tmrHeight + 0.5" x2="10" :y2="tmrHeight + 0.5" v-if="tEvent.hasEventTiers" />
+      <line x1="3" y1="-2.5" :x2="tEvent.svgWidth - 3" y2="-2.5" class="sel" />
     </g>
   </g>
 </template>
@@ -41,7 +47,23 @@ export default {
         this.transcript.vueObj.$refs.audioplayer.setAudioPosBySec(nZeit)
         // ToDo: ctrlKey
       } else {
-        this.transcript.vueObj.modalData = { type: 'event', data: {tEvent: tEvent} }
+        if (e.shiftKey) {
+          if (this.transcript.selectedEventBereich.v) {
+            this.transcript.selectedEventBereich.b = tEvent.events[0]
+          } else if (this.transcript.selectedEvent) {
+            this.transcript.selectedEventBereich.v = this.transcript.selectedEvent
+            this.transcript.selectedEventBereich.b = tEvent.events[0]
+          }
+          this.transcript.selectedEvent = tEvent.events[0]
+        } else {
+          if (this.transcript.selectedEvent === tEvent.events[0]) {
+            this.transcript.vueObj.modalData = { type: 'event', data: {tEvent: tEvent} }
+          } else {
+            this.transcript.selectedEvent = tEvent.events[0]
+            this.transcript.selectedEventBereich = {'v': null, 'b': null}
+            console.log('showaEventInfos', tEvent)
+          }
+        }
       }
     },
     startTime (tEvent) {
@@ -75,4 +97,14 @@ export default {
     stroke-width: 1px;
     stroke: #888;
   }
-</style>
+  .eTimer > line.sel {
+    stroke-width: 2px;
+    stroke: #eee;
+  }
+  .eTimer.selectlist > line.sel {
+    stroke: #292;
+  }
+  .eTimer.selected > line.sel {
+    stroke: #4b4;
+  }
+  </style>

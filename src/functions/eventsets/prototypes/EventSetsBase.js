@@ -16,8 +16,8 @@ const localFunctions = {
       nPk = this.getNextUnusedPk()
     }
     this.eventSetsObj[nPk] = nEventSet
-    if (!this.eventSetsObj[nPk].pk) {
-      this.eventSetsObj[nPk].pk = parseInt(nPk)
+    if (!this.eventSetsObj[nPk].id) {
+      this.eventSetsObj[nPk].id = parseInt(nPk)
     }
     if (changed) { this.eventSetsObj[nPk].changed = true }
     if (!dontUpdate) { this.update() }
@@ -117,7 +117,7 @@ const localFunctions = {
     // EventSet ändern
     nEventSet = _.cloneDeep(nEventSet)
     nAntwort = _.cloneDeep(nAntwort)
-    let aESPK = nEventSet.pk
+    let aESPK = nEventSet.id
     if (!nEventSet.delAntwort && nEventSet.aId) {
       nAntwort.ies = aESPK
       this.eventSetsObj[aESPK].aId = this.root.aAntworten.set(parseInt(nEventSet.aId), nAntwort)
@@ -135,7 +135,7 @@ const localFunctions = {
   },
   deleteAEventSet: function (delEventSet, direkt = false, aDirekt = false) {
     // EventSet löschen
-    let aESPK = delEventSet.pk
+    let aESPK = delEventSet.id
     if (direkt || confirm('Soll das EventSet ID ' + aESPK + ' gelöscht werden?')) {
       if ((delEventSet.aId && this.root.aAntworten.antwortenObj[delEventSet.aId]) && ((aDirekt) || confirm('Soll die dazugehörige Antwort auch gelöscht werden?'))) {
         this.root.aAntworten.set(delEventSet.aId)

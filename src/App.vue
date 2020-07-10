@@ -121,7 +121,7 @@ export default {
   .tokensets.selected {
     border-left: 3px solid #0a0;
   }
-  .listtokens>a {
+  .listtokens>a, .listevents>a {
     background: #fff;
     margin-right: 3px;
     margin-bottom: 2px;
@@ -135,12 +135,12 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .listtokens>a.selected {
+  .listtokens>a.selected, .listevents>a.selected {
     border-color: #333;
     background: #ddf;
     color: #111;
   }
-  .listtokens>a:hover, .listtokens>a:focus {
+  .listtokens>a:hover, .listtokens>a:focus, .listevents>a:hover, .listevents>a:focus {
     background: #555;
     color: #ddd;
   }

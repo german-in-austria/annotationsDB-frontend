@@ -96,6 +96,24 @@ const localFunctions = {
     this.aAntworten.update()
     this.aSVG.updateZeilen()
   },
+  selectedEventBereichUpdate () {
+    if (this.selectedEventBereich.v && this.selectedEventBereich.b) {
+      if (this.selectedEventBereich.v === this.selectedEventBereich.b) {
+        this.selectedEventBereich = {'v': null, 'b': null}
+        this.aSVG.selectedEventList = []
+        return true
+      }
+      this.selectedEventListe = []
+      let vListPos = this.aEvents.eventLists.all.indexOf(this.selectedEventBereich.v)
+      let bListPos = this.aEvents.eventLists.all.indexOf(this.selectedEventBereich.b)
+      if (vListPos > bListPos) { var temp = vListPos; vListPos = bListPos; bListPos = temp }
+      this.aSVG.selectedEventList = this.aEvents.eventLists.all.slice(vListPos, bListPos + 1)
+    } else {
+      if (this.selectedEventListe.length < 1) {
+        this.aSVG.selectedEventList = []
+      }
+    }
+  },
   selectedTokenBereichUpdate () {
     if (this.selectedTokenBereich.v && this.selectedTokenBereich.b) {
       if ((this.selectedTokenBereich.v.iObj !== this.selectedTokenBereich.b.iObj) || this.selectedTokenBereich.v === this.selectedTokenBereich.b) {
@@ -138,7 +156,9 @@ const localFunctions = {
     let cData = {
       changedTokens: {},
       changedTokenSets: {},
+      changedEventSets: {},
       deletedTokenSets: [],
+      deletedEventSets: [],
       changedAntworten: {},
       deletedAntworten: []
     }
@@ -160,10 +180,21 @@ const localFunctions = {
         cData.deletedTokenSets.push(parseInt(val))
       }
     })
+    // EventSets
+    this.aEventSets.eventSetsLists.all.forEach(function (val) {
+      if (val.changed) {
+        cData.changedEventSets[val.id] = AllgemeineFunktionen.filterProperties(val, ['id', 'a', 'id_von_event_id', 'id_bis_event_id'])
+      }
+    })
+    Object.keys(this.aEventSets.delEventSetsObj).forEach(function (val) {
+      if (val > 0) {
+        cData.deletedEventSets.push(parseInt(val))
+      }
+    })
     // Antworten
     this.aAntworten.antwortLists.all.forEach(function (val) {
       if (val.changed) {
-        cData.changedAntworten[val.pk] = AllgemeineFunktionen.filterProperties(val, ['pk', 'vi', 'inat', 'is', 'ibfl', 'it', 'its', 'bds', 'sa', 'ea', 'k'])
+        cData.changedAntworten[val.pk] = AllgemeineFunktionen.filterProperties(val, ['pk', 'vi', 'inat', 'is', 'ibfl', 'it', 'its', 'ies', 'bds', 'sa', 'ea', 'k'])
         // Tags
         if (val.tags) {
           cData.changedAntworten[val.pk].tags = getFlatTags(val.tags)
@@ -219,6 +250,30 @@ const localFunctions = {
           }
         })
         this.aTokenSets.update()
+        // changedEventSets
+        Object.keys(response.data.gespeichert.changedEventSets).forEach(changedEventSetId => {
+          let aChangedEventSet = response.data.gespeichert.changedEventSets[changedEventSetId]
+          if (aChangedEventSet.saved) {
+            aChangedEventSet.id = aChangedEventSet.nId
+            delete aChangedEventSet.nId
+            console.log(changedEventSetId, this.aEventSets.eventSetsObj[changedEventSetId], this)
+            this.aEventSets.directDeleteAEventSet(changedEventSetId)
+            this.aEventSets.add(aChangedEventSet.id, aChangedEventSet, true)
+          }
+        })
+        // deletedEventSets
+        response.data.gespeichert.deletedEventSets.forEach(delEventSetId => {
+          let ok = true
+          response.data.gespeichert.errors.forEach(aErr => {
+            if (aErr.type === 'deletedEventSets' && aErr.id === delEventSetId) {
+              ok = false
+            }
+          })
+          if (ok) {
+            delete this.aEventSets.delEventSetsObj[delEventSetId]
+          }
+        })
+        this.aEventSets.update()
         // changedAntworten
         Object.keys(response.data.gespeichert.changedAntworten).forEach(changedAntwortId => {
           let aChangedAntworten = response.data.gespeichert.changedAntworten[changedAntwortId]
