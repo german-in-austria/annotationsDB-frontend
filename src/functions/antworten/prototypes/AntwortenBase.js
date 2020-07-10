@@ -34,6 +34,9 @@ const localFunctions = {
         if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
           delete this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its].aId
         }
+        if (this.antwortenObj[nPk].ies && this.root.aEventSets.eventSetsObj[this.antwortenObj[nPk].ies]) {
+          delete this.root.aEventSets.eventSetsObj[this.antwortenObj[nPk].ies].aId
+        }
         if (this.antwortenObj[nPk].it && this.root.aTokens.tokensObj[this.antwortenObj[nPk].it]) {
           delete this.root.aTokens.tokensObj[this.antwortenObj[nPk].it].aId
         }
@@ -54,6 +57,9 @@ const localFunctions = {
       this.antwortenObj[nPk] = nAntwort
       if (this.antwortenObj[nPk].its && this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its]) {
         this.root.aTokenSets.tokenSetsObj[this.antwortenObj[nPk].its].aId = nAntwort.pk
+      }
+      if (this.antwortenObj[nPk].ies && this.root.aEventSets.eventSetsObj[this.antwortenObj[nPk].ies]) {
+        this.root.aEventSets.eventSetsObj[this.antwortenObj[nPk].ies].aId = nAntwort.pk
       }
       if (this.antwortenObj[nPk].it && this.root.aTokens.tokensObj[this.antwortenObj[nPk].it]) {
         this.root.aTokens.tokensObj[this.antwortenObj[nPk].it].aId = nAntwort.pk

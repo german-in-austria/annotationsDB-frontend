@@ -4,6 +4,7 @@
     <InfoEvents :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'event'" />
     <InfoToken :transcript="transcript" :modalData="modalData" @prevNextToken="prevNextToken" v-else-if="modalData.type === 'token'" />
     <InfoTokenSet :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'tokenSet'" />
+    <InfoEventSet :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'eventSet'" />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import InfoInformant from './InfoInformant'
 import InfoEvents from './InfoEvents'
 import InfoToken from './InfoToken'
 import InfoTokenSet from './InfoTokenSet'
+import InfoEventSet from './InfoEventSet'
 
 export default {
   name: 'Modale',
@@ -36,7 +38,8 @@ export default {
     InfoInformant,
     InfoEvents,
     InfoToken,
-    InfoTokenSet
+    InfoTokenSet,
+    InfoEventSet
   }
 }
 </script>
