@@ -174,6 +174,7 @@ export default {
               }, this)
             }
           }
+          this.transcript.aTokens.foundTokensList.sort((a, b) => a.eObj !== b.eObj ? (a.eObj.s > b.eObj.s ? 1 : (a.eObj.s < b.eObj.s ? -1 : (a.tr > b.tr ? 1 : (a.tr < b.tr ? -1 : 0)))) : (a.tr > b.tr ? 1 : (a.tr < b.tr ? -1 : 0)))
           console.log('suche (' + this.suchModus + '): ' + Math.ceil(performance.now() - t0) + ' ms', this.transcript.aTokens.foundTokensList)
         }
         this.suchen = false
