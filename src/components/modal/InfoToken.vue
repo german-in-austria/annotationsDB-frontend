@@ -204,7 +204,7 @@ export default {
       this.transcript.unsaved = true
     },
     prevNextToken (way, e) {
-      this.$emit('prevNextToken', this.aToken.pk, way, this.transcript.aTokens.foundTokensList.length > 0 && (!e.ctrlKey && !e.metaKey))
+      this.$emit('prev-next-token', this.aToken.pk, way, this.transcript.aTokens.foundTokensList.length > 0 && (!e.ctrlKey && !e.metaKey))
       if (this.changed) {
         this.updateTokenData()
       } else {

@@ -6,9 +6,9 @@
       <button @click="showTagEbene=!showTagEbene" :class="{tfxbtn: true, open: showTagEbene}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button>
       <button @click="showStatisticModal=true" class="tfxbtn" style="float: right;" title="Statistik"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
     </div>
-    <SuchenUndFilternSuche ref="suchenUndFilternSuche" :transcript="transcript" @closeSuche="showSuche=false" v-if="transcript && transcript.ready && showSuche"/>
-    <SuchenUndFilternFilter ref="suchenUndFilternFilter" :transcript="transcript" @closeFilter="showFilter=false" v-if="transcript && transcript.ready && showFilter"/>
-    <SuchenUndFilternTagebene ref="suchenUndFilternTagebene" :transcript="transcript" @closeTagebene="showTagEbene=false" v-if="transcript && transcript.ready && showTagEbene"/>
+    <SuchenUndFilternSuche ref="suchenUndFilternSuche" :transcript="transcript" @close-suche="showSuche=false" v-if="transcript && transcript.ready && showSuche"/>
+    <SuchenUndFilternFilter ref="suchenUndFilternFilter" :transcript="transcript" @close-filter="showFilter=false" v-if="transcript && transcript.ready && showFilter"/>
+    <SuchenUndFilternTagebene ref="suchenUndFilternTagebene" :transcript="transcript" @close-tagebene="showTagEbene=false" v-if="transcript && transcript.ready && showTagEbene"/>
     <Modal ref="modal" @close="showStatisticModal=false;showStatisticModalReady=false" @shown="showStatisticModalReady=true" v-if="showStatisticModal && transcript && transcript.ready">
       <template v-slot:title>Transkript Statistik</template>
       <div v-if="transcript.loading"><b>Transkript läd noch!</b></div>

@@ -69,7 +69,7 @@ export default {
     },
     getTranskript (lTranscriptPk) {
       if (!this.transcripts.loading) {
-        this.$emit('loadTranscript', lTranscriptPk)
+        this.$emit('load-transcript', lTranscriptPk)
       }
     }
   }

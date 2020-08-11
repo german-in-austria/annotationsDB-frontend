@@ -5,7 +5,7 @@
         <div class="lmfa-frm">
           <SuchenUndFiltern ref="suchenUndFiltern" :transcript="selTranscript" v-if="selTranscriptPk > 0" />
           <Informationen :transcript="selTranscript" v-if="selTranscriptPk > 0" />
-          <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @loadTranscript="loadTranscript" />
+          <TranskriptAuswahl :transcripts="transcripts" :selectedTranscriptPk="selTranscriptPk" @load-transcript="loadTranscript" />
           <div class="at-version">AnnotationsTool v{{ version }}</div>
         </div>
       </div>
@@ -14,7 +14,7 @@
         <Audioplayer :audiofile="selTranscript.aEinzelErhebung.dp + '/' + selTranscript.aEinzelErhebung.af" :audiodir="audiodir" ref="audioplayer" v-if ="selTranscript && selTranscript.ready" />
       </div>
     </div>
-    <Modale :transcript="selTranscript" :modalData="modalData" @prevNextToken="prevNextToken" />
+    <Modale :transcript="selTranscript" :modalData="modalData" @prev-next-token="prevNextToken" />
     <div id="loading" v-if="loading">Lade ...</div>
     <svg style="position:absolute;right:0px;bottom:0px;width:1px;height:1px;font-family:HKGrotesk,sans-serif;"><text ref="svgTextSize" x="-100" y="-100"></text></svg>
     <div class="saving" v-if="selTranscript && selTranscript.saving">

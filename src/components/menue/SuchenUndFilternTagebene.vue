@@ -1,6 +1,6 @@
 <template>
   <div class="taggroup">
-    <h4>Anzeige:<a href="#" v-on:click.prevent="$emit('closeTagebene')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
+    <h4>Anzeige:<a href="#" v-on:click.prevent="$emit('close-tagebene')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
     <label>&nbsp;<input type="checkbox" @change="changeSVG" v-model="transcript.showEventTiers">&nbsp;Event Tiers anzeigen</label>
     <label>&nbsp;<input type="checkbox" v-model="transcript.showTokenSetIds">&nbsp;Token Set ID anzeigen</label>
     <h5>Tagebene anzeigen:</h5>

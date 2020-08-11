@@ -1,6 +1,6 @@
 <template>
     <div class="suchgroup">
-      <h4>Suchen:<a href="#" v-on:click.prevent="$emit('closeSuche')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
+      <h4>Suchen:<a href="#" v-on:click.prevent="$emit('close-suche')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
       <div class="lmfasff">
         <div class="iwdbtn">
           <input ref="suchtext" type="text" size="20" placeholder="Suchen ..."
@@ -52,7 +52,7 @@
               :title="sTL.t + ' - ID: ' + sTL.pk"
               v-for="(sTL, i) in transcript.aTokens.foundTokensList"
               :key="'aispT' + i"
-            >{{ sTL.t || sTL.o }}</a>
+            >{{ transcript.aTokens.getTokenStringArray(sTL, tokenTrackFields) }}</a>
           </div>
         </div>
       </div>
@@ -84,6 +84,7 @@ export default {
     this.availableTracks.forEach(aTrack => {
       this.$set(this.suchOpt, aTrack.title, true)
     })
+    // console.log(this.transcript.allTracks, this.tokenTrackFields)
   },
   methods: {
     sucheZuAuswahlListe () {
@@ -184,7 +185,7 @@ export default {
     sucheCatchKeyUp (e) {
       if (e.keyCode === 27) { // ESC
         e.preventDefault()
-        this.$emit('closeSuche')
+        this.$emit('close-suche')
       } else if (e.keyCode === 13) { // Enter
         e.preventDefault()
         this.focusFocusCatch()
@@ -217,6 +218,9 @@ export default {
     },
     availableTracks () {
       return this.transcript.aTranskript.allTracks.filter(aTrack => aTrack.show)
+    },
+    tokenTrackFields () {
+      return this.availableTracks.map(t => t.field[0])
     }
   },
   watch: {

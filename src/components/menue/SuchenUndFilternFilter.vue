@@ -1,6 +1,6 @@
 <template>
   <div class="filtergroup">
-    <h4>Filter:<a href="#" v-on:click.prevent="$emit('closeFilter')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
+    <h4>Filter:<a href="#" v-on:click.prevent="$emit('close-filter')" class="pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h4>
     <div>
       <b>Informanten:</b><br>
       <label v-for="(aInfVal, aInfKey) in transcript.aInformanten.informantenList" :key="'suff-i' + aInfKey">

@@ -2,7 +2,7 @@
   <div v-if="modalData.type">
     <InfoInformant :transcript="transcript" :modalData="modalData" v-if="modalData.type === 'informant'" />
     <InfoEvents :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'event'" />
-    <InfoToken :transcript="transcript" :modalData="modalData" @prevNextToken="prevNextToken" v-else-if="modalData.type === 'token'" />
+    <InfoToken :transcript="transcript" :modalData="modalData" @prev-next-token="prevNextToken" v-else-if="modalData.type === 'token'" />
     <InfoTokenSet :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'tokenSet'" />
     <InfoEventSet :transcript="transcript" :modalData="modalData" v-else-if="modalData.type === 'eventSet'" />
   </div>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     prevNextToken (tId, way, s) {
-      this.$emit('prevNextToken', tId, way, s)
+      this.$emit('prev-next-token', tId, way, s)
     }
   },
   computed: {
