@@ -37,6 +37,8 @@ import TranscriptsInfListObject from '@/functions/transcriptsinflist/Transcripts
 import TranscriptObject from '@/functions/transcript/Transcript'
 // import TagsystemObject from './tagsystem/functions/Tagsystem'
 
+// import socketIo from 'socket.io-client'
+
 export default {
   name: 'AnnotationsTool',
   http: {
@@ -56,7 +58,8 @@ export default {
       modalData: { type: null, data: null },
       modalInfoTokenReOpen: null,
       globals: Globals,
-      version: ''
+      version: '',
+      socket: null
     }
   },
   mounted () {
@@ -66,6 +69,12 @@ export default {
     this.globals.tagsData.data = new tagsystem.TagsystemObject.TagsystemBase(this.$http)
     console.log(this.audiodir)
     console.log(this.transcripts)
+    // this.socket = socketIo('https://dioedb.dioe.at', { path: '/updates' })
+    // var aThisAT = this
+    // this.socket.on('message', (m) => {
+    //   console.log('socket - message', m, aThisAT)
+    // })
+    // console.log('socket', this.socket)
   },
   methods: {
     loadTranscript (lTranscript) {
