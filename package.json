@@ -11,7 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "popper.js": "^1.15.0",
     "socket.io-client": "^2.3.0",
     "vue": "^2.5.2",
