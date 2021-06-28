@@ -10,6 +10,9 @@
             <button @click="togglePlayPause"><span :class="'glyphicon glyphicon-' + ((paused) ? 'play' : 'pause')" aria-hidden="true"></span></button>
             <button @click="forward"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></button>
             <button @click="fastForward"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button>
+            <select v-model="audioSpeed" @change="setAudioRate" class="audio-area-select">
+              <option :value="speed" v-for="speed in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5]" :key="'s' + speed">x {{ speed }}</option>
+            </select>
           </div>
         </div>
         <div class="col-xs-12">
@@ -43,7 +46,8 @@ export default {
       aPosRel: 0,
       aPosProz: 0,
       paused: true,
-      playing: false
+      playing: false,
+      audioSpeed: 1
     }
   },
   computed: {
@@ -95,6 +99,9 @@ export default {
     },
     setAudioPosBySec (sec) {
       this.audio.currentTime = sec
+    },
+    setAudioRate () {
+      this.audio.playbackRate = this.audioSpeed
     },
     fastForward () {
       if (!this.loaded) return
@@ -197,5 +204,8 @@ export default {
     bottom: 0;
     left: 0;
     padding: 10px 15px;
+  }
+  .audio-area-select {
+    margin-left: 10px;
   }
 </style>

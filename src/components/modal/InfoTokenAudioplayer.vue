@@ -9,9 +9,14 @@
           <select v-model="audioArea" @change="setAudioStartEndPositions" class="audio-area-select">
             <option value="event">event</option>
             <option value="token" v-if="tokenAvaiable">token</option>
-            <option value="extra">extra</option>
+            <option value="extra">Extra 2 S.</option>
+            <option value="extraP">Extra 30 S.</option>
+            <option value="alles">Alles</option>
           </select>
           <input type="checkbox" v-model="loop" id="loopcheck" /> <label for="loopcheck">Loop</label>
+          <select v-model="audioSpeed" @change="setAudioRate" class="audio-area-select">
+            <option :value="speed" v-for="speed in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5]" :key="'s' + speed">x {{ speed }}</option>
+          </select>
         </div>
         <div>
           <div id="gesamtprogress" class="progress audioprogress" v-on:click="setAudioPos">
@@ -53,7 +58,8 @@ export default {
       audioEndPosition: 0,
       audioPosition: 0,
       audioDuration: 0,
-      audioArea: 'event'
+      audioArea: 'event',
+      audioSpeed: 1
     }
   },
   computed: {
@@ -120,6 +126,9 @@ export default {
     },
     setAudioPosBySec (sec) {
       this.audio.currentTime = sec
+    },
+    setAudioRate () {
+      this.audio.playbackRate = this.audioSpeed
     },
     forward () {
       if (!this.loaded) return
@@ -189,11 +198,17 @@ export default {
         this.audioStartPosition = this.tokenStartTime
         this.audioEndPosition = this.tokenEndTime
       } else if (this.audioArea === 'extra') {
+        this.audioStartPosition = this.eventStartTime - 2
+        this.audioEndPosition = this.eventEndTime + 2
+      } else if (this.audioArea === 'extraP') {
         this.audioStartPosition = this.eventStartTime - 30
         this.audioEndPosition = this.eventEndTime + 30
-      } else {
+      } else if (this.audioArea === 'event') {
         this.audioStartPosition = this.eventStartTime
         this.audioEndPosition = this.eventEndTime
+      } else {
+        this.audioStartPosition = 0
+        this.audioEndPosition = this.audioDuration
       }
       if (this.audioStartPosition < 0) {
         this.audioStartPosition = 0
