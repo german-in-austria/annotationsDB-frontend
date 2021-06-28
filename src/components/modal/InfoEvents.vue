@@ -28,6 +28,7 @@
                 <b>{{ aTokenKey }}:</b> {{ aTokenVal.join(', ') }}<br>
               </span>
             </p></div></div>
+            <div class="form-group"><label class="col-sm-3 control-label">Transkript</label><div class="col-sm-9"><p class="form-control-static">{{ aEvent.trid || 'None' }}</p></div></div>
             <div class="form-group" v-if="aEvent.et && aEvent.et.length > 0"><label class="col-sm-3 control-label">Event Tiers</label><div class="col-sm-9"><div class="form-control-static">
               <div v-for="(aTier, aKey) in aEvent.et" :key="'medevents' + aEvent.pk + 'inftok' + aKey">
                 <b :title="'Transkript Tier ID: ' + aTier.tiObj.pk">{{ aTier.tiObj.tier_name }}:</b> <span :title="'Event Tier ID: ' + aTier.pk">{{ aTier.txt }}</span><br>
