@@ -1,6 +1,6 @@
 {
   "name": "annotationsdb-frontend",
-  "version": "v0.58.0",
+  "version": "v0.60.0",
   "description": "A Vue.js project",
   "author": "dioe",
   "private": true,
@@ -15,7 +15,8 @@
     "popper.js": "^1.15.0",
     "socket.io-client": "^2.3.0",
     "vue": "^2.5.2",
-    "vue-resource": "^1.5.1"
+    "vue-resource": "^1.5.1",
+    "xlsx": "^0.17.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

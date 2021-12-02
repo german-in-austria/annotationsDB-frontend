@@ -38,7 +38,8 @@
         </div>
       </div>
       <template v-slot:addButtons>
-        <a :href="exportTxtUrl" :download="'transkript_statistik_' + transcript.pk + '.txt'" target="_blank" @click="exportTxt" class="btn btn-primary" tabindex="9999" v-if="!transcript.loading && exportTxtUrl">Export txt</a>
+        <button @click="exportCsv" class="btn btn-primary" tabindex="9999" v-if="!transcript.loading">Export Token Statistik als XLSX</button>
+        <a :href="exportTxtUrl" :download="'transkript_statistik_' + transcript.pk + '.txt'" target="_blank" @click="exportTxt" class="btn btn-primary" tabindex="9999" v-if="!transcript.loading && exportTxtUrl">Export Übersicht als TXT</a>
       </template>
     </Modal>
   </div>
@@ -50,6 +51,8 @@ import SuchenUndFilternSuche from './SuchenUndFilternSuche'
 import SuchenUndFilternFilter from './SuchenUndFilternFilter'
 import SuchenUndFilternTagebene from './SuchenUndFilternTagebene'
 import Modal from '../modal/Modal'
+
+const XLSX = require('xlsx')
 
 export default {
   name: 'SuchenUndFiltern',
@@ -69,6 +72,69 @@ export default {
     focusSuche () {
       this.showSuche = true
       this.$nextTick(() => { this.$refs.suchenUndFilternSuche.$refs.suchtext.focus() })
+    },
+    exportCsv () {
+      if (this.showStatisticModalReady) {
+        // console.log('exportCsvUrl', this.transcript)
+        let aByInfs = this.transcript.aTokens.tokenLists.byInf
+        let aTracks = {}
+        let aTracksNames = []
+        // let aDataByTrackAndInf = {}
+        let aDataByTrackAndValAndInf = {}
+        this.transcript.aTranskript.allTracks.forEach(t => {
+          aTracks[t.field[0]] = t.title || t.field[0]
+          aTracksNames.push(t.field[0])
+          // aDataByTrackAndInf[t.field[0]] = {}
+          aDataByTrackAndValAndInf[t.field[0]] = {}
+        })
+        let aDataByTrackAndValAndInfEmpty = { all: 0 }
+        Object.keys(aByInfs).forEach(i => {
+          aDataByTrackAndValAndInfEmpty[i] = 0
+        })
+        Object.keys(aByInfs).forEach(i => {
+          // console.log(i, aByInfs[i])
+          aTracksNames.forEach(t => {
+            // aDataByTrackAndInf[t][i] = {}
+            aByInfs[i].forEach(tok => {
+              let aVal = tok[t] || 'empty'
+              // if (!aDataByTrackAndInf[t][i][aVal]) {
+              //   aDataByTrackAndInf[t][i][aVal] = 0
+              // }
+              // aDataByTrackAndInf[t][i][aVal] += 1
+              if (!aDataByTrackAndValAndInf[t][aVal]) {
+                aDataByTrackAndValAndInf[t][aVal] = Object.assign({}, aDataByTrackAndValAndInfEmpty)
+              }
+              aDataByTrackAndValAndInf[t][aVal][i] += 1
+              aDataByTrackAndValAndInf[t][aVal].all += 1
+            })
+          })
+        })
+        // console.log(aDataByTrackAndValAndInf)
+        var wb = XLSX.utils.book_new()
+        wb.Props = {
+          Title: 'Annotations DB Statistik für ' + this.transcript.aTranskript.n,
+          Subject: 'ID: ' + this.transcript.pk,
+          Author: 'DiÖ',
+          CreatedDate: new Date()
+        }
+        Object.keys(aDataByTrackAndValAndInf).forEach(t => {
+          wb.SheetNames.push(aTracks[t])
+          var wsData = []
+          wsData.push([aTracks[t], ...Object.keys(aDataByTrackAndValAndInfEmpty).map(i => (this.transcript.aInformanten.informantenObj[i] ? this.transcript.aInformanten.informantenObj[i].ka || this.transcript.aInformanten.informantenObj[i].k || i : i))])
+          Object.keys(aDataByTrackAndValAndInf[t]).forEach(v => {
+            let aLine = [v]
+            Object.keys(aDataByTrackAndValAndInfEmpty).forEach(i => {
+              aLine.push(aDataByTrackAndValAndInf[t][v][i])
+            })
+            wsData.push(aLine)
+          })
+          wb.Sheets[aTracks[t]] = XLSX.utils.aoa_to_sheet(wsData)
+        })
+        // console.log(this.transcript)
+        // console.log(wb)
+        let filename = 'transkript_statistik_' + this.transcript.pk + '.xlsx'
+        XLSX.writeFile(wb, filename, {bookType: 'xlsx', type: 'binary', FS: ';'})
+      }
     }
   },
   computed: {
