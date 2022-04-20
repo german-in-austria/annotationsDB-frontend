@@ -87,6 +87,7 @@ const localFunctions = {
           this.error = true
         })
     }
+    this.selectedEventBereichUpdate()
     return !this.loaded
   },
   update () {
@@ -107,7 +108,7 @@ const localFunctions = {
       let vListPos = this.aEvents.eventLists.all.indexOf(this.selectedEventBereich.v)
       let bListPos = this.aEvents.eventLists.all.indexOf(this.selectedEventBereich.b)
       if (vListPos > bListPos) { var temp = vListPos; vListPos = bListPos; bListPos = temp }
-      this.aSVG.selectedEventList = this.aEvents.eventLists.all.slice(vListPos, bListPos + 1)
+      this.aSVG.selectedEventList = this.aEvents.eventLists.all.slice(vListPos, bListPos + 1) || []
     } else {
       if (this.selectedEventListe.length < 1) {
         this.aSVG.selectedEventList = []

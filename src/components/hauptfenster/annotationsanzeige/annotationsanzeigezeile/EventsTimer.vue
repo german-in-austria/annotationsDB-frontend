@@ -4,7 +4,7 @@
       :class="
         'eTimer' +
         (transcript.selectedEvent === tEvent.events[0] ? ' selected' : '') +
-        (transcript.aSVG.selectedEventList.indexOf(tEvent.events[0]) > -1 ? ' selectlist' : '')
+        (transcript.aSVG.selectedEventList && transcript.aSVG.selectedEventList.indexOf(tEvent.events[0]) > -1 ? ' selectlist' : '')
       " :transform="'translate(' + tEvent.svgLeft + ',0)'" v-for="(tEvent, teKey) in zeileData.teObjs" :key="'etmr' + teKey">
       <rect x="0" y="0" :width="tEvent.svgWidth + 1" :height="tmrHeight" :class="{ past: (globals.audioPosition >= tEvent.aE) }" />
       <rect x="0" y="0" :width="(tEvent.svgWidth + 1) / tEvent.aL * (globals.audioPosition - tEvent.aS)" :height="tmrHeight" class="akt"
